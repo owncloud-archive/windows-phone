@@ -12,6 +12,11 @@ using System.Windows.Media.Animation;
 
 namespace OwnCloud
 {
+    /// <summary>
+    /// ThicknessAnimation for Windows Phone
+    /// Author: Ben Lemmon
+    /// Source: http://blogs.msdn.com/b/blemmon/archive/2009/03/18/animating-margins-in-silverlight.aspx
+    /// </summary>
     public class ThicknessAnimation
     {
         // The time along the animation from 0-1
