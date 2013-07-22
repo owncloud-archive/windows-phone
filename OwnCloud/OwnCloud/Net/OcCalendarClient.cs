@@ -169,7 +169,6 @@ namespace OwnCloud.Net
             {
                 writer.Write(eventToSave.CalendarData);
             }
-            requestStream.Dispose();
 
             Request.BeginGetResponse(EndSaveEventRequest, null);
         }
