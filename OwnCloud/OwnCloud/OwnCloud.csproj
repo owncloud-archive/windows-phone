@@ -65,6 +65,7 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\CalendarDataContext.cs" />
     <Compile Include="Data\Calendar\CalendarDataUpdater.cs" />
     <Compile Include="Data\Calendar\EventMetaUpdater.cs" />
     <Compile Include="Data\Calendar\ParsedCalendar\CalendarCalDav.cs" />
@@ -92,6 +93,19 @@
     <Compile Include="Data\DBEntity.cs" />
     <Compile Include="Data\TableCalendar.cs" />
     <Compile Include="Data\TableEvent.cs" />
+    <Compile Include="Net\CalendarSync.cs" />
+    <Compile Include="Net\DeleteEventCompleteEventHandler.cs" />
+    <Compile Include="Net\HttpOcClient.cs" />
+    <Compile Include="Net\LoadCalendarDataCompleteArgs.cs" />
+    <Compile Include="Net\LoadCalendarDataCompleteHandler.cs" />
+    <Compile Include="Net\LoadCalendarInfoCompleteArgs.cs" />
+    <Compile Include="Net\LoadCalendarInfoCompleteHandler.cs" />
+    <Compile Include="Net\MultistateParser.cs" />
+    <Compile Include="Net\OcCalendarClient.cs" />
+    <Compile Include="Net\OwncloudAddress.cs" />
+    <Compile Include="Net\OwncloudCredentials.cs" />
+    <Compile Include="Net\SaveEventCompleteHandler.cs" />
+    <Compile Include="Net\SyncCompleteHandler.cs" />
     <Compile Include="Resource\Localization\LocalizedStrings.cs" />
     <Compile Include="Resource\Localization\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
