@@ -1,17 +1,22 @@
-﻿<xapCache source="B:\Software\Windows Phone\OwnCloud\OwnCloud\Bin\Debug\OwnCloud.xap" wasSigned="False" certificateThumbprint="" TimeStampUrl="" lastWriteTime="21.07.2013 22:40:39">
-  <file source="B:\Software\Windows Phone\OwnCloud\OwnCloud\Bin\Debug\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="20.07.2013 02:12:27" />
-  <file source="B:\Software\Windows Phone\OwnCloud\OwnCloud\Resource\Image\Background.png" archivePath="Resource/Image/Background.png" lastWriteTime="06.07.2013 22:17:18" />
-  <file source="B:\Software\Windows Phone\OwnCloud\OwnCloud\Resource\Image\ApplicationIcon.png" archivePath="Resource/Image/ApplicationIcon.png" lastWriteTime="06.07.2013 22:17:18" />
-  <file source="B:\Software\Windows Phone\OwnCloud\OwnCloud\obj\Debug\OwnCloud.dll" archivePath="OwnCloud.dll" lastWriteTime="21.07.2013 22:40:37" />
+﻿<xapCache source="C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\Bin\Debug\OwnCloud.xap" wasSigned="False" certificateThumbprint="" TimeStampUrl="" lastWriteTime="22.07.2013 22:08:40">
+  <file source="C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\Bin\Debug\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="22.07.2013 21:27:03" />
+  <file source="C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\Resource\Image\Background.png" archivePath="Resource/Image/Background.png" lastWriteTime="22.07.2013 21:27:04" />
+  <file source="C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\Resource\Image\ApplicationIcon.png" archivePath="Resource/Image/ApplicationIcon.png" lastWriteTime="22.07.2013 21:27:04" />
+  <file source="C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\obj\Debug\OwnCloud.dll" archivePath="OwnCloud.dll" lastWriteTime="22.07.2013 22:08:27" />
   <file source="C:\Program Files (x86)\Microsoft SDKs\Windows Phone\v7.1\Libraries\Silverlight\Microsoft.Phone.Controls.dll" archivePath="Microsoft.Phone.Controls.dll" lastWriteTime="06.07.2012 01:40:16" />
-  <file source="B:\Software\Windows Phone\OwnCloud\packages\WPtoolkit.4.2013.06.11\lib\sl4-windowsphone71\Microsoft.Phone.Controls.Toolkit.dll" archivePath="Microsoft.Phone.Controls.Toolkit.dll" lastWriteTime="10.07.2013 19:26:52" />
-  <file source="B:\Software\Windows Phone\OwnCloud\OwnCloud\obj\Debug\de\OwnCloud.resources.dll" archivePath="de\OwnCloud.resources.dll" lastWriteTime="21.07.2013 22:40:37" />
-  <file source="B:\Software\Windows Phone\OwnCloud\OwnCloud\Resource\Image\ApplicationIcon.png" archivePath="Resource\Image\ApplicationIcon.png" lastWriteTime="06.07.2013 22:17:18" />
-  <file source="B:\Software\Windows Phone\OwnCloud\OwnCloud\Resource\Image\Background.png" archivePath="Resource\Image\Background.png" lastWriteTime="06.07.2013 22:17:18" />
-  <file source="B:\Software\Windows Phone\OwnCloud\OwnCloud\Resource\Image\PanoramaBackground.png" archivePath="Resource\Image\PanoramaBackground.png" lastWriteTime="06.07.2013 22:17:18" />
-  <file source="B:\Software\Windows Phone\OwnCloud\OwnCloud\Resource\Image\owncloud logo.jpg" archivePath="Resource\Image\owncloud logo.jpg" lastWriteTime="07.07.2013 03:44:16" />
-  <file source="B:\Software\Windows Phone\OwnCloud\OwnCloud\SplashScreenImage.jpg" archivePath="SplashScreenImage.jpg" lastWriteTime="06.07.2013 22:17:18" />
-  <file source="B:\Software\Windows Phone\OwnCloud\OwnCloud\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="21.07.2013 22:35:34" />
-  <file source="B:\Software\Windows Phone\OwnCloud\OwnCloud\Bin\Debug\Resource\Image\ApplicationIcon.png" archivePath="Resource\Image\ApplicationIcon.png" lastWriteTime="06.07.2013 22:17:18" />
-  <file source="B:\Software\Windows Phone\OwnCloud\OwnCloud\Bin\Debug\Resource\Image\Background.png" archivePath="Resource\Image\Background.png" lastWriteTime="06.07.2013 22:17:18" />
+  <file source="C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\packages\WPtoolkit.4.2013.06.11\lib\sl4-windowsphone71\Microsoft.Phone.Controls.Toolkit.dll" archivePath="Microsoft.Phone.Controls.Toolkit.dll" lastWriteTime="22.07.2013 21:27:05" />
+  <file source="C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\obj\Debug\de\OwnCloud.resources.dll" archivePath="de\OwnCloud.resources.dll" lastWriteTime="22.07.2013 22:08:27" />
+  <file source="C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\Assets\Icons\Delete.png" archivePath="Assets\Icons\Delete.png" lastWriteTime="22.07.2013 21:54:24" />
+  <file source="C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\Assets\Icons\Reload.png" archivePath="Assets\Icons\Reload.png" lastWriteTime="22.07.2013 21:54:24" />
+  <file source="C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\Assets\Icons\Save.png" archivePath="Assets\Icons\Save.png" lastWriteTime="22.07.2013 21:54:24" />
+  <file source="C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\Assets\Icons\Settings.png" archivePath="Assets\Icons\Settings.png" lastWriteTime="22.07.2013 21:54:24" />
+  <file source="C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\Assets\Icons\Web.png" archivePath="Assets\Icons\Web.png" lastWriteTime="22.07.2013 21:54:24" />
+  <file source="C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\Resource\Image\ApplicationIcon.png" archivePath="Resource\Image\ApplicationIcon.png" lastWriteTime="22.07.2013 21:27:04" />
+  <file source="C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\Resource\Image\Background.png" archivePath="Resource\Image\Background.png" lastWriteTime="22.07.2013 21:27:04" />
+  <file source="C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\Resource\Image\PanoramaBackground.png" archivePath="Resource\Image\PanoramaBackground.png" lastWriteTime="22.07.2013 21:27:04" />
+  <file source="C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\Resource\Image\owncloud logo.jpg" archivePath="Resource\Image\owncloud logo.jpg" lastWriteTime="22.07.2013 21:27:04" />
+  <file source="C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\SplashScreenImage.jpg" archivePath="SplashScreenImage.jpg" lastWriteTime="22.07.2013 21:27:04" />
+  <file source="C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="22.07.2013 21:45:46" />
+  <file source="C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\Bin\Debug\Resource\Image\ApplicationIcon.png" archivePath="Resource\Image\ApplicationIcon.png" lastWriteTime="22.07.2013 21:27:04" />
+  <file source="C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\Bin\Debug\Resource\Image\Background.png" archivePath="Resource\Image\Background.png" lastWriteTime="22.07.2013 21:27:04" />
 </xapCache>

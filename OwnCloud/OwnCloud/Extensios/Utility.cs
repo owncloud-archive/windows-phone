@@ -14,7 +14,7 @@ namespace OwnCloud
             string format_code = "{0:0.0} {1:g}";
             int c = 1;
             double size = (double)input;
-
+            
             if (size < 1024)
             {
                 postfix = "KB";

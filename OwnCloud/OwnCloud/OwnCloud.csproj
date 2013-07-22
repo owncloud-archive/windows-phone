@@ -54,15 +54,44 @@
       <HintPath>..\packages\WPtoolkit.4.2013.06.11\lib\sl4-windowsphone71\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Phone.Interop" />
+    <Reference Include="system.data.linq" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
     <Reference Include="System.Xml" />
     <Reference Include="mscorlib.extensions" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Calendar\CalendarDataUpdater.cs" />
+    <Compile Include="Data\Calendar\EventMetaUpdater.cs" />
+    <Compile Include="Data\Calendar\ParsedCalendar\CalendarCalDav.cs" />
+    <Compile Include="Data\Calendar\ParsedCalendar\CalendarCalDavInfo.cs" />
+    <Compile Include="Data\Calendar\ParsedCalendar\CalendarICal.cs" />
+    <Compile Include="Data\Calendar\ParsedCalendar\EventCalDavInfo.cs" />
+    <Compile Include="Data\Calendar\ParsedCalendar\VEvent.cs" />
+    <Compile Include="Data\Calendar\Parsing\EncodedTokenValue.cs" />
+    <Compile Include="Data\Calendar\Parsing\IParser.cs" />
+    <Compile Include="Data\Calendar\Parsing\ParserDateTime.cs" />
+    <Compile Include="Data\Calendar\Parsing\ParserICal.cs" />
+    <Compile Include="Data\Calendar\Parsing\ParserNodeToken.cs" />
+    <Compile Include="Data\Calendar\Parsing\Token.cs" />
+    <Compile Include="Data\Calendar\Parsing\TokenNode.cs" />
+    <Compile Include="Data\Calendar\Parsing\TokenWriter.cs" />
+    <Compile Include="Data\Calendar\Request\CalendarEventRequest.cs" />
+    <Compile Include="Data\Calendar\Request\CalendarRequest.cs" />
+    <Compile Include="Data\Calendar\UnparsedEvent.cs" />
+    <Compile Include="Data\Exceptions\ClientBusyException.cs" />
+    <Compile Include="Data\Exceptions\ParsingICalException.cs" />
+    <Compile Include="Data\XmlNamespaces.cs" />
+    <Compile Include="Extensios\DateExtensions.cs" />
+    <Compile Include="Extensios\GridExtensions.cs" />
+    <Compile Include="Extensios\StringExtensions.cs" />
+    <Compile Include="Data\DBEntity.cs" />
+    <Compile Include="Data\TableCalendar.cs" />
+    <Compile Include="Data\TableEvent.cs" />
     <Compile Include="Resource\Localization\LocalizedStrings.cs" />
     <Compile Include="Resource\Localization\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -93,7 +122,7 @@
     <Compile Include="Net\StreamSocket.cs" />
     <Compile Include="View\Component\ThicknessAnimation.cs" />
     <Compile Include="Net\TLSHandshake.cs" />
-    <Compile Include="Utility.cs" />
+    <Compile Include="Extensios\Utility.cs" />
     <Compile Include="Model\AccountListDataContext.cs" />
     <Compile Include="Model\Account.cs" />
     <Compile Include="Model\File.cs" />
@@ -118,11 +147,17 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\NewCalendar.ics" />
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Icons\Delete.png" />
+    <Content Include="Assets\Icons\Reload.png" />
+    <Content Include="Assets\Icons\Save.png" />
+    <Content Include="Assets\Icons\Settings.png" />
+    <Content Include="Assets\Icons\Web.png" />
     <Content Include="Resource\Image\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
