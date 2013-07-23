@@ -171,11 +171,17 @@ Gültig bis: {3:g}</value>
   <data name="EditAccountPage_WebDAVPath" xml:space="preserve">
     <value>WebDAV Pfad</value>
   </data>
+  <data name="Exception_NoUserID" xml:space="preserve">
+    <value>Für diese Seite wurde keine UserID definiert</value>
+  </data>
   <data name="MainPage_Accounts" xml:space="preserve">
     <value>Konten</value>
   </data>
   <data name="MainPage_AccountsText" xml:space="preserve">
     <value>Verwalte deine OwnCloud Konten hier.</value>
+  </data>
+  <data name="MainPage_CalendarHeader" xml:space="preserve">
+    <value>Kalender</value>
   </data>
   <data name="MainPage_Files" xml:space="preserve">
     <value>Dateien</value>

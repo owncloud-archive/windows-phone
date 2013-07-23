@@ -6,18 +6,14 @@
    <Modules>
     <Module Name="owncloud.dll">
      <Namespaces>
-      <Namespace Name="OwnCloud.Net">
+      <Namespace Name="OwnCloud.View.Controls">
        <Types>
-        <Type Name="OcCalendarClient" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
-         <Members>
-          <Member Name="#SaveEventWriteRequest(System.IAsyncResult)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
-           <Messages>
-            <Message TypeName="Objekte nicht mehrmals verwerfen" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2013-07-22 20:34:51Z" FixCategory="DependsOnFix">
-             <Issue Certainty="75" Level="Warning" Path="c:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\Net" File="OcCalendarClient.cs" Line="172">Das Objekt "'requestStream'" kann mehrere Male in der 'OcCalendarClient.SaveEventWriteRequest(IAsyncResult)'-Methode verworfen werden. Um zu verhindern, dass eine System.ObjectDisposedException generiert wird, sollten Sie die Dispose-Methode nur einmal für ein Objekt aufrufen.: Lines: 172</Issue>
-            </Message>
-           </Messages>
-          </Member>
-         </Members>
+        <Type Name="CalendarControl" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001" Status="Active" Created="2013-07-23 22:08:58Z" FixCategory="DependsOnFix">
+           <Issue Name="DependsOnFix" Certainty="95" Level="CriticalError">Implementieren Sie IDisposable für "'CalendarControl'", weil Member der folgenden IDisposable-Typen instanziiert werden: 'CalendarDataContext'. Wenn "'CalendarControl'" bereits veröffentlicht wurde, wird das Hinzufügen von neuen Membern, die IDisposable für diesen Typ implementieren, für vorhandene Benutzer als fehlerhafte Änderung angesehen, die die Lauffähigkeit der Anwendung beeinträchtigt.</Issue>
+          </Message>
+         </Messages>
         </Type>
        </Types>
       </Namespace>
@@ -27,15 +23,15 @@
   </Target>
  </Targets>
  <Rules>
-  <Rule TypeName="Objekte nicht mehrmals verwerfen" Category="Microsoft.Usage" CheckId="CA2202">
-   <Name>Objekte nicht mehrmals verwerfen</Name>
-   <Description>Eine ordnungsgemäß implementierte Dispose-Methode kann mehrere Male aufgerufen werden, ohne dass eine Ausnahme ausgelöst wird. Dies ist jedoch nicht garantiert. Um zu verhindern, dass eine System.ObjectDisposedException generiert wird, sollten Sie die Dispose-Methode nur einmal für ein Objekt aufrufen.</Description>
-   <Resolution Name="Default">Das Objekt "{0}" kann mehrere Male in der {1}-Methode verworfen werden. Um zu verhindern, dass eine System.ObjectDisposedException generiert wird, sollten Sie die Dispose-Methode nur einmal für ein Objekt aufrufen.: Lines: 172</Resolution>
-   <Owner>RuleOwner</Owner>
-   <Url>http://msdn.microsoft.com/library/ms182334(VS.100).aspx</Url>
-   <Email />
-   <MessageLevel Certainty="75">Warning</MessageLevel>
-   <File Name="dataflowrules.dll" Version="11.0.0.0" />
+  <Rule TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001">
+   <Name>Typen, die löschbare Felder besitzen, müssen gelöscht werden können</Name>
+   <Description>Typen, die löschbare Member deklarieren, müssen auch IDisposable implementieren. Wenn der Typ keine nicht verwalteten Ressourcen besitzt, implementieren Sie dafür keinen Finalizer.</Description>
+   <Resolution Name="DependsOnFix">Implementieren Sie IDisposable für "{0}", weil Member der folgenden IDisposable-Typen instanziiert werden: {1}. Wenn "{0}" bereits veröffentlicht wurde, wird das Hinzufügen von neuen Membern, die IDisposable für diesen Typ implementieren, für vorhandene Benutzer als fehlerhafte Änderung angesehen, die die Lauffähigkeit der Anwendung beeinträchtigt.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182172(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">CriticalError</MessageLevel>
+   <File Name="designrules.dll" Version="11.0.0.0" />
   </Rule>
  </Rules>
  <Localized>

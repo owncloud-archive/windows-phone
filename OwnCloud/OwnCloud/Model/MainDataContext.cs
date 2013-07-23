@@ -28,7 +28,6 @@ namespace OwnCloud.Model
         /// </summary>
         public ObservableCollection<File> Files { get; private set; }
 
-
         public bool IsDataLoaded
         {
             get;

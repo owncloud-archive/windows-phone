@@ -91,3 +91,6 @@ C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnClou
 C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\obj\Debug\OwnCloud.dll
 C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\obj\Debug\OwnCloud.pdb
 C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\obj\Debug\XapCacheFile.xml
+C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\obj\Debug\View\Controls\CalendarControl.g.cs
+C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\obj\Debug\View\Controls\CalendarDayControl.g.cs
+C:\Users\Alexander\Documents\Entwicklung\Owncloud\windows-phone\OwnCloud\OwnCloud\obj\Debug\View\Page\CalendarMonthPage.g.cs

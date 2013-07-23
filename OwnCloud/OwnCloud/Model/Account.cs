@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Xml.Serialization;
 
 namespace OwnCloud.Model
 {
@@ -11,6 +12,29 @@ namespace OwnCloud.Model
             WebDAVPath = "/remote.php/webdav/";
             CalDAVPath = "/remote.php/caldav/";
         }
+
+        /// <summary>
+        /// Try to load a account from a Guid
+        /// </summary>
+        /// <returns></returns>
+        public static Account LoadFromGuid(string name)
+        {
+            try
+            {
+                var acc = (Account)Serialize.ReadFile(@"Accounts\" + String.Format(@"{0:g}",name), typeof(Account));
+                acc.GUID = name;
+
+                return acc;
+            }
+            catch (Exception ex)
+            {
+                Utility.Debug(ex.Message);
+            }
+
+            return null;
+        }
+
+        public bool IsEncrypted { get; set; }
 
         string _domain = "example.com";
         /// <summary>
@@ -111,6 +135,23 @@ namespace OwnCloud.Model
         }
 
         /// <summary>
+        /// Allways return the unencrypted Username
+        /// </summary>
+        public string DisplayUserName
+        {
+            get
+            {
+                bool wasEncr = IsEncrypted;
+                if(IsEncrypted)
+                    RestoreCredentials();
+                string value = Username;
+                if(wasEncr)
+                    StoreCredentials();
+                return value;
+            }
+        }
+
+        /// <summary>
         /// Path to WebDAV-Listening, usually /remote.php/webdav/
         /// </summary>
         public string WebDAVPath
@@ -153,6 +194,7 @@ namespace OwnCloud.Model
         {
             _username = Utility.EncodeString(_username);
             _password = Utility.EncodeString(_password);
+            IsEncrypted = true;
         }
 
         /// <summary>
@@ -164,6 +206,7 @@ namespace OwnCloud.Model
             {
                 _username = Utility.DecodeString(_username);
                 _password = Utility.DecodeString(_password);
+                IsEncrypted = false;
             }
             catch (Exception cryptEx)
             {

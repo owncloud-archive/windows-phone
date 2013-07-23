@@ -1,3 +1,3 @@
-We're currently importing our existing code in other branches.
+Finally the windows phone app.
 
-Nothing too see here yet. Move on.
+There is no official release yet.

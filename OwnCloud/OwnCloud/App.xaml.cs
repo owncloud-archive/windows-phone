@@ -114,5 +114,11 @@ namespace OwnCloud
         }
 
         #endregion
+
+        //Override current Application with a casted App
+        public new static App Current
+        {
+            get { return Application.Current as App; }
+        }
     }
 }

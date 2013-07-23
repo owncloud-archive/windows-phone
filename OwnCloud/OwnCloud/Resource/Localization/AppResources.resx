@@ -177,6 +177,9 @@ Valid To: {3:g}</value>
   <data name="MainPage_AccountsText" xml:space="preserve">
     <value>Manage your OwnCloud accounts here.</value>
   </data>
+  <data name="MainPage_CalendarHeader" xml:space="preserve">
+    <value>Calendars</value>
+  </data>
   <data name="MainPage_Files" xml:space="preserve">
     <value>Files</value>
   </data>
@@ -215,5 +218,8 @@ Valid To: {3:g}</value>
   </data>
   <data name="SettingsPage_Title" xml:space="preserve">
     <value>OwnCloud Settings</value>
+  </data>
+  <data name="Exception_NoUserID" xml:space="preserve">
+    <value>For this page was no user id given</value>
   </data>
 </root>

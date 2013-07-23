@@ -14,6 +14,8 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Info;
 using System.IO.IsolatedStorage;
 using Microsoft.Phone.Tasks;
+using OwnCloud.Model;
+using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 
 namespace OwnCloud
 {
@@ -53,6 +55,15 @@ namespace OwnCloud
         private void SettingsAccountsTab(object sender, System.Windows.Input.GestureEventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/Page/Accounts.xaml", UriKind.Relative));
+        }
+
+        private void OpenCalendarTap(object sender, GestureEventArgs e)
+        {
+            var currentAccount = ((FrameworkElement) sender).DataContext as Account;
+
+            //Navigate to the calendar page with te userID
+            if (currentAccount != null)
+                NavigationService.Navigate(new Uri("/View/Page/CalendarMonthPage.xaml?uid=" + String.Format(@"{0:g}", currentAccount.GUID), UriKind.Relative));
         }
     }
 }

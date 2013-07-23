@@ -7,12 +7,17 @@
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:model="clr-namespace:OwnCloud.Model"
+    
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800" 
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
-    shell:SystemTray.IsVisible="false">
+    shell:SystemTray.IsVisible="false"
+    
+    >
 
     <phone:PhoneApplicationPage.Resources>
         <Style TargetType="controls:PanoramaItem">
@@ -70,8 +75,24 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </controls:PanoramaItem>
-            
-            <controls:PanoramaItem Header="Settings">
+
+            <controls:PanoramaItem Header="{Binding Path=LocalizedResources.MainPage_CalendarHeader, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PanoramaItemHeader}">
+                <ListBox ItemsSource="{Binding Accounts}">
+                    <ListBox.DataContext>
+                       <model:AccountListDataContext />
+                    </ListBox.DataContext>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <toolkit:HubTile Background="BlueViolet" DisplayNotification="False"
+                                             Title="{Binding DisplayUserName}" Message="{Binding DisplayUserName}" Source="/Resource/Image/CalendarLogo.png"
+                                             Tap="OpenCalendarTap"
+                                             />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </controls:PanoramaItem>
+
+            <controls:PanoramaItem Header="{Binding Path=LocalizedResources.MainPage_Settings, Source={StaticResource LocalizedStrings}}">
                 <ListBox >
                     <TextBlock Text="{Binding Path=LocalizedResources.MainPage_Accounts, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextExtraLargeStyle}" Tap="SettingsAccountsTab"/>
                     <TextBlock Text="{Binding Path=LocalizedResources.MainPage_AccountsText, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextSubtleStyle}" Margin="12,0,12,17"/>

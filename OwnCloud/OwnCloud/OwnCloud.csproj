@@ -118,8 +118,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="View\Controls\CalendarControl.xaml.cs" />
+    <Compile Include="View\Controls\CalendarDayControl.xaml.cs" />
     <Compile Include="View\Page\Accounts.xaml.cs">
       <DependentUpon>Accounts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Page\CalendarMonthPage.xaml.cs">
+      <DependentUpon>CalendarMonthPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Page\EditAccount.xaml.cs">
       <DependentUpon>EditAccount.xaml</DependentUpon>
@@ -147,7 +152,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="View\Controls\CalendarControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Controls\CalendarDayControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Page\Accounts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Page\CalendarMonthPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -178,6 +195,7 @@
     <Content Include="Resource\Image\Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resource\Image\CalendarLogo.png" />
     <Content Include="Resource\Image\PanoramaBackground.png" />
     <Content Include="Resource\Image\owncloud logo.jpg" />
     <Content Include="SplashScreenImage.jpg" />
