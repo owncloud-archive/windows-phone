@@ -22,16 +22,16 @@ namespace OwnCloud.Net
             {
                 var curEvent = new UnparsedEvent
                     {
-                        EventInfo = new EventCalDavInfo {Url = response.GetIfExists(XName.Get("href", XmlNamespaces.NSd))}
+                        EventInfo = new EventCalDavInfo {Url = response.GetIfExists(XName.Get("href", XmlNamespaces.NsDav))}
                     };
 
-                var propstats = response.Elements(XName.Get("propstat", XmlNamespaces.NSd));
+                var propstats = response.Elements(XName.Get("propstat", XmlNamespaces.NsDav));
 
                 foreach (var propstat in propstats)
                 {
-                    if (propstat.GetIfExists(XName.Get("status", XmlNamespaces.NSd)) == "HTTP/1.1 200 OK")
+                    if (propstat.GetIfExists(XName.Get("status", XmlNamespaces.NsDav)) == "HTTP/1.1 200 OK")
                     {
-                        var prop = propstat.Element(XName.Get("prop", XmlNamespaces.NSd));
+                        var prop = propstat.Element(XName.Get("prop", XmlNamespaces.NsDav));
 
                         foreach (var propValue in prop.Elements())
                         {
@@ -65,22 +65,23 @@ namespace OwnCloud.Net
 
             foreach (var res in responses)
             {
-                var info = new CalendarCalDavInfo();
+                var info = new CalendarCalDavInfo
+                    {
+                        Url = res.Elements(XName.Get("href", XmlNamespaces.NsDav)).Single().Value
+                    };
 
-                info.Url = res.Elements(XName.Get("href",XmlNamespaces.NSd)).Single().Value;
-
-                var propstat = res.Element(XName.Get("propstat", XmlNamespaces.NSd));
+                var propstat = res.Element(XName.Get("propstat", XmlNamespaces.NsDav));
                 if (propstat != null)
                 {
-                    var status = propstat.GetIfExists(XName.Get("status", XmlNamespaces.NSd));
+                    var status = propstat.GetIfExists(XName.Get("status", XmlNamespaces.NsDav));
                     if (status != "HTTP/1.1 200 OK") continue;
                 }
                 else continue;
 
-                foreach (var prop in propstat.Elements(XName.Get("prop", XmlNamespaces.NSd)))
+                foreach (var prop in propstat.Elements(XName.Get("prop", XmlNamespaces.NsDav)))
                 {
-                    info.DisplayName = prop.GetIfExists(XName.Get("displayname", XmlNamespaces.NSd));
-                    info.GetCTag = prop.GetIfExists(XName.Get("getctag", XmlNamespaces.NScs));
+                    info.DisplayName = prop.GetIfExists(XName.Get("displayname", XmlNamespaces.NsDav));
+                    info.GetCTag = prop.GetIfExists(XName.Get("getctag", XmlNamespaces.NsCalenderServer));
                 }
 
                 calendars.Add(info);

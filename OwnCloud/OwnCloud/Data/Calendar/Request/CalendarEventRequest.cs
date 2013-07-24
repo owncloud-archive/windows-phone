@@ -36,19 +36,19 @@ namespace OwnCloud.Data.Calendar.Request
 
         private void WriteCalendarQuery(XmlWriter writer)
         {
-            writer.WriteStartElement("calendar-query", XmlNamespaces.NSc);
-            writer.WriteAttributeString("xmlns", "d", null, XmlNamespaces.NSd);
-            writer.WriteAttributeString("xmlns", "c", null, XmlNamespaces.NSc);
+            writer.WriteStartElement("calendar-query", XmlNamespaces.NsCaldav);
+            writer.WriteAttributeString("xmlns", "d", null, XmlNamespaces.NsDav);
+            writer.WriteAttributeString("xmlns", "c", null, XmlNamespaces.NsCaldav);
 
 
-            writer.WriteStartElement("prop", XmlNamespaces.NSd);
+            writer.WriteStartElement("prop", XmlNamespaces.NsDav);
 
-            writer.WriteStartElement("getetag", XmlNamespaces.NSd);
+            writer.WriteStartElement("getetag", XmlNamespaces.NsDav);
             writer.WriteEndElement();
 
             if (LoadCalendarData)
             {
-                writer.WriteStartElement("calendar-data", XmlNamespaces.NSc);
+                writer.WriteStartElement("calendar-data", XmlNamespaces.NsCaldav);
                 writer.WriteEndElement();
             }
 
@@ -56,18 +56,18 @@ namespace OwnCloud.Data.Calendar.Request
 
             foreach (var url in Urls)
             {
-                writer.WriteStartElement("href", XmlNamespaces.NSd);
+                writer.WriteStartElement("href", XmlNamespaces.NsDav);
                 writer.WriteString(url);
                 writer.WriteEndElement();
             }
 
-            writer.WriteStartElement("filter", XmlNamespaces.NSc);
+            writer.WriteStartElement("filter", XmlNamespaces.NsCaldav);
 
-            writer.WriteStartElement("comp-filter", XmlNamespaces.NSc);
+            writer.WriteStartElement("comp-filter", XmlNamespaces.NsCaldav);
             writer.WriteAttributeString("name", "VCALENDAR");
 
             //Only Events
-            writer.WriteStartElement("comp-filter", XmlNamespaces.NSc);
+            writer.WriteStartElement("comp-filter", XmlNamespaces.NsCaldav);
             writer.WriteAttributeString("name", "VEVENT");
 
             //End c:comp-filter (name=VEVENT)
@@ -86,19 +86,19 @@ namespace OwnCloud.Data.Calendar.Request
 
         private void WriteMultiget(XmlWriter writer)
         {
-            writer.WriteStartElement("calendar-multiget", XmlNamespaces.NSc);
-            writer.WriteAttributeString("xmlns", "d", null, XmlNamespaces.NSd);
-            writer.WriteAttributeString("xmlns", "c", null, XmlNamespaces.NSc);
+            writer.WriteStartElement("calendar-multiget", XmlNamespaces.NsCaldav);
+            writer.WriteAttributeString("xmlns", "d", null, XmlNamespaces.NsDav);
+            writer.WriteAttributeString("xmlns", "c", null, XmlNamespaces.NsCaldav);
 
 
-            writer.WriteStartElement("prop", XmlNamespaces.NSd);
+            writer.WriteStartElement("prop", XmlNamespaces.NsDav);
 
-            writer.WriteStartElement("getetag", XmlNamespaces.NSd);
+            writer.WriteStartElement("getetag", XmlNamespaces.NsDav);
             writer.WriteEndElement();
 
             if (LoadCalendarData)
             {
-                writer.WriteStartElement("calendar-data", XmlNamespaces.NSc);
+                writer.WriteStartElement("calendar-data", XmlNamespaces.NsCaldav);
                 writer.WriteEndElement();
             }
 
@@ -106,7 +106,7 @@ namespace OwnCloud.Data.Calendar.Request
 
             foreach (var url in Urls)
             {
-                writer.WriteStartElement("href", XmlNamespaces.NSd);
+                writer.WriteStartElement("href", XmlNamespaces.NsDav);
                 writer.WriteString(url);
                 writer.WriteEndElement();
             }

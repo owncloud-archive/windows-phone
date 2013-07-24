@@ -2,10 +2,8 @@
 {
     class XmlNamespaces
     {
-        public const string NSd = "DAV:";
-        public const string NScs = "http://calendarserver.org/ns/";
-        public const string NSc = "urn:ietf:params:xml:ns:caldav";
-
-
+        public const string NsDav = "DAV:";
+        public const string NsCalenderServer = "http://calendarserver.org/ns/";
+        public const string NsCaldav = "urn:ietf:params:xml:ns:caldav";
     }
 }
