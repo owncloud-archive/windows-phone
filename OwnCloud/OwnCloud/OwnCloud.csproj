@@ -65,7 +65,7 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\CalendarDataContext.cs" />
+    <Compile Include="Data\OwnCloudDataContext.cs" />
     <Compile Include="Data\Calendar\CalendarDataUpdater.cs" />
     <Compile Include="Data\Calendar\EventMetaUpdater.cs" />
     <Compile Include="Data\Calendar\ParsedCalendar\CalendarCalDav.cs" />
@@ -86,11 +86,13 @@
     <Compile Include="Data\Calendar\UnparsedEvent.cs" />
     <Compile Include="Data\Exceptions\ClientBusyException.cs" />
     <Compile Include="Data\Exceptions\ParsingICalException.cs" />
+    <Compile Include="Data\MimeTypes.cs" />
     <Compile Include="Data\XmlNamespaces.cs" />
-    <Compile Include="Extensios\DateExtensions.cs" />
-    <Compile Include="Extensios\GridExtensions.cs" />
-    <Compile Include="Extensios\StringExtensions.cs" />
-    <Compile Include="Data\DBEntity.cs" />
+    <Compile Include="Extensions\CompilerExtensions.cs" />
+    <Compile Include="Extensions\DateExtensions.cs" />
+    <Compile Include="Extensions\GridExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Data\Entity.cs" />
     <Compile Include="Data\TableCalendar.cs" />
     <Compile Include="Data\TableEvent.cs" />
     <Compile Include="Net\CalendarSync.cs" />
@@ -112,12 +114,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Model\AccountDataContext.cs" />
+    <Compile Include="Data\AccountDataContext.cs" />
     <Compile Include="Resource\Localization\AppResources.de.Designer.cs">
       <DependentUpon>AppResources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Resource\ResourceLoader.cs" />
     <Compile Include="View\Controls\CalendarControl.xaml.cs" />
     <Compile Include="View\Controls\CalendarDayControl.xaml.cs" />
     <Compile Include="View\Page\Accounts.xaml.cs">
@@ -141,11 +144,10 @@
     <Compile Include="Net\StreamSocket.cs" />
     <Compile Include="View\Component\ThicknessAnimation.cs" />
     <Compile Include="Net\TLSHandshake.cs" />
-    <Compile Include="Extensios\Utility.cs" />
-    <Compile Include="Model\AccountListDataContext.cs" />
-    <Compile Include="Model\Account.cs" />
-    <Compile Include="Model\File.cs" />
-    <Compile Include="Model\MainDataContext.cs" />
+    <Compile Include="Extensions\Utility.cs" />
+    <Compile Include="Data\AccountListDataContext.cs" />
+    <Compile Include="Data\Account.cs" />
+    <Compile Include="Data\File.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -198,6 +200,8 @@
     <Content Include="Resource\Image\CalendarLogo.png" />
     <Content Include="Resource\Image\PanoramaBackground.png" />
     <Content Include="Resource\Image\owncloud logo.jpg" />
+    <Resource Include="Resource\Localization\Mime.de.xml" />
+    <Resource Include="Resource\Localization\Mime.en.xml" />
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup>

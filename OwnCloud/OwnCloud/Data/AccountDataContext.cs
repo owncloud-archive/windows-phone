@@ -1,10 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
-using OwnCloud.Model;
 
-namespace OwnCloud
+namespace OwnCloud.Data
 {
-    public class AccountDataContext : INotifyPropertyChanged
+    public class AccountDataContext : Entity
     {
         public AccountDataContext()
         {
@@ -20,7 +19,7 @@ namespace OwnCloud
             set
             {
                 _pageMode = value;
-                NotifyPropertyChanged("PageMode");
+                NotifyPropertyChanged();
             }
         }
 
@@ -34,17 +33,7 @@ namespace OwnCloud
             set
             {
                 _currentAccount = value;
-                NotifyPropertyChanged("CurrentAccount");
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
+                NotifyPropertyChanged();
             }
         }
     }

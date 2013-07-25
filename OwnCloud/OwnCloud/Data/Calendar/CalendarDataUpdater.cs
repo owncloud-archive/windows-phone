@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using OwnCloud.Data.Calendar.Parsing;
-using OwnCloud.Model;
 
 namespace OwnCloud.Data.Calendar
 {

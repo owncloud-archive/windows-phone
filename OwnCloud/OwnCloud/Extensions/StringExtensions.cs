@@ -1,4 +1,4 @@
-﻿namespace OwnCloud.Extensios
+﻿namespace OwnCloud.Extensions
 {
     /// <summary>
     /// Erweiterungen für Strings
@@ -26,6 +26,17 @@
             }
 
             return i;
+        }
+
+        /// <summary>
+        /// Translates a string
+        /// </summary>
+        /// <param name="value">Translation index key</param>
+        /// <param name="param">String.Format parameters</param>
+        /// <returns></returns>
+        public static string Translate(this string key, params object[] param)
+        {
+            return string.Format(LocalizedStrings.Get(key), param);
         }
     }
 }

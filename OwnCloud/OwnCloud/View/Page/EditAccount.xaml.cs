@@ -11,8 +11,8 @@ using System.Text;
 using System.Xml.Serialization;
 using System.Windows.Media.Animation;
 using OwnCloud.Data;
-using OwnCloud.Model;
 using OwnCloud.Net;
+using OwnCloud.Extensions;
 
 namespace OwnCloud
 {
@@ -143,7 +143,7 @@ namespace OwnCloud
                                         {
                                             Dispatcher.BeginInvoke(() =>
                                             {
-                                                MessageBox.Show(String.Format(LocalizedStrings.Get("EditAccountPage_Connection_Rejected"), state.AssociatedAccount.Hostname, certDetails["CN"], certDetails["ValidAfter"], certDetails["ValidTo"]), LocalizedStrings.Get("EditAccountPage_Connection_Rejected_Caption"), MessageBoxButton.OK);
+                                                MessageBox.Show("EditAccountPage_Connection_Rejected".Translate(state.AssociatedAccount.Hostname, certDetails["CN"], certDetails["ValidAfter"], certDetails["ValidTo"]), "EditAccountPage_Connection_Rejected_Caption".Translate(), MessageBoxButton.OK);
                                                 overlayFadeOut.Begin();
                                             });
                                             return;
@@ -188,7 +188,7 @@ namespace OwnCloud
 
         private void OnConnectFailed(Account account)
         {
-            if (MessageBox.Show(String.Format(LocalizedStrings.Get("EditAccountPage_Confirm_Store"), account.Protocol, account.ServerDomain), LocalizedStrings.Get("EditAccountPage_Confirm_Store_Caption"), MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+            if (MessageBox.Show("EditAccountPage_Confirm_Store".Translate(account.Protocol, account.ServerDomain), "EditAccountPage_Confirm_Store_Caption".Translate(), MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
                 overlayFadeOut.Begin();
                 StoreAccount(account);
@@ -203,16 +203,13 @@ namespace OwnCloud
         {
             // encrypt data
             account.StoreCredentials();
-            // Serialize to disk
-            if (_editMode)
-            {
-                Serialize.WriteFile(String.Format(@"Accounts\{0:g}", account.GUID), account);
+
+            // edit/insert
+            if (!_editMode) {
+                App.DataContext.Accounts.InsertOnSubmit(account);  
             }
-            else
-            {
-                account.GUID = Guid.NewGuid().ToString("N");
-                Serialize.WriteFile(String.Format(@"Accounts\{0:g}", account.GUID), account);
-            }
+            App.DataContext.SubmitChanges();
+
             // temporary data can be deleted
             _accountForm.Remove(_editMode ? "EditAccountForm" : "AddAccountForm");
             NavigationService.GoBack();
@@ -225,7 +222,11 @@ namespace OwnCloud
                 _editMode = NavigationContext.QueryString["mode"] == "edit";
                 try
                 {
-                    Account account = (Account)Serialize.ReadFile(String.Format(@"Accounts\{0:g}", NavigationContext.QueryString["account"]), typeof(Account));
+                    var accounts = from acc in App.DataContext.Accounts
+                                   where acc.GUID == int.Parse(NavigationContext.QueryString["account"])
+                                   select acc;
+                    var account = accounts.First();
+
                     account.RestoreCredentials();
                     (DataContext as AccountDataContext).CurrentAccount = account;
                 }
@@ -239,7 +240,7 @@ namespace OwnCloud
                 _editMode = false;
             }
 
-            (DataContext as AccountDataContext).PageMode = _editMode ? LocalizedStrings.Get("EditAccountPage_EditAccount") : LocalizedStrings.Get("EditAccountPage_AddAccount");
+            (DataContext as AccountDataContext).PageMode = _editMode ? "EditAccountPage_EditAccount".Translate() : "EditAccountPage_AddAccount".Translate();
 
             // If there are any stored form details
             // include here if DataContext is empty

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OwnCloud.Extensios
+namespace OwnCloud.Extensions
 {
     public static class DateExtensions
     {

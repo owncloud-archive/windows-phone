@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace OwnCloud.Data
 {
-    public class DbEntity : INotifyPropertyChanged, INotifyPropertyChanging 
+    public class Entity : INotifyPropertyChanged, INotifyPropertyChanging 
     {
 
         #region Interface implimentations
@@ -21,6 +22,11 @@ namespace OwnCloud.Data
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            OnPropertyChanged(propertyName);
         }
 
         #endregion

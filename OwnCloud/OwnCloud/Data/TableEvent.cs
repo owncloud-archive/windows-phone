@@ -12,7 +12,7 @@ namespace OwnCloud.Data
     /// </summary>
     [Table(Name = "TableEvent")]
     [Index(Columns = "Url", IsUnique = true, Name = "Event_name")]
-    public class TableEvent : DbEntity
+    public class TableEvent : Entity
     {
 
         private int _eventId;

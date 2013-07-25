@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace OwnCloud.Extensios
+namespace OwnCloud.Extensions
 {
     public static class GridExtensions
     {

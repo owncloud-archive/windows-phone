@@ -18,9 +18,10 @@ namespace OwnCloud.Net
         SocketAsyncEventArgs _socketWriteEventArgs;
         SocketAsyncOperation _lastOp;
         static ManualResetEvent _clientDone = new ManualResetEvent(false);
+        Queue<byte[]> _writeBufferQueue = new Queue<byte[]>();
 
         const int TIMEOUT = 5000;
-        const int MAX_BUFFER_SIZE = 4096;
+        public const int MAX_BUFFER_SIZE = 4096;
 
         public StreamSocket() {
             Blocking = true;
@@ -75,6 +76,8 @@ namespace OwnCloud.Net
         /// Sends data as string to the server and returns
         /// the send count on bytes. Note that it cannot more
         /// bytes sent then MAX_BUFFER_SIZE is set.
+        /// Attention! Converting large text into bytes can cause
+        /// a buffer limit exception.
         /// </summary>
         /// <param name="data"></param>
         public int Send(string data)
@@ -90,6 +93,14 @@ namespace OwnCloud.Net
         /// <param name="data"></param>
         public int Write(byte[] buffer)
         {
+
+            if (buffer.Length > MAX_BUFFER_SIZE)
+            {
+                var temp = new byte[MAX_BUFFER_SIZE];
+                Buffer.BlockCopy(buffer, 0, temp, 0, MAX_BUFFER_SIZE);
+                buffer = temp;
+            }
+
             if (Blocking)
             {
                 _Reset();
@@ -99,7 +110,8 @@ namespace OwnCloud.Net
             }
             else
             {
-
+                _writeBufferQueue.Enqueue(buffer);
+                _writeAsync();
             }
 
             if (Blocking && _socketWriteEventArgs.SocketError == SocketError.Success)
@@ -107,6 +119,31 @@ namespace OwnCloud.Net
                 return _socketWriteEventArgs.BytesTransferred;
             }
             return 0;
+        }
+
+        /// <summary>
+        /// Called each time if data should be written in unblock mode
+        /// means that data is sequently written after the event returns
+        /// independend from gui thread.
+        /// </summary>
+        private void _writeAsync()
+        {
+            if(_writeBufferQueue.Count > 0) {
+                byte[] buffer = _writeBufferQueue.Dequeue();
+
+                try
+                {
+                    _socketWriteEventArgs.SetBuffer(buffer, 0, buffer.Length);
+                    _socket.SendAsync(_socketWriteEventArgs);
+                }
+                catch (InvalidOperationException)
+                {
+                    // a call is already in progress 
+                    // nothing else to do except
+                    // to restore the data buffer
+                    _writeBufferQueue.Enqueue(buffer);
+                }
+            }
         }
 
         /// <summary>
@@ -182,6 +219,16 @@ namespace OwnCloud.Net
         private void _AsyncCallComplete(object s, SocketAsyncEventArgs e)
         {
             _lastOp = e.LastOperation;
+            switch (e.LastOperation)
+            {
+                case SocketAsyncOperation.Send:
+                    // if there a some data in queue call send routine
+                    if (_writeBufferQueue.Count > 0)
+                    {
+                        _writeAsync();
+                    }
+                    break;
+            }
             _End();
         }
 

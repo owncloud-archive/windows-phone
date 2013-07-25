@@ -27,7 +27,7 @@ namespace Ocwp.Controls
         
         private void ContextMenu_OnOpened(object sender, RoutedEventArgs e)
         {
-            var context = new CalendarDataContext();
+            var context = new OwnCloudDataContext();
 
             var events = context.Events.Where(o => o.To > _targetDate && o.From < _targetDate.AddDays(1)).ToArray();
             context.Dispose();

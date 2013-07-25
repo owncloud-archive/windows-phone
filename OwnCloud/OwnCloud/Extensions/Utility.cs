@@ -41,14 +41,14 @@ namespace OwnCloud
             return String.Format(format_code, size / c, postfix);
         }
 
-        static public string EncodeString(string input)
+        static public string EncryptString(string input)
         {
             if (input == null) return "";
             byte[] crypted = ProtectedData.Protect(Encoding.UTF8.GetBytes(input), null);
             return System.Convert.ToBase64String(crypted, 0, crypted.Length);
         }
 
-        static public string DecodeString(string input)
+        static public string DecryptString(string input)
         {
             byte[] decrypted = ProtectedData.Unprotect(System.Convert.FromBase64String(input), null);
             return Encoding.UTF8.GetString(decrypted, 0, decrypted.Length);
@@ -78,22 +78,34 @@ namespace OwnCloud
             System.Diagnostics.Debug.WriteLine("-------------------------------");
             System.Diagnostics.Debug.WriteLine("Debug Bytes Length: "+input.Length);
             string bytes = "";
-            for (int index = 0; index < input.Length; ++index)
+            string text = "";
+
+            for (int index = 0;  index < input.Length; ++index)
             {
                 bytes += String.Format("{0:x2}", input[index]) + " ";
 
+                if (input[index] >= 0x21 && input[index] <= 0x7e)
+                {
+                    text += Encoding.UTF8.GetString(input, index, 1);
+                }
+                else
+                {
+                    text += ".";
+                }
 
-                if (index > 0 && (index+1) % 8 == 0)
+                if (index > 0 && (index + 1) % 8 == 0)
                 {
                     bytes += " ";
+                    text += " ";
                 }
-                if (index > 0 && (index+1) % 16 == 0)
+                if (index > 0 && (index + 1) % 16 == 0)
                 {
-                    System.Diagnostics.Debug.WriteLine(bytes);
+                    System.Diagnostics.Debug.WriteLine(bytes + "  " + text);
+                    text = "";
                     bytes = "";
                 }
             }
-            if (bytes.Length > 0) System.Diagnostics.Debug.WriteLine(bytes);
+            if (bytes.Length > 0) System.Diagnostics.Debug.WriteLine(bytes.PadRight(50, ' ') + "  " + text);
             System.Diagnostics.Debug.WriteLine("-------------------------------");
         }
     }

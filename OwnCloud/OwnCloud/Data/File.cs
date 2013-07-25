@@ -3,17 +3,11 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
+using OwnCloud.Extensions;
 
-namespace OwnCloud.Model
+namespace OwnCloud.Data
 {
-    public class File : INotifyPropertyChanged
+    public class File : Entity
     {
         private string _name;
         /// <summary>
@@ -26,7 +20,7 @@ namespace OwnCloud.Model
             {
                 if (value == String.Empty)
                 {
-                    throw new Exception(LocalizedStrings.Get("Model_File_Filename_Empty"));
+                    throw new Exception("Model_File_Filename_Empty".Translate());
                 }
                 else
                 {
@@ -73,15 +67,7 @@ namespace OwnCloud.Model
         {
             get
             {
-                switch (_type.Split(';')[0])
-                {
-                    case "text/plain":
-                        return "Text Document";
-                    case "text/html":
-                        return "HTML Document";
-                    default:
-                        return "Regular file";
-                }
+                return MimeTypes.GetNameOf(_type.Split(';')[0]);
             }
         }
 
@@ -130,18 +116,6 @@ namespace OwnCloud.Model
             get
             {
                 return "✎ " + _mtime.ToString("");
-            }
-        }
-
-        
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }

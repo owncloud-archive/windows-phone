@@ -13,20 +13,19 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using OwnCloud.Data;
-using OwnCloud.Model;
 
 namespace OwnCloud
 {
     public partial class App : Application
     {
-        private static MainDataContext _view = null;
+        private static OwnCloudDataContext _context = null;
 
-        public static MainDataContext ViewModel
+        public static OwnCloudDataContext DataContext
         {
             get
             {
-                if (_view == null) _view = new MainDataContext();
-                return _view;
+                if (_context == null) _context = new OwnCloudDataContext();
+                return _context;
             }
         }
 
@@ -58,10 +57,6 @@ namespace OwnCloud
 
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
-            if (!App.ViewModel.IsDataLoaded)
-            {
-                App.ViewModel.LoadData();
-            }
         }
 
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)

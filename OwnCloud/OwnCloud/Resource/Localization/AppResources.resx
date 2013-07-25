@@ -222,4 +222,7 @@ Valid To: {3:g}</value>
   <data name="Exception_NoUserID" xml:space="preserve">
     <value>For this page was no user id given</value>
   </data>
+  <data name="File_Type_Default" xml:space="preserve">
+    <value>File</value>
+  </data>
 </root>

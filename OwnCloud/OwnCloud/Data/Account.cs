@@ -2,10 +2,13 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Xml.Serialization;
+using System.Data.Linq.Mapping;
+using OwnCloud.Extensions;
 
-namespace OwnCloud.Model
+namespace OwnCloud.Data
 {
-    public class Account : INotifyPropertyChanged
+    [Table(Name="Accounts")]
+    public class Account : Entity
     {
         public Account()
         {
@@ -13,24 +16,33 @@ namespace OwnCloud.Model
             CalDAVPath = "/remote.php/caldav/";
         }
 
+        private int _id;
+        /// <summary>
+        /// Primary Key
+        /// </summary>
+        [Column(IsPrimaryKey = true, IsDbGenerated = true, CanBeNull = false, AutoSync = AutoSync.OnInsert)]
+        public int GUID
+        {
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                if (_id == value) return;
+                _id = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
         /// <summary>
         /// Try to load a account from a Guid
         /// </summary>
         /// <returns></returns>
         public static Account LoadFromGuid(string name)
         {
-            try
-            {
-                var acc = (Account)Serialize.ReadFile(@"Accounts\" + String.Format(@"{0:g}",name), typeof(Account));
-                acc.GUID = name;
-
-                return acc;
-            }
-            catch (Exception ex)
-            {
-                Utility.Debug(ex.Message);
-            }
-
+            
             return null;
         }
 
@@ -40,6 +52,8 @@ namespace OwnCloud.Model
         /// <summary>
         /// Server Domain to connect to
         /// </summary>
+        ///
+        [Column]
         public string ServerDomain
         {
             get
@@ -50,11 +64,12 @@ namespace OwnCloud.Model
             {
                 if (value.ToString() == String.Empty)
                 {
-                    MessageBox.Show(LocalizedStrings.Get("Model_Account_ServerDomain_Empty"));
+                    MessageBox.Show("Model_Account_ServerDomain_Empty".Translate());
                 }
                 else
                 {
                     _domain = value;
+                    NotifyPropertyChanged();
                 }
             }
         }
@@ -74,6 +89,7 @@ namespace OwnCloud.Model
         /// <summary>
         /// The used protocol. http or https only.
         /// </summary>
+        [Column]
         public string Protocol
         {
             get
@@ -87,9 +103,10 @@ namespace OwnCloud.Model
                     case "https":
                     case "http":
                         _protocol = value;
+                        NotifyPropertyChanged();
                         break;
                     default:
-                       MessageBox.Show(String.Format(LocalizedStrings.Get("Model_Account_Protocol_Unsupported"), value));
+                       MessageBox.Show("Model_Account_Protocol_Unsupported".Translate(value));
                         break;
                 }
             }
@@ -99,6 +116,7 @@ namespace OwnCloud.Model
         /// <summary>
         /// An username for the account
         /// </summary>
+        [Column]
         public string Username
         {
             get
@@ -109,11 +127,12 @@ namespace OwnCloud.Model
             {
                 if (!IsAnonymous && String.IsNullOrWhiteSpace(value))
                 {
-                    MessageBox.Show(LocalizedStrings.Get("Model_Account_Username_Empty"));
+                    MessageBox.Show("Model_Account_Username_Empty".Translate());
                 }
                 else
                 {
                     _username = value;
+                    NotifyPropertyChanged();
                 }
             }
         }
@@ -122,6 +141,7 @@ namespace OwnCloud.Model
         /// <summary>
         /// // Password for account
         /// </summary>
+        [Column]
         public string Password
         {
             get
@@ -131,6 +151,7 @@ namespace OwnCloud.Model
             set
             {
                 _password = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -154,6 +175,7 @@ namespace OwnCloud.Model
         /// <summary>
         /// Path to WebDAV-Listening, usually /remote.php/webdav/
         /// </summary>
+        [Column]
         public string WebDAVPath
         {
             get;
@@ -163,6 +185,7 @@ namespace OwnCloud.Model
         /// <summary>
         /// Path to CalDAV-Listening, usually /remote.php/caldav/
         /// </summary>
+        [Column]
         public string CalDAVPath
         {
             get;
@@ -172,16 +195,8 @@ namespace OwnCloud.Model
         /// <summary>
         /// 
         /// </summary>
+        [Column]
         public bool IsAnonymous
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// The object GUID
-        /// </summary>
-        public string GUID
         {
             get;
             set;
@@ -192,8 +207,8 @@ namespace OwnCloud.Model
         /// </summary>
         public void StoreCredentials()
         {
-            _username = Utility.EncodeString(_username);
-            _password = Utility.EncodeString(_password);
+            _username = Utility.EncryptString(_username);
+            _password = Utility.EncryptString(_password);
             IsEncrypted = true;
         }
 
@@ -204,8 +219,8 @@ namespace OwnCloud.Model
         {
             try
             {
-                _username = Utility.DecodeString(_username);
-                _password = Utility.DecodeString(_password);
+                _username = Utility.DecryptString(_username);
+                _password = Utility.DecryptString(_password);
                 IsEncrypted = false;
             }
             catch (Exception cryptEx)
@@ -217,16 +232,6 @@ namespace OwnCloud.Model
         public Account GetCopy()
         {
             return (Account)this.MemberwiseClone();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
         }
     }
 }

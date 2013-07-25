@@ -8,7 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
-    xmlns:model="clr-namespace:OwnCloud.Model"
+    xmlns:odata="clr-namespace:OwnCloud.Data"
     
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800" 
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -79,7 +79,7 @@
             <controls:PanoramaItem Header="{Binding Path=LocalizedResources.MainPage_CalendarHeader, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PanoramaItemHeader}">
                 <ListBox ItemsSource="{Binding Accounts}">
                     <ListBox.DataContext>
-                       <model:AccountListDataContext />
+                       <odata:AccountListDataContext />
                     </ListBox.DataContext>
                     <ListBox.ItemTemplate>
                         <DataTemplate>

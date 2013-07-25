@@ -12,10 +12,10 @@ namespace OwnCloud.Net
     /// </summary>
     class CalendarSync
     {
-        private CalendarDataContext _context;
-        private CalendarDataContext Context 
+        private OwnCloudDataContext _context;
+        private OwnCloudDataContext Context 
         {
-            get { return _context ?? (_context = new CalendarDataContext()); }
+            get { return _context ?? (_context = new OwnCloudDataContext()); }
         }
         private TableCalendar[] _localCalendar;
         private OcCalendarClient _ocClient;

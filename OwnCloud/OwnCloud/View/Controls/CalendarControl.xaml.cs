@@ -10,7 +10,7 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Ocwp.Controls;
 using OwnCloud.Data;
-using OwnCloud.Extensios;
+using OwnCloud.Extensions;
 
 namespace OwnCloud.View.Controls
 {
@@ -27,7 +27,7 @@ namespace OwnCloud.View.Controls
 
         void CalendarControl_Loaded(object sender, RoutedEventArgs e)
         {
-            _context = new CalendarDataContext();
+            _context = new OwnCloudDataContext();
         }
 
         void CalendarControl_Unloaded(object sender, RoutedEventArgs e)
@@ -39,7 +39,7 @@ namespace OwnCloud.View.Controls
         #region private Fields
 
         private int _weekCount = 0;
-        private Data.CalendarDataContext _context;
+        private Data.OwnCloudDataContext _context;
         private DateTime _firstDayOfCalendarMonth;
         private DateTime _lastDayOfCalendarMonth;
         private Dictionary<int, StackPanel> _dayPanels = new Dictionary<int, StackPanel>(); 

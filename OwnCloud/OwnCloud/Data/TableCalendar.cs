@@ -6,7 +6,7 @@ namespace OwnCloud.Data
     /// Stellt einen CalDav Kalendar zum speichern in der Datenbank da.
     /// </summary>
     [Table(Name = "TableCalendar")]
-    class TableCalendar : DbEntity
+    public class TableCalendar : Entity
     {
 
         private int _calendarId;

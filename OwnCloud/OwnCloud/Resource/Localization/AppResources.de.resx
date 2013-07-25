@@ -174,6 +174,9 @@ Gültig bis: {3:g}</value>
   <data name="Exception_NoUserID" xml:space="preserve">
     <value>Für diese Seite wurde keine UserID definiert</value>
   </data>
+  <data name="File_Type_Default" xml:space="preserve">
+    <value>Datei</value>
+  </data>
   <data name="MainPage_Accounts" xml:space="preserve">
     <value>Konten</value>
   </data>

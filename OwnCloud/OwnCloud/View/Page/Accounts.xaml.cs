@@ -9,7 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Collections.ObjectModel;
 using System.Windows.Media.Animation;
-using OwnCloud.Model;
+using OwnCloud.Data;
 
 namespace OwnCloud
 {
@@ -73,8 +73,9 @@ namespace OwnCloud
                 Account account = (Account)control.DataContext;
                 if (MessageBox.Show(string.Format(LocalizedStrings.Get("AccountsPage_Confirm_Delete"), account.ServerDomain), LocalizedStrings.Get("AccountsPage_Confirm_Delete_Caption"), MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
-                    // delete object from list
-                    Serialize.RemoveFile(@"Accounts\" + account.GUID);
+                    // delete object from db
+                    App.DataContext.Accounts.DeleteOnSubmit(account);
+                    App.DataContext.SubmitChanges();
                     // "reload"
                     AccountsList.ItemsSource = new AccountListDataContext().Accounts;
                 }
