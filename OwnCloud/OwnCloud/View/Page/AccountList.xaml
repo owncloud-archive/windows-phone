@@ -48,9 +48,15 @@
                 </ListBox.ItemTemplate>
             </ListBox>
             <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.SettingsPage_AddAccount_Help, Source={StaticResource LocalizedStrings}}"></TextBlock>
-            <Button Grid.Row="2" Content="{Binding Path=LocalizedResources.SettingsPage_AddAccount, Source={StaticResource LocalizedStrings}}" Margin="0,30,0,0" Tap="AddAccountTap"/>
+            
         </Grid>
     </Grid>
+    
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar>
+            <shell:ApplicationBarIconButton Text="ApplicationBarButton_Add" IconUri="/Assets/Icons/Add.png" Click="AddAccountTap"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 
     <phone:PhoneApplicationPage.Resources>
     </phone:PhoneApplicationPage.Resources>

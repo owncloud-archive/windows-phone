@@ -159,7 +159,7 @@ Valid To: {3:g}</value>
   <data name="EditAccountPage_Password" xml:space="preserve">
     <value>Password</value>
   </data>
-  <data name="EditAccountPage_Save" xml:space="preserve">
+  <data name="ApplicationBarButton_Save" xml:space="preserve">
     <value>Save</value>
   </data>
   <data name="EditAccountPage_Server" xml:space="preserve">
@@ -214,7 +214,7 @@ Valid To: {3:g}</value>
     <value>Add Account</value>
   </data>
   <data name="SettingsPage_AddAccount_Help" xml:space="preserve">
-    <value>To add an account simply tap "Add Account". To edit, tap on the account. To delete an account, drag the account to the right till it disappears.</value>
+    <value>To add an account simply tap "Add". To edit, tap on the account. To delete an account, drag the account to the right till it disappears.</value>
   </data>
   <data name="SettingsPage_Title" xml:space="preserve">
     <value>OwnCloud Settings</value>
@@ -224,5 +224,11 @@ Valid To: {3:g}</value>
   </data>
   <data name="File_Type_Default" xml:space="preserve">
     <value>File</value>
+  </data>
+  <data name="ApplicationBarButton_Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="EditAccountPage_Anonymous" xml:space="preserve">
+    <value>Anonymous access</value>
   </data>
 </root>

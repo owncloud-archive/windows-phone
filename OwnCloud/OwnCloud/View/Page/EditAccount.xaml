@@ -73,8 +73,17 @@
                         <TextBox Grid.Column="0" Text="{Binding CalDAVPath, Mode=TwoWay}"/>
                     </Grid>
                 </StackPanel>
+                
+                <StackPanel Grid.Row="3" Orientation="Vertical" Margin="0,0,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox IsChecked="{Binding IsAnonymous, Mode=TwoWay}" Content="{Binding Path=LocalizedResources.EditAccountPage_Anonymous, Source={StaticResource LocalizedStrings}}"/>
+                    </Grid>
+                </StackPanel>
 
-                <StackPanel Grid.Row="3" Orientation="Vertical" Margin="0,0,0,20">
+                <StackPanel Grid.Row="4" Orientation="Vertical" Margin="0,0,0,20" Visibility="{Binding CredentialsVisibility}">
                     <TextBlock Text="{Binding Path=LocalizedResources.EditAccountPage_Username, Source={StaticResource LocalizedStrings}}"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -85,7 +94,7 @@
                     </Grid>
                 </StackPanel>
 
-                <StackPanel Grid.Row="4" Orientation="Vertical" Margin="0,0,0,20">
+                <StackPanel Grid.Row="5" Orientation="Vertical" Margin="0,0,0,20" Visibility="{Binding CredentialsVisibility}">
                     <TextBlock Text="{Binding Path=LocalizedResources.EditAccountPage_Password, Source={StaticResource LocalizedStrings}}"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -96,15 +105,6 @@
                     </Grid>
 
                 </StackPanel>
-
-                <StackPanel Grid.Row="5" Orientation="Vertical" Margin="0,0,0,20">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                    </Grid>
-                </StackPanel>
-                <Button Grid.Row="6" Content="{Binding Path=LocalizedResources.EditAccountPage_Save, Source={StaticResource LocalizedStrings}}" Tap="SaveTap"/>
 
             </Grid>
         </ScrollViewer>
@@ -127,6 +127,12 @@
         </Grid>
 
     </Grid>
+    
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar>
+            <shell:ApplicationBarIconButton Text="ApplicationBarButton_Save" IconUri="/Assets/Icons/Save.png" Click="SaveTap"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 
     <phone:PhoneApplicationPage.Resources>
         <Storyboard x:Key="TestConnectionOverlayFadeIn">

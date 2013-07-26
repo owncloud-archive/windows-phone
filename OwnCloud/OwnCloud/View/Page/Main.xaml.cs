@@ -21,7 +21,7 @@ namespace OwnCloud
 
         private void SettingsAccountsTab(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/View/Page/Accounts.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/View/Page/AccountList.xaml", UriKind.Relative));
         }
 
         private void OpenCalendarTap(object sender, System.Windows.Input.GestureEventArgs e)

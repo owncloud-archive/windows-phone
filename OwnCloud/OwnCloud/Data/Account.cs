@@ -14,6 +14,8 @@ namespace OwnCloud.Data
         {
             WebDAVPath = "/remote.php/webdav/";
             CalDAVPath = "/remote.php/caldav/";
+            Protocol = "https";
+            ServerDomain = "example.com";
         }
 
         private int _id;
@@ -35,20 +37,8 @@ namespace OwnCloud.Data
             }
         }
 
-
-        /// <summary>
-        /// Try to load a account from a Guid
-        /// </summary>
-        /// <returns></returns>
-        public static Account LoadFromGuid(string name)
-        {
-            
-            return null;
-        }
-
         public bool IsEncrypted { get; set; }
 
-        string _domain = "example.com";
         /// <summary>
         /// Server Domain to connect to
         /// </summary>
@@ -56,22 +46,8 @@ namespace OwnCloud.Data
         [Column]
         public string ServerDomain
         {
-            get
-            {
-                return _domain;
-            }
-            set
-            {
-                if (value.ToString() == String.Empty)
-                {
-                    MessageBox.Show("Model_Account_ServerDomain_Empty".Translate());
-                }
-                else
-                {
-                    _domain = value;
-                    NotifyPropertyChanged();
-                }
-            }
+            get;
+            set;
         }
 
         /// <summary>
@@ -81,78 +57,38 @@ namespace OwnCloud.Data
         {
             get
             {
-                return _domain.IndexOf(':') != -1 ? _domain.Substring(0, _domain.IndexOf(':')) : _domain;
+                return ServerDomain.IndexOf(':') != -1 ? ServerDomain.Substring(0, ServerDomain.IndexOf(':')) : ServerDomain;
             }
         }
 
-        string _protocol = "https";
         /// <summary>
         /// The used protocol. http or https only.
         /// </summary>
         [Column]
         public string Protocol
         {
-            get
-            {
-                return _protocol;
-            }
-            set
-            {
-                switch (value)
-                {
-                    case "https":
-                    case "http":
-                        _protocol = value;
-                        NotifyPropertyChanged();
-                        break;
-                    default:
-                       MessageBox.Show("Model_Account_Protocol_Unsupported".Translate(value));
-                        break;
-                }
-            }
+            get;
+            set;
         }
 
-        string _username;
         /// <summary>
         /// An username for the account
         /// </summary>
         [Column]
         public string Username
         {
-            get
-            {
-                return _username;
-            }
-            set
-            {
-                if (!IsAnonymous && String.IsNullOrWhiteSpace(value))
-                {
-                    MessageBox.Show("Model_Account_Username_Empty".Translate());
-                }
-                else
-                {
-                    _username = value;
-                    NotifyPropertyChanged();
-                }
-            }
+            get;
+            set;
         }
 
-        string _password;
         /// <summary>
         /// // Password for account
         /// </summary>
         [Column]
         public string Password
         {
-            get
-            {
-                return _password;
-            }
-            set
-            {
-                _password = value;
-                NotifyPropertyChanged();
-            }
+            get;
+            set;
         }
 
         /// <summary>
@@ -163,11 +99,9 @@ namespace OwnCloud.Data
             get
             {
                 bool wasEncr = IsEncrypted;
-                if(IsEncrypted)
-                    RestoreCredentials();
+                if(IsEncrypted) RestoreCredentials();
                 string value = Username;
-                if(wasEncr)
-                    StoreCredentials();
+                if(wasEncr) StoreCredentials();
                 return value;
             }
         }
@@ -191,15 +125,70 @@ namespace OwnCloud.Data
             get;
             set;
         }
-        
+
+        bool _isAnonymous = false;
         /// <summary>
         /// 
         /// </summary>
         [Column]
         public bool IsAnonymous
         {
-            get;
-            set;
+            get
+            {
+                return _isAnonymous;
+            }
+            set
+            {
+                _isAnonymous = value;
+                OnPropertyChanged("CredentialsVisibility");
+            }
+        }
+
+        /// <summary>
+        /// Returns the visibility state for username and password field
+        /// </summary>
+        public Visibility CredentialsVisibility
+        {
+            get
+            {
+                return IsAnonymous ? Visibility.Collapsed : Visibility.Visible;
+            }
+        }
+
+        /// <summary>
+        /// Determines if all required settings are set.
+        /// If not at least one messagebox is shown to the user.
+        /// </summary>
+        public bool CanSave()
+        {
+            bool canSave = true;
+            switch (Protocol)
+            {
+                case "http":
+                case "https":
+                    // ok
+                    break;
+                default:
+                    MessageBox.Show("Model_Account_Protocol_Unsupported".Translate(Protocol));
+                    canSave = false;
+                    break;
+            }
+
+            if (string.IsNullOrWhiteSpace(ServerDomain))
+            {
+                MessageBox.Show("Model_Account_ServerDomain_Empty".Translate());
+                canSave = false;
+            }
+
+            if (!IsAnonymous)
+            {
+                if (string.IsNullOrWhiteSpace(Username))
+                {
+                    MessageBox.Show("Model_Account_Username_Empty".Translate());
+                    canSave = false;
+                }
+            }
+            return canSave;
         }
 
         /// <summary>
@@ -207,8 +196,8 @@ namespace OwnCloud.Data
         /// </summary>
         public void StoreCredentials()
         {
-            _username = Utility.EncryptString(_username);
-            _password = Utility.EncryptString(_password);
+            Username = Utility.EncryptString(Username);
+            Password = Utility.EncryptString(Password);
             IsEncrypted = true;
         }
 
@@ -219,8 +208,8 @@ namespace OwnCloud.Data
         {
             try
             {
-                _username = Utility.DecryptString(_username);
-                _password = Utility.DecryptString(_password);
+                Username = Utility.DecryptString(Username);
+                Password = Utility.DecryptString(Password);
                 IsEncrypted = false;
             }
             catch (Exception cryptEx)

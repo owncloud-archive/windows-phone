@@ -63,9 +63,15 @@ namespace OwnCloud
         Storyboard overlayFadeIn;
         Storyboard overlayFadeOut;
 
-        private void SaveTap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void SaveTap(object sender, EventArgs e)
         {
-            Account form = (DataContext as AccountDataContext).CurrentAccount;
+            (sender as ApplicationBarIconButton).UpdateBindingSource();
+            Account account = (DataContext as AccountDataContext).CurrentAccount;
+
+            if (!account.CanSave())
+            {
+                return;
+            }
 
             // show overlay
             this.Overlay.Visibility = System.Windows.Visibility.Visible;
@@ -99,8 +105,18 @@ namespace OwnCloud
             // Test Connection
             Account account = (DataContext as AccountDataContext).CurrentAccount;
             this.OverlayProgressBar.IsIndeterminate = true;
-            HttpWebRequest request = HttpWebRequest.CreateHttp(String.Format("{0:g}://{1:g}", account.Protocol, account.ServerDomain));
-            request.BeginGetResponse(new AsyncCallback(OnHTTPResponse), new AsyncHttpResponse(request, account));
+            
+            try
+            {
+                HttpWebRequest request = HttpWebRequest.CreateHttp(String.Format("{0:g}://{1:g}", account.Protocol, account.ServerDomain));
+                request.BeginGetResponse(new AsyncCallback(OnHTTPResponse), new AsyncHttpResponse(request, account));
+            }
+            catch (Exception)
+            {
+                // uri malformed
+                OnConnectFailed(account);
+            }
+            
         }
 
         private void OnHTTPResponse(IAsyncResult result)
@@ -202,7 +218,7 @@ namespace OwnCloud
         private void StoreAccount(Account account)
         {
             // encrypt data
-            account.StoreCredentials();
+            if(!account.IsAnonymous) account.StoreCredentials();
 
             // edit/insert
             if (!_editMode) {
@@ -227,7 +243,7 @@ namespace OwnCloud
                                    select acc;
                     var account = accounts.First();
 
-                    account.RestoreCredentials();
+                    if(account.IsEncrypted) account.RestoreCredentials();
                     (DataContext as AccountDataContext).CurrentAccount = account;
                 }
                 catch (Exception)
@@ -247,9 +263,13 @@ namespace OwnCloud
             if ((DataContext as AccountDataContext).CurrentAccount == null)
             {
                 Account account = (Account)_accountForm.Restore(_editMode ? "EditAccountForm" : "AddAccountForm", new Account());
-                if(account.GUID != null) account.RestoreCredentials();
+                if(account.IsEncrypted) account.RestoreCredentials();
                 (DataContext as AccountDataContext).CurrentAccount = account;
             }
+
+            // Translate unsupported XAML bindings
+            ApplicationBar.TranslateButtons();
         }
+
     }
 }

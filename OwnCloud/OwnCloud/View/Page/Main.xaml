@@ -79,7 +79,7 @@
             <controls:PanoramaItem Header="{Binding Path=LocalizedResources.MainPage_CalendarHeader, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PanoramaItemHeader}">
                 <ListBox ItemsSource="{Binding Accounts}">
                     <ListBox.DataContext>
-                       <odata:AccountListDataContext />
+                        <odata:AccountListDataContext />
                     </ListBox.DataContext>
                     <ListBox.ItemTemplate>
                         <DataTemplate>

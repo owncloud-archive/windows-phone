@@ -123,11 +123,20 @@
   <data name="AccountsPage_Confirm_Delete_Caption" xml:space="preserve">
     <value>Konto entfernen</value>
   </data>
+  <data name="ApplicationBarButton_Add" xml:space="preserve">
+    <value>Neu</value>
+  </data>
+  <data name="ApplicationBarButton_Save" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
   <data name="AppTitle" xml:space="preserve">
     <value>OwnCloud Client</value>
   </data>
   <data name="EditAccountPage_AddAccount" xml:space="preserve">
     <value>Konto hinzufügen</value>
+  </data>
+  <data name="EditAccountPage_Anonymous" xml:space="preserve">
+    <value>Anonymer Zugriff</value>
   </data>
   <data name="EditAccountPage_CalDAVPath" xml:space="preserve">
     <value>CalDAV Pfad</value>
@@ -159,11 +168,8 @@ Gültig bis: {3:g}</value>
   <data name="EditAccountPage_Password" xml:space="preserve">
     <value>Kennwort</value>
   </data>
-  <data name="EditAccountPage_Save" xml:space="preserve">
-    <value>Speichern</value>
-  </data>
   <data name="EditAccountPage_Server" xml:space="preserve">
-    <value>Host</value>
+    <value>Quelle</value>
   </data>
   <data name="EditAccountPage_Username" xml:space="preserve">
     <value>Benutzername</value>
@@ -220,7 +226,7 @@ Gültig bis: {3:g}</value>
     <value>Konto hinzufügen</value>
   </data>
   <data name="SettingsPage_AddAccount_Help" xml:space="preserve">
-    <value>Um ein Konto hinzuzufügen einfach auf "Hinzufügen" tippen; um ein Konto zu bearbeiten auf das jeweilige Konto tippen. Um ein Konto zu löschen ziehe das Konto nach rechts bis dieses verschwunden ist.</value>
+    <value>Um ein Konto hinzuzufügen einfach auf "Neu" tippen; um ein Konto zu bearbeiten auf das jeweilige Konto tippen. Um ein Konto zu löschen ziehe das Konto nach rechts bis dieses verschwunden ist.</value>
   </data>
   <data name="SettingsPage_Title" xml:space="preserve">
     <value>OwnCloud Einstellungen</value>

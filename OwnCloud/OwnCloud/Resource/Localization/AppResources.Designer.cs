@@ -79,6 +79,24 @@ namespace OwnCloud.Resource.Localization {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Add ähnelt.
+        /// </summary>
+        public static string ApplicationBarButton_Add {
+            get {
+                return ResourceManager.GetString("ApplicationBarButton_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Save ähnelt.
+        /// </summary>
+        public static string ApplicationBarButton_Save {
+            get {
+                return ResourceManager.GetString("ApplicationBarButton_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die OwnCloud Client ähnelt.
         /// </summary>
         public static string AppTitle {
@@ -93,6 +111,15 @@ namespace OwnCloud.Resource.Localization {
         public static string EditAccountPage_AddAccount {
             get {
                 return ResourceManager.GetString("EditAccountPage_AddAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Anonymous access ähnelt.
+        /// </summary>
+        public static string EditAccountPage_Anonymous {
+            get {
+                return ResourceManager.GetString("EditAccountPage_Anonymous", resourceCulture);
             }
         }
         
@@ -171,15 +198,6 @@ namespace OwnCloud.Resource.Localization {
         public static string EditAccountPage_Password {
             get {
                 return ResourceManager.GetString("EditAccountPage_Password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Save ähnelt.
-        /// </summary>
-        public static string EditAccountPage_Save {
-            get {
-                return ResourceManager.GetString("EditAccountPage_Save", resourceCulture);
             }
         }
         
@@ -355,7 +373,7 @@ namespace OwnCloud.Resource.Localization {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die To add an account simply tap &quot;Add Account&quot;. To edit, tap on the account. To delete an account, drag the account to the right till it disappears. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die To add an account simply tap &quot;Add&quot;. To edit, tap on the account. To delete an account, drag the account to the right till it disappears. ähnelt.
         /// </summary>
         public static string SettingsPage_AddAccount_Help {
             get {

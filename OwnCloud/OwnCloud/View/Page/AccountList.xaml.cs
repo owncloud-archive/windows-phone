@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using System.Collections.ObjectModel;
 using System.Windows.Media.Animation;
 using OwnCloud.Data;
+using OwnCloud.Extensions;
 
 namespace OwnCloud
 {
@@ -17,10 +18,11 @@ namespace OwnCloud
     {
         public AccountsPage()
         {
-                InitializeComponent();
+            InitializeComponent();
         }
 
-        private void AddAccountTap(object sender, System.Windows.Input.GestureEventArgs e)
+
+        private void AddAccountTap(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/Page/EditAccount.xaml", UriKind.Relative));
             
@@ -29,6 +31,8 @@ namespace OwnCloud
         private void PageLoaded(object sender, RoutedEventArgs e)
         {
             AccountsList.ItemsSource = new AccountListDataContext().Accounts;
+            // Translate unsupported XAML bindings
+            ApplicationBar.TranslateButtons();
         }
 
         private void AccountListTap(object sender, System.Windows.Input.GestureEventArgs e)
@@ -71,7 +75,7 @@ namespace OwnCloud
             {
                 // ask to delete
                 Account account = (Account)control.DataContext;
-                if (MessageBox.Show(string.Format(LocalizedStrings.Get("AccountsPage_Confirm_Delete"), account.ServerDomain), LocalizedStrings.Get("AccountsPage_Confirm_Delete_Caption"), MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                if (MessageBox.Show("AccountsPage_Confirm_Delete".Translate(account.ServerDomain), "AccountsPage_Confirm_Delete_Caption".Translate(), MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
                     // delete object from db
                     App.DataContext.Accounts.DeleteOnSubmit(account);

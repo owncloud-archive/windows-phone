@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
   <App xmlns="" ProductID="{94974bf1-3670-4363-be9b-d5aed90bf10f}" Title="OwnCloud" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="OwnCloud author" Description="Sample description" Publisher="OwnCloud">
-    <IconPath IsRelative="true" IsResource="false">Resource/Image/ApplicationIcon.png</IconPath>
+    <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_GAMERSERVICES"/>
       <Capability Name="ID_CAP_IDENTITY_DEVICE"/>
