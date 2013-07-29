@@ -8,9 +8,11 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Text;
-using System.Xml.Serialization;
+using System.Xml;
+using System.Xml.Linq;
 using System.Windows.Media.Animation;
 using OwnCloud.Data;
+using OwnCloud.Data.DAV;
 using OwnCloud.Net;
 using OwnCloud.Extensions;
 
@@ -270,6 +272,39 @@ namespace OwnCloud
             // Translate unsupported XAML bindings
             ApplicationBar.TranslateButtons();
         }
+
+        private void Button_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Account account = (DataContext as AccountDataContext).CurrentAccount;
+            // Some Web DAV Test
+            var dav_request = DAVRequestHeader.CreateListing();
+            dav_request.Headers[Header.Depth] = HeaderAttribute.MethodDepth.ApplyInfinityNoRoot;
+            var dav = new WebDAV(new Uri(account.Protocol+"://"+account.ServerDomain + account.WebDAVPath), new NetworkCredential(account.Username, account.Password));
+            dav.StartRequest(dav_request, DAVRequestBody.CreateAllPropertiesListing(), null, DAVResult);
+        }
+
+        private void DAVResult(DAVRequestResult result, object userObj)
+        {
+            if (result.Request.ErrorOccured) return;
+
+            Utility.DebugXML(result.GetRawResponse());
+            foreach (DAVRequestResult.Item item in result.Items)
+            {
+                Utility.Debug(String.Format("Name={0:g}, Reference={1:g}, Local={8:g}, Last Modfied={2:g}, Status={3:g}, Quota={4:g}/{5:g}, ETag={6:g}, Type={7:g}", 
+                    item.DisplayName,
+                    item.Reference,
+                    item.LastModified,
+                    item.StatusText,
+                    item.QuotaUsed,
+                    item.QuotaAvailable,
+                    item.ETag,
+                    item.ResourceType,
+                    item.LocalReference
+                ));
+            }
+        }
+
+        
 
     }
 }

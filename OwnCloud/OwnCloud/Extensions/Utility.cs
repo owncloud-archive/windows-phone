@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using System.Text;
 using System.Security.Cryptography;
+using System.IO;
 
 namespace OwnCloud
 {
@@ -75,7 +77,7 @@ namespace OwnCloud
 
         static public void DebugBytes(byte[] input)
         {
-            System.Diagnostics.Debug.WriteLine("-------------------------------");
+            System.Diagnostics.Debug.WriteLine("\n-------------------------------");
             System.Diagnostics.Debug.WriteLine("Debug Bytes Length: "+input.Length);
             string bytes = "";
             string text = "";
@@ -106,6 +108,46 @@ namespace OwnCloud
                 }
             }
             if (bytes.Length > 0) System.Diagnostics.Debug.WriteLine(bytes.PadRight(50, ' ') + "  " + text);
+            System.Diagnostics.Debug.WriteLine("-------------------------------");
+        }
+
+        static public void DebugXML(object xml)
+        {
+            System.Diagnostics.Debug.WriteLine("\n-------------------------------");
+            System.Diagnostics.Debug.WriteLine("Debug XML");
+            System.Diagnostics.Debug.WriteLine("-------------------------------");
+            MemoryStream stream = null;
+            if (xml.GetType() == typeof(MemoryStream))
+            {
+                stream = xml as MemoryStream;
+            }
+            if (xml.GetType() == typeof(Stream))
+            {
+                stream = new MemoryStream();
+                if ((stream as Stream).CanSeek) (stream as Stream).Seek(0, SeekOrigin.Begin);
+                (stream as Stream).CopyTo(stream);
+            }
+            else if (xml.GetType() == typeof(String))
+            {
+                stream = new MemoryStream();
+                var writer = new StreamWriter(stream);
+                writer.Write(xml as string);
+            }
+
+            if (stream != null)
+            {
+                stream.Seek(0, SeekOrigin.Begin);
+            }
+
+            var doc = XDocument.Load(stream);
+            stream = new MemoryStream();
+            doc.Save(stream);
+            stream.Seek(0, SeekOrigin.Begin);
+            string[] lines = new StreamReader(stream).ReadToEnd().Split('\n');
+            foreach (var s in lines)
+            {
+                System.Diagnostics.Debug.WriteLine(s.TrimEnd('\r'));
+            }
             System.Diagnostics.Debug.WriteLine("-------------------------------");
         }
     }

@@ -65,6 +65,12 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\DAV\Locking.cs" />
+    <Compile Include="Data\DAV\Reference.cs" />
+    <Compile Include="Data\DAV\RequestHeader.cs" />
+    <Compile Include="Data\DAV\RequestResult.cs" />
+    <Compile Include="Data\DAV\WebDAV.cs" />
+    <Compile Include="Data\DAV\RequestBody.cs" />
     <Compile Include="Data\OwnCloudDataContext.cs" />
     <Compile Include="Data\Calendar\CalendarDataUpdater.cs" />
     <Compile Include="Data\Calendar\EventMetaUpdater.cs" />

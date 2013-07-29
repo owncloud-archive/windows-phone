@@ -37,6 +37,7 @@ namespace OwnCloud.Data
             }
         }
 
+        [Column]
         public bool IsEncrypted { get; set; }
 
         /// <summary>

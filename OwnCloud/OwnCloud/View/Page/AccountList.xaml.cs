@@ -25,7 +25,6 @@ namespace OwnCloud
         private void AddAccountTap(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/Page/EditAccount.xaml", UriKind.Relative));
-            
         }
 
         private void PageLoaded(object sender, RoutedEventArgs e)

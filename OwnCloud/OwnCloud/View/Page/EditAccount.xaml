@@ -105,6 +105,13 @@
                     </Grid>
 
                 </StackPanel>
+                
+                <!-- only for testing -->
+                <StackPanel Grid.Row="6">
+                    <Grid>
+                        <Button Content="List Content Test" Tap="Button_Tap"/>
+                    </Grid>
+                </StackPanel>
 
             </Grid>
         </ScrollViewer>
