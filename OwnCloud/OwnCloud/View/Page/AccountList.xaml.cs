@@ -19,6 +19,8 @@ namespace OwnCloud
         public AccountsPage()
         {
             InitializeComponent();
+            // Translate unsupported XAML bindings
+            ApplicationBar.TranslateButtons();
         }
 
 
@@ -30,8 +32,6 @@ namespace OwnCloud
         private void PageLoaded(object sender, RoutedEventArgs e)
         {
             AccountsList.ItemsSource = new AccountListDataContext().Accounts;
-            // Translate unsupported XAML bindings
-            ApplicationBar.TranslateButtons();
         }
 
         private void AccountListTap(object sender, System.Windows.Input.GestureEventArgs e)

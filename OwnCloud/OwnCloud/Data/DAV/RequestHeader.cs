@@ -72,13 +72,20 @@ namespace OwnCloud.Data.DAV
             set;
         }
 
+        string _reqResource = "";
         /// <summary>
         /// Resource to be used.
         /// </summary>
         public string RequestedResource
         {
-            get;
-            set;
+            get
+            {
+                return _reqResource;
+            }
+            set
+            {
+                _reqResource = value.TrimStart('/');
+            }
         }
 
         /// <summary>
@@ -112,12 +119,13 @@ namespace OwnCloud.Data.DAV
         /// <summary>
         /// Creates a listening request.
         /// </summary>
+        /// <param name="path">A relative path to the resource.</param>
         /// <returns></returns>
-        static public DAVRequestHeader CreateListing()
+        static public DAVRequestHeader CreateListing(string path = "/")
         {
-            return new DAVRequestHeader(Method.PropertyFind, "/", new Dictionary<string, string>()
+            return new DAVRequestHeader(Method.PropertyFind, path, new Dictionary<string, string>()
             {
-                {Header.Depth, "1"}
+                {Header.Depth, HeaderAttribute.MethodDepth.ApplyResourceOnlyNoRoot}
             });
         }
     }

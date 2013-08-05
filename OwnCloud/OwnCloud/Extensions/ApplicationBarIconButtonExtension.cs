@@ -13,7 +13,7 @@ namespace OwnCloud.Extensions
     {
         /// <summary>
         /// Does an autocommit on the last focused element binding.
-        /// Works with textboxes and textblocks so far.
+        /// Works with textboxes, passwordboxes and textblocks so far.
         /// </summary>
         /// <param name="button">The calling ApplicationBarIconButton</param>
         public static void UpdateBindingSource(this ApplicationBarIconButton button)
@@ -25,11 +25,18 @@ namespace OwnCloud.Extensions
                 {
                     (obj as TextBox).GetBindingExpression(TextBox.TextProperty).UpdateSource();
                 }
+                if (obj.GetType() == typeof(PasswordBox))
+                {
+                    (obj as PasswordBox).GetBindingExpression(PasswordBox.PasswordProperty).UpdateSource();
+                }
                 else if (obj.GetType() == typeof(TextBlock))
                 {
                     (obj as TextBlock).GetBindingExpression(TextBlock.TextProperty).UpdateSource();
                 }
             }
+
+            // finally trigger void focus
+            new Button().Focus();
         }
     }
 }

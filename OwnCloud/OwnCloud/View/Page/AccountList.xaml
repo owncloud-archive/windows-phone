@@ -41,7 +41,7 @@
                                 <ColumnDefinition Width="50"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Source="/Resource/Image/owncloud logo.jpg"/>
+                            <Image Grid.Column="0" Source="/Resource/Image/owncloud-logo.png"/>
                             <TextBlock Grid.Column="1" Text="{Binding ServerDomain}" Style="{StaticResource PhoneTextExtraLargeStyle}"></TextBlock>
                         </Grid>
                     </DataTemplate>

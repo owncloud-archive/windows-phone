@@ -148,7 +148,7 @@
             /// <summary>
             /// Applies only to resouce subordinate recursively but not on the resource target.
             /// </summary>
-            public const string ApplyInfinityNoRoot = "infinify,noroot";
+            public const string ApplyInfinityNoRoot = "infinity,noroot";
         };
 
         struct If
@@ -208,9 +208,19 @@
         public const string ResourceType = "resourcetype";
 
         /// <summary>
-        /// (LockCapabilities) Provides a listing of the lock capabilities supported by the resource.
+        /// RFC3253
+        /// </summary>
+        public const string SupportedLivePropertySet = "supported-live-property-set";
+
+        /// <summary>
+        /// To provide a listing of the lock capabilities supported by the resource.
         /// </summary>
         public const string SupportedLock = "supportedlock";
+
+        /// <summary>
+        /// RFC3253
+        /// </summary>
+        public const string SupportedReportSet = "supported-report-set";
 
         /// <summary>
         /// RFC 4331 Extension. Used quota in bytes.
@@ -256,7 +266,7 @@
         /// <summary>
         /// Specifies an exclusive lock.
         /// </summary>
-        public const string Exclusive = "exclusive";
+        public const string ExclusiveLocking = "exclusive";
 
         /// <summary>
         /// Any child element represents the name of a property to be included in the PROPFIND response. All elements inside an 'include' XML element MUST define properties related to the resource, although possible property names are in no way limited to those property names defined in this document or other standards. This element MUST NOT contain text or mixed content.
@@ -316,7 +326,7 @@
         /// <summary>
         /// Contains properties related to a resource.
         /// </summary>
-        public const string Property = "prop";
+        public const string Properties = "prop";
 
         /// <summary>
         /// Contains a request to alter the properties on a resource.
@@ -364,19 +374,9 @@
         public const string Set = "set";
 
         /// <summary>
-        /// RFC3253
-        /// </summary>
-        public const string SupportedLivePropertySet = "supported-live-property-set";
-
-        /// <summary>
-        /// RFC3253
-        /// </summary>
-        public const string SupportedReportSet = "supported-report-set";
-
-        /// <summary>
         /// Specifies a shared lock.
         /// </summary>
-        public const string Shared = "shared";
+        public const string SharedLocking = "shared";
 
         /// <summary>
         /// Holds a single HTTP status-line.
@@ -391,11 +391,12 @@
         /// <summary>
         /// Specifies a write lock.
         /// </summary>
-        public const string Write = "write";
+        public const string WriteLocking = "write";
     }
 
     /// <summary>
     /// Resource content type. Other resource types as this are not supported.
+    /// Unknown Resoure type should be treated as Collection.
     /// </summary>
     enum ResourceType
     {

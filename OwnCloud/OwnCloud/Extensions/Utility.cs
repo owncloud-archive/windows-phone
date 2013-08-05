@@ -139,14 +139,24 @@ namespace OwnCloud
                 stream.Seek(0, SeekOrigin.Begin);
             }
 
-            var doc = XDocument.Load(stream);
-            stream = new MemoryStream();
-            doc.Save(stream);
-            stream.Seek(0, SeekOrigin.Begin);
-            string[] lines = new StreamReader(stream).ReadToEnd().Split('\n');
-            foreach (var s in lines)
+            XDocument doc = null;
+
+            try
             {
-                System.Diagnostics.Debug.WriteLine(s.TrimEnd('\r'));
+                doc = XDocument.Load(stream);
+                stream = new MemoryStream();
+                doc.Save(stream);
+                stream.Seek(0, SeekOrigin.Begin);
+                string[] lines = new StreamReader(stream).ReadToEnd().Split('\n');
+                foreach (var s in lines)
+                {
+                    System.Diagnostics.Debug.WriteLine(s.TrimEnd('\r'));
+                }
+            }
+            catch (Exception e)
+            {
+                Utility.Debug("XML Exception: " + e.Message);
+                Utility.Debug(stream.GetBuffer());
             }
             System.Diagnostics.Debug.WriteLine("-------------------------------");
         }

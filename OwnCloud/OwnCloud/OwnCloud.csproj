@@ -71,6 +71,8 @@
     <Compile Include="Data\DAV\RequestResult.cs" />
     <Compile Include="Data\DAV\WebDAV.cs" />
     <Compile Include="Data\DAV\RequestBody.cs" />
+    <Compile Include="Data\EventCollector.cs" />
+    <Compile Include="Data\FileListDataContext.cs" />
     <Compile Include="Data\OwnCloudDataContext.cs" />
     <Compile Include="Data\Calendar\CalendarDataUpdater.cs" />
     <Compile Include="Data\Calendar\EventMetaUpdater.cs" />
@@ -131,6 +133,9 @@
     <Compile Include="Resource\ResourceLoader.cs" />
     <Compile Include="View\Controls\CalendarControl.xaml.cs" />
     <Compile Include="View\Controls\CalendarDayControl.xaml.cs" />
+    <Compile Include="View\Controls\FileDetailViewControl.xaml.cs">
+      <DependentUpon>FileDetailViewControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Page\AccountList.xaml.cs">
       <DependentUpon>AccountList.xaml</DependentUpon>
     </Compile>
@@ -156,6 +161,9 @@
     <Compile Include="Data\AccountListDataContext.cs" />
     <Compile Include="Data\Account.cs" />
     <Compile Include="Data\File.cs" />
+    <Compile Include="View\Page\RemoteFiles.xaml.cs">
+      <DependentUpon>RemoteFiles.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -170,6 +178,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\Controls\FileDetailViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Page\AccountList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -183,6 +195,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Page\Main.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Page\RemoteFiles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -207,8 +223,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\Image\CalendarLogo.png" />
+    <Content Include="Resource\Image\owncloud-logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resource\Image\PanoramaBackground.png" />
-    <Content Include="Resource\Image\owncloud logo.jpg" />
     <Resource Include="Resource\Localization\Mime.de.xml" />
     <Resource Include="Resource\Localization\Mime.en.xml" />
     <Content Include="SplashScreenImage.jpg" />

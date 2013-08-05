@@ -3,19 +3,23 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
 using System.Windows;
+using System.Net;
 using OwnCloud.Extensions;
 
 namespace OwnCloud.Data
 {
     public class File : Entity
     {
-        private string _name;
+        private string _name = "";
         /// <summary>
         /// Current Name of file
         /// </summary>
-        public string Filename
+        public string FileName
         {
-            get { return _name; }
+            get 
+            {
+                return Uri.UnescapeDataString(_name);
+            }
             set
             {
                 if (value == String.Empty)
@@ -29,11 +33,24 @@ namespace OwnCloud.Data
             }
         }
 
+        /// <summary>
+        /// The relative resource location
+        /// </summary>
+        private string _path = "";
+        public string FilePath
+        {
+            get { return _path; }
+            set
+            {
+                _path = value;
+            }
+        }
+
         private long _size = 0;
         /// <summary>
         /// Size of file
         /// </summary>
-        public long Filesize
+        public long FileSize
         {
             get { return _size; }
             set { _size = value; }
@@ -50,11 +67,11 @@ namespace OwnCloud.Data
             }
         }
 
-        private string _type;
+        private string _type = "";
         /// <summary>
         /// Mime type of file
         /// </summary>
-        public string Filetype
+        public string FileType
         {
             get { return _type; }
             set { _type = value.ToString(); }
@@ -86,7 +103,16 @@ namespace OwnCloud.Data
         /// <summary>
         /// Tells or sets if the file should be synced
         /// </summary>
-        bool Sync
+        public bool Sync
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Tells or sets if the file should be treated as directory
+        /// </summary>
+        public bool IsDirectory
         {
             get;
             set;
@@ -100,11 +126,27 @@ namespace OwnCloud.Data
         {
             get
             {
-                return _mtime;
+                return _mtime == null? new DateTime() : _mtime;
             }
             set
             {
                 _mtime = value;
+            }
+        }
+
+        DateTime _ctime;
+        /// <summary>
+        /// Gets or sets the creation time
+        /// </summary>
+        public DateTime FileCreated
+        {
+            get
+            {
+                return _ctime == null? new DateTime() : _ctime;
+            }
+            set
+            {
+                _ctime = value;
             }
         }
 
@@ -115,7 +157,18 @@ namespace OwnCloud.Data
         {
             get
             {
-                return "✎ " + _mtime.ToString("");
+                return "✎ " + FileLastModified.ToString("");
+            }
+        }
+
+        /// <summary>
+        /// Gets the creation time of the file in readable format
+        /// </summary>
+        public string Created
+        {
+            get
+            {
+                return "✎ " + FileCreated.ToString("");
             }
         }
     }

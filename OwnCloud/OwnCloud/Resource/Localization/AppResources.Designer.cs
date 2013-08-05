@@ -106,6 +106,15 @@ namespace OwnCloud.Resource.Localization {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Directory ähnelt.
+        /// </summary>
+        public static string Directory {
+            get {
+                return ResourceManager.GetString("Directory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Add account ähnelt.
         /// </summary>
         public static string EditAccountPage_AddAccount {
@@ -238,6 +247,15 @@ namespace OwnCloud.Resource.Localization {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Couldn&apos;t fetch the file list from target server. Maybe there is a temporary problem. ähnelt.
+        /// </summary>
+        public static string FetchFile_Unexpected_Result {
+            get {
+                return ResourceManager.GetString("FetchFile_Unexpected_Result", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die File ähnelt.
         /// </summary>
         public static string File_Type_Default {
@@ -288,6 +306,24 @@ namespace OwnCloud.Resource.Localization {
         public static string MainPage_Info {
             get {
                 return ResourceManager.GetString("MainPage_Info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Remote Files ähnelt.
+        /// </summary>
+        public static string MainPage_Remote_Files {
+            get {
+                return ResourceManager.GetString("MainPage_Remote_Files", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Select an account to browse trough or select files to sync. ähnelt.
+        /// </summary>
+        public static string MainPage_Remote_Files_Text {
+            get {
+                return ResourceManager.GetString("MainPage_Remote_Files_Text", resourceCulture);
             }
         }
         
@@ -351,6 +387,24 @@ namespace OwnCloud.Resource.Localization {
         public static string Net_StreamSocket_ConnectFailed {
             get {
                 return ResourceManager.GetString("Net_StreamSocket_ConnectFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Details ähnelt.
+        /// </summary>
+        public static string RemoteFilesPage_DetailView {
+            get {
+                return ResourceManager.GetString("RemoteFilesPage_DetailView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Preview ähnelt.
+        /// </summary>
+        public static string RemoteFilesPage_TileView {
+            get {
+                return ResourceManager.GetString("RemoteFilesPage_TileView", resourceCulture);
             }
         }
         

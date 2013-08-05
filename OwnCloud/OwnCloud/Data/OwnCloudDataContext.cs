@@ -3,6 +3,7 @@ using System.Data.Linq;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
+using System.Linq;
 using System.Data.Linq.Mapping;
 using System.IO.IsolatedStorage;
 
@@ -17,6 +18,13 @@ namespace OwnCloud.Data
             // For later purpose:
             // New tables will not be automaticly generated if the database does exists
             if (!this.DatabaseExists()) this.CreateDatabase();
+
+            // Delete some wrong stored data
+            //Accounts.DeleteAllOnSubmit(Accounts);
+            //SubmitChanges();
+            new TemporaryData().Remove("EditAccountForm");
+            new TemporaryData().Remove("AddAccountForm");
+
             LoadData();
         }
 
@@ -26,6 +34,19 @@ namespace OwnCloud.Data
 
         private DispatcherTimer _deviceStatusTimer;
         private IsolatedStorageFile _isf;
+
+        /// <summary>
+        /// Loads an account from the datebase.
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <returns></returns>
+        public Account LoadAccount(object guid)
+        {
+            var accounts = from acc in Accounts
+                           where acc.GUID == int.Parse(guid.ToString())
+                           select acc;
+            return accounts.First();
+        }
 
         /// <summary>
         /// Example File List
@@ -83,8 +104,8 @@ namespace OwnCloud.Data
             // load files
             Files = new ObservableCollection<File>();
             // Example data
-            Files.Add(new File() { Filename = "Longfilename does not fit here.txt", Filesize = 234, Filetype = "text/plain", FileLastModified = DateTime.Parse("2013-07-05T22:05:21+00:00") });
-            Files.Add(new File() { Filename = "Something.html", Filesize = 12940, Filetype = "text/html;charset=utf-8", FileLastModified = DateTime.Parse("2013-02-05T23:16:21+00:00") });
+            Files.Add(new File() { FileName = "Longfilename does not fit here.txt", FileSize = 234, FileType = "text/plain", FileLastModified = DateTime.Parse("2013-07-05T22:05:21+00:00") });
+            Files.Add(new File() { FileName = "Something.html", FileSize = 12940, FileType = "text/html;charset=utf-8", FileLastModified = DateTime.Parse("2013-02-05T23:16:21+00:00") });
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

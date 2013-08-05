@@ -65,11 +65,11 @@ namespace OwnCloud.Data.DAV
             {
                 if (item.IsNamespaced)
                 {
-                    writer.WriteElementString(item.LocalName, item.Namespace, (string)item.LocalValue);
+                    writer.WriteElementString(item.LocalName, item.Namespace, item.LocalValue.ToString());
                 }
                 else
                 {
-                    writer.WriteElementString(item.LocalName, (string)item.LocalValue);
+                    writer.WriteElementString(item.LocalName, item.LocalValue.ToString());
                 }
             }
 
@@ -91,19 +91,23 @@ namespace OwnCloud.Data.DAV
         {
             return new DAVRequestBody(
                 new Item(Elements.PropertyFind, new List<Item>() {
-                    new Item(Elements.PropertyName)
+                    new Item(Elements.PropertyName),
+                    new Item(Elements.Properties, new List<Item> {
+                        new Item(Properties.SupportedLock),
+                        new Item(Properties.LockDiscovery),
+                        new Item(Properties.GetContentLength),
+                        new Item(Properties.GetContentType),
+                        new Item(Properties.GetETag),
+                        new Item(Properties.GetLastModified),
+                        new Item(Properties.ResourceType),
+                        new Item(Properties.QuotaAvailableBytes),
+                        new Item(Properties.QuotaUsedBytes),
+                        new Item(Properties.GetContentLanguage),
+                        new Item(Properties.CreationDate),
+                        new Item(Properties.DisplayName)
+                    })
                 })
             );
-        }
-
-        static public DAVRequestBody CreateAllPropertiesExclusiveListing()
-        {
-            return new DAVRequestBody(
-                new Item(Elements.PropertyFind, new List<Item>() {
-                    new Item(Elements.SupportedLivePropertySet),
-                    new Item(Elements.SupportedReportSet)
-                })
-                );
         }
 
         /// <summary>

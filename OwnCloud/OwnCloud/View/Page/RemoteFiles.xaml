@@ -1,0 +1,77 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="OwnCloud.View.Page.RemoteFiles"
+    xmlns:ViewControls="clr-namespace:OwnCloud.View.Controls"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="False" Loaded="PageLoaded">
+
+    <phone:PhoneApplicationPage.Resources>
+        <Style TargetType="controls:PanoramaItem">
+            <Setter Property="Width" Value="432"/>
+        </Style>
+        <DataTemplate x:Key="PanoramaItemHeader">
+            <Grid>
+                <ContentPresenter>
+                    <TextBlock Text="{Binding}" FontSize="60" TextWrapping="Wrap" />
+                </ContentPresenter>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="PanoramaHeader">
+            <TextBlock Text="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" FontSize="120" Margin="0,50,0,0" FontWeight="Bold" />
+        </DataTemplate>
+        <Style TargetType="Grid" x:Key="PanoramaItemGrid">
+            <Setter Property="Width" Value="420"/>
+        </Style>
+        <Style x:Key="StretchedContainerStyle" TargetType="ListBoxItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
+        <Storyboard x:Key="DropFileListFadeOut">
+            <DoubleAnimation From="1.0" To="0.0" Duration="0:0:0.3" Storyboard.TargetName="FileList" Storyboard.TargetProperty="Grid.Opacity"/>
+        </Storyboard>
+        <Storyboard x:Key="DropFileListFadeIn">
+            <DoubleAnimation From="0" To="1.0" Duration="0:0:0.1" Storyboard.TargetName="FileList" Storyboard.TargetProperty="Grid.Opacity"/>
+        </Storyboard>
+    </phone:PhoneApplicationPage.Resources>
+    
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator IsIndeterminate="True" IsVisible="True" />
+    </shell:SystemTray.ProgressIndicator>
+
+
+    <Grid x:Name="LayoutRoot">
+        <controls:Panorama Title="{Binding Path=LocalizedResources.MainPage_Remote_Files, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PanoramaHeader}">
+            <controls:Panorama.Background>
+                <ImageBrush ImageSource="/Resource/Image/PanoramaBackground.png"/>
+            </controls:Panorama.Background>
+
+            <controls:PanoramaItem Header="{Binding Path=LocalizedResources.RemoteFilesPage_DetailView, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PanoramaItemHeader}">
+                <Grid Name="FileList">
+                    <ListBox ItemContainerStyle="{StaticResource StretchedContainerStyle}" Name="DetailList" Background="Gray" ItemsSource="{Binding Path=Files}" Tap="FileListTap">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <ListBoxItem Margin="0,0,0,20" Background="Green">
+                                     <ViewControls:FileDetailViewControl HorizontalAlignment="Stretch" Background="Red" DataContext="{Binding}"/>
+                                </ListBoxItem>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </controls:PanoramaItem>
+
+            <controls:PanoramaItem Header="{Binding Path=LocalizedResources.RemoteFilesPage_TileView, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PanoramaItemHeader}">
+                <Grid/>
+            </controls:PanoramaItem>
+        </controls:Panorama>
+    </Grid>
+
+</phone:PhoneApplicationPage>

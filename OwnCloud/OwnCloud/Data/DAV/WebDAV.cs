@@ -16,6 +16,7 @@ namespace OwnCloud.Data.DAV
     {
         ICredentials _credit;
         Uri _host;
+        Uri _relativeHost;
 
         struct RequestStruct
         {
@@ -28,7 +29,7 @@ namespace OwnCloud.Data.DAV
         /// <summary>
         /// Creates a new object.
         /// </summary>
-        /// <param name="host">A valid URI hosting DAV content.</param>
+        /// <param name="host">A valid host</param>
         /// <param name="credentials">Username and Password if necessary</param>
         public WebDAV(Uri host, ICredentials credentials = null)
         {
@@ -69,11 +70,13 @@ namespace OwnCloud.Data.DAV
         public void StartRequest(DAVRequestHeader header, DAVRequestBody body, object userObject, Action<DAVRequestResult, object> response)
         {
             LastException = null;
+            _relativeHost = new Uri(_host + header.RequestedResource);
+
             header.Headers[Header.Host] = _host.DnsSafeHost;
             // this is needed to modify some headers
             HttpWebRequest.RegisterPrefix("http", System.Net.Browser.WebRequestCreator.ClientHttp);
             HttpWebRequest.RegisterPrefix("https", System.Net.Browser.WebRequestCreator.ClientHttp);
-            HttpWebRequest request = HttpWebRequest.CreateHttp(_host);
+            HttpWebRequest request = HttpWebRequest.CreateHttp(_host + header.RequestedResource);
             request.AllowReadStreamBuffering = false;
             request.Method = header.RequestedMethod.ToString();
             foreach (KeyValuePair<string, string> current in header.Headers)
@@ -135,7 +138,7 @@ namespace OwnCloud.Data.DAV
             {
                 // must catch "NotFoundError" when 5xx occurs (likely is)
                 HttpWebResponse response = obj.Request.EndGetResponse(result) as HttpWebResponse;
-                DAVRequestResult requestResult = new DAVRequestResult(this, response, _host);
+                DAVRequestResult requestResult = new DAVRequestResult(this, response, _relativeHost);
                 obj.Callback(requestResult, obj.UserObject);
             }
             catch (WebException we)

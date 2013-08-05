@@ -231,4 +231,22 @@ Valid To: {3:g}</value>
   <data name="EditAccountPage_Anonymous" xml:space="preserve">
     <value>Anonymous access</value>
   </data>
+  <data name="Directory" xml:space="preserve">
+    <value>Directory</value>
+  </data>
+  <data name="FetchFile_Unexpected_Result" xml:space="preserve">
+    <value>Couldn't fetch the file list from target server. Maybe there is a temporary problem.</value>
+  </data>
+  <data name="MainPage_Remote_Files" xml:space="preserve">
+    <value>Remote Files</value>
+  </data>
+  <data name="MainPage_Remote_Files_Text" xml:space="preserve">
+    <value>Select an account to browse trough or select files to sync.</value>
+  </data>
+  <data name="RemoteFilesPage_DetailView" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="RemoteFilesPage_TileView" xml:space="preserve">
+    <value>Preview</value>
+  </data>
 </root>

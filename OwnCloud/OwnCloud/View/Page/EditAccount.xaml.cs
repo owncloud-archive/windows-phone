@@ -42,6 +42,8 @@ namespace OwnCloud
             InitializeComponent();
             // NavigationContext is not available in constructor
             this.Loaded += new RoutedEventHandler(PageLoaded);
+            // Translate unsupported XAML bindings
+            ApplicationBar.TranslateButtons();
         }
 
         private void ProtocolButtonTap(object sender, System.Windows.Input.GestureEventArgs e)
@@ -58,6 +60,9 @@ namespace OwnCloud
             Account form = (DataContext as AccountDataContext).CurrentAccount.GetCopy();
             form.Password = "";
             _accountForm.Store(_editMode ? "EditAccountForm" : "AddAccountForm", form);
+
+            // Clear data context
+            DataContext = null;
         }
 
         EventHandler overlayFadeOut_Completed;
@@ -67,7 +72,11 @@ namespace OwnCloud
 
         private void SaveTap(object sender, EventArgs e)
         {
+            // this works but the on blur event is called by leaving the page
+            // and will manipulate the current object so locking is required for
+            // credentials
             (sender as ApplicationBarIconButton).UpdateBindingSource();
+
             Account account = (DataContext as AccountDataContext).CurrentAccount;
 
             if (!account.CanSave())
@@ -219,8 +228,9 @@ namespace OwnCloud
 
         private void StoreAccount(Account account)
         {
+
             // encrypt data
-            if(!account.IsAnonymous) account.StoreCredentials();
+            account.StoreCredentials();
 
             // edit/insert
             if (!_editMode) {
@@ -240,12 +250,8 @@ namespace OwnCloud
                 _editMode = NavigationContext.QueryString["mode"] == "edit";
                 try
                 {
-                    var accounts = from acc in App.DataContext.Accounts
-                                   where acc.GUID == int.Parse(NavigationContext.QueryString["account"])
-                                   select acc;
-                    var account = accounts.First();
-
-                    if(account.IsEncrypted) account.RestoreCredentials();
+                    var account = App.DataContext.LoadAccount(NavigationContext.QueryString["account"]);
+                    account.RestoreCredentials();
                     (DataContext as AccountDataContext).CurrentAccount = account;
                 }
                 catch (Exception)
@@ -265,21 +271,18 @@ namespace OwnCloud
             if ((DataContext as AccountDataContext).CurrentAccount == null)
             {
                 Account account = (Account)_accountForm.Restore(_editMode ? "EditAccountForm" : "AddAccountForm", new Account());
-                if(account.IsEncrypted) account.RestoreCredentials();
+                account.RestoreCredentials();
                 (DataContext as AccountDataContext).CurrentAccount = account;
             }
-
-            // Translate unsupported XAML bindings
-            ApplicationBar.TranslateButtons();
         }
 
         private void Button_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             Account account = (DataContext as AccountDataContext).CurrentAccount;
             // Some Web DAV Test
-            var dav_request = DAVRequestHeader.CreateListing();
+            var dav_request = DAVRequestHeader.CreateListing(account.WebDAVPath);
             dav_request.Headers[Header.Depth] = HeaderAttribute.MethodDepth.ApplyInfinityNoRoot;
-            var dav = new WebDAV(new Uri(account.Protocol+"://"+account.ServerDomain + account.WebDAVPath), new NetworkCredential(account.Username, account.Password));
+            var dav = new WebDAV(account.GetUri(), account.GetCredentials());
             dav.StartRequest(dav_request, DAVRequestBody.CreateAllPropertiesListing(), null, DAVResult);
         }
 
@@ -290,11 +293,10 @@ namespace OwnCloud
             Utility.DebugXML(result.GetRawResponse());
             foreach (DAVRequestResult.Item item in result.Items)
             {
-                Utility.Debug(String.Format("Name={0:g}, Reference={1:g}, Local={8:g}, Last Modfied={2:g}, Status={3:g}, Quota={4:g}/{5:g}, ETag={6:g}, Type={7:g}", 
+                Utility.Debug(String.Format("Name={0:g}, Reference={1:g}, Local={7:g}, Last Modified={2:g}, Quota={3:g}/{4:g}, ETag={5:g}, Type={6:g}", 
                     item.DisplayName,
                     item.Reference,
                     item.LastModified,
-                    item.StatusText,
                     item.QuotaUsed,
                     item.QuotaAvailable,
                     item.ETag,

@@ -20,6 +20,10 @@ namespace OwnCloud.Data
         public void Loaddata()
         {
             Accounts = new ObservableCollection<Account>();
+            
+            // protect us from zombie binding trigger values
+            App.DataContext.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, App.DataContext.Accounts);
+
             foreach (Account account in App.DataContext.Accounts)
             {
                 Accounts.Add(account);

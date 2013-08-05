@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="OwnCloud.View.Controls.FileDetailViewControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    x:Name="this"
+    Background="{StaticResource PhoneChromeBrush}"
+    d:DesignHeight="480" d:DesignWidth="480">
+
+    <Grid x:Name="LayoutRoot" HorizontalAlignment="Stretch" Background="{Binding Path=Background, ElementName=this}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+            
+        <TextBlock Grid.Row="0" Text="{Binding Path=FileName, FallbackValue=Filename}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}" MaxHeight="60"/>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="{Binding Path=Type, FallbackValue=FileType}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                    <TextBlock Text="{Binding Path=LastModified, FallbackValue=LastModified}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                </StackPanel>
+                <TextBlock Grid.Column="1" Text="{Binding Path=Size, FallbackValue=FileSize}" Style="{StaticResource PhoneTextSubtleStyle}" HorizontalAlignment="Right"/>
+            </Grid>
+    </Grid>
+</UserControl>

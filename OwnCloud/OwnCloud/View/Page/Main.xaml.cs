@@ -19,6 +19,11 @@ namespace OwnCloud
             DataContext = App.DataContext;
         }
 
+        private void PageLoaded(object sender, RoutedEventArgs e)
+        {
+            RemoteFileAccountsList.ItemsSource = new AccountListDataContext().Accounts;
+        }
+
         private void SettingsAccountsTab(object sender, System.Windows.Input.GestureEventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/Page/AccountList.xaml", UriKind.Relative));
@@ -31,6 +36,15 @@ namespace OwnCloud
             //Navigate to the calendar page with te userID
             if (currentAccount != null)
                 NavigationService.Navigate(new Uri("/View/Page/CalendarMonthPage.xaml?uid=" + String.Format(@"{0:g}", currentAccount.GUID), UriKind.Relative));
+        }
+
+        private void RemoteAccountTap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            var currentAccount = (sender as ListBox).SelectedItem;
+            if (currentAccount != null)
+            {
+                NavigationService.Navigate(new Uri("/View/Page/RemoteFiles.xaml?account=" + ((Account)currentAccount).GUID, UriKind.Relative));
+            }
         }
     }
 }

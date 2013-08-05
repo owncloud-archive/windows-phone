@@ -16,7 +16,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
     shell:SystemTray.IsVisible="false"
-    
+    Loaded="PageLoaded"
     >
 
     <phone:PhoneApplicationPage.Resources>
@@ -26,7 +26,7 @@
         <DataTemplate x:Key="PanoramaItemHeader">
             <Grid>
                 <ContentPresenter>
-                    <TextBlock Text="{Binding}" FontSize="60" />
+                    <TextBlock Text="{Binding}" FontSize="60" TextWrapping="Wrap" />
                 </ContentPresenter>
             </Grid>
         </DataTemplate>
@@ -46,12 +46,32 @@
                 <ImageBrush ImageSource="/Resource/Image/PanoramaBackground.png"/>
             </controls:Panorama.Background>
 
+            <controls:PanoramaItem Header="{Binding Path=LocalizedResources.MainPage_Remote_Files, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PanoramaItemHeader}">
+                <StackPanel>
+                    <TextBlock Text="{Binding Path=LocalizedResources.MainPage_Remote_Files_Text, Source={StaticResource LocalizedStrings}}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                    <ListBox Name="RemoteFileAccountsList" Tap="RemoteAccountTap">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,0,0,15">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" Source="/Resource/Image/owncloud-logo.png"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding ServerDomain}" Style="{StaticResource PhoneTextExtraLargeStyle}"></TextBlock>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </controls:PanoramaItem>
+
             <controls:PanoramaItem Header="{Binding Path=LocalizedResources.MainPage_Files, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PanoramaItemHeader}">
                 <ListBox ItemsSource="{Binding Files}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="0,0,0,17">
-                                <TextBlock Text="{Binding Filename}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}" MaxHeight="60"/>
+                                <TextBlock Text="{Binding FileName}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}" MaxHeight="60"/>
 
                                 <Grid Style="{StaticResource PanoramaItemGrid}">
                                     <Grid.RowDefinitions>

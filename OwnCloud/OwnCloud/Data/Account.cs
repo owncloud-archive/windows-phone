@@ -4,6 +4,7 @@ using System.Windows;
 using System.Xml.Serialization;
 using System.Data.Linq.Mapping;
 using OwnCloud.Extensions;
+using System.Net;
 
 namespace OwnCloud.Data
 {
@@ -15,6 +16,8 @@ namespace OwnCloud.Data
             WebDAVPath = "/remote.php/webdav/";
             CalDAVPath = "/remote.php/caldav/";
             Protocol = "https";
+            Username = "";
+            Password = "";
             ServerDomain = "example.com";
         }
 
@@ -38,7 +41,10 @@ namespace OwnCloud.Data
         }
 
         [Column]
-        public bool IsEncrypted { get; set; }
+        public bool IsEncrypted { 
+            get; 
+            set;
+        }
 
         /// <summary>
         /// Server Domain to connect to
@@ -93,17 +99,35 @@ namespace OwnCloud.Data
         }
 
         /// <summary>
+        /// Returns the Username & Password for
+        /// the account. This works also in encrypted mode.
+        /// </summary>
+        /// <returns></returns>
+        public NetworkCredential GetCredentials()
+        {
+            var copy = this.GetCopy();
+            if (!copy.IsAnonymous && copy.IsEncrypted) copy.RestoreCredentials();
+            return copy.IsAnonymous ? new NetworkCredential() : new NetworkCredential(copy.Username, copy.Password);
+        }
+
+        /// <summary>
+        /// Returns a uri from the used server domain and protocol without trailing slash.
+        /// </summary>
+        /// <returns></returns>
+        public Uri GetUri()
+        {
+            return new Uri(Protocol + "://" + ServerDomain.Trim('/'), UriKind.Absolute);
+        }
+
+        /// <summary>
         /// Allways return the unencrypted Username
         /// </summary>
         public string DisplayUserName
         {
             get
             {
-                bool wasEncr = IsEncrypted;
-                if(IsEncrypted) RestoreCredentials();
-                string value = Username;
-                if(wasEncr) StoreCredentials();
-                return value;
+                // don't call RestoreCredentials() here
+                return IsEncrypted ? Utility.DecryptString(Username) : Username;
             }
         }
 
@@ -197,9 +221,12 @@ namespace OwnCloud.Data
         /// </summary>
         public void StoreCredentials()
         {
-            Username = Utility.EncryptString(Username);
-            Password = Utility.EncryptString(Password);
-            IsEncrypted = true;
+            if (!IsEncrypted && !IsAnonymous)
+            {
+                Username = Utility.EncryptString(Username);
+                Password = Utility.EncryptString(Password);
+                IsEncrypted = true;
+            }
         }
 
         /// <summary>
@@ -207,18 +234,18 @@ namespace OwnCloud.Data
         /// </summary>
         public void RestoreCredentials()
         {
-            try
+            if (IsEncrypted && !IsAnonymous)
             {
                 Username = Utility.DecryptString(Username);
                 Password = Utility.DecryptString(Password);
                 IsEncrypted = false;
             }
-            catch (Exception cryptEx)
-            {
-                Utility.Debug("RestoreCredentials Exception: " + cryptEx.Message);
-            }
         }
 
+        /// <summary>
+        /// Gets a copy.
+        /// </summary>
+        /// <returns></returns>
         public Account GetCopy()
         {
             return (Account)this.MemberwiseClone();
