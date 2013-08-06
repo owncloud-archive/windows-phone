@@ -246,6 +246,7 @@ namespace OwnCloud.Data.DAV
                                     break;
                                 case Properties.DisplayName:
                                 case Properties.GetContentLanguage:
+                                case Properties.GetContentType:
                                 case Properties.GetETag:
                                     pItem.Properties.Add(lastElementName, reader.Value);
                                     break;
@@ -531,7 +532,7 @@ namespace OwnCloud.Data.DAV
             {
                 get
                 {
-                    return (long)_GetValue(DAV.Properties.GetContentType, (long)0);
+                    return (long)_GetValue(DAV.Properties.GetContentLength, (long)0);
                 }
                 set
                 {

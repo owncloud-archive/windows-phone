@@ -55,6 +55,8 @@
     </Reference>
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="system.data.linq" />
+    <Reference Include="System.Device" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
@@ -210,6 +212,11 @@
     <None Include="Properties\WMAppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\FileIcons\audio.png" />
+    <Content Include="Assets\FileIcons\file.png" />
+    <Content Include="Assets\FileIcons\folder.png" />
+    <Content Include="Assets\FileIcons\image.png" />
+    <Content Include="Assets\FileIcons\up.png" />
     <Content Include="Assets\Icons\Add.png" />
     <Content Include="Assets\Icons\Delete.png" />
     <Content Include="Assets\Icons\Reload.png" />
@@ -226,7 +233,9 @@
     <Content Include="Resource\Image\owncloud-logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resource\Image\PanoramaBackground.png" />
+    <Content Include="Resource\Image\PanoramaBackground.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resource\Localization\Mime.de.xml" />
     <Resource Include="Resource\Localization\Mime.en.xml" />
     <Content Include="SplashScreenImage.jpg" />

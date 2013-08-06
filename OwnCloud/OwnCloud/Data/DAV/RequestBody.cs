@@ -91,7 +91,6 @@ namespace OwnCloud.Data.DAV
         {
             return new DAVRequestBody(
                 new Item(Elements.PropertyFind, new List<Item>() {
-                    new Item(Elements.PropertyName),
                     new Item(Elements.Properties, new List<Item> {
                         new Item(Properties.SupportedLock),
                         new Item(Properties.LockDiscovery),

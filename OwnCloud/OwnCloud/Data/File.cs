@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Windows;
-using System.Net;
+using OwnCloud.Resource;
 using OwnCloud.Extensions;
 
 namespace OwnCloud.Data
@@ -16,7 +18,7 @@ namespace OwnCloud.Data
         /// </summary>
         public string FileName
         {
-            get 
+            get
             {
                 return Uri.UnescapeDataString(_name);
             }
@@ -84,7 +86,14 @@ namespace OwnCloud.Data
         {
             get
             {
-                return MimeTypes.GetNameOf(_type.Split(';')[0]);
+                if (IsDirectory)
+                {
+                    return "Directory".Translate();
+                }
+                else
+                {
+                    return MimeTypes.GetNameOf(_type.Split(';')[0]);
+                }
             }
         }
 
@@ -126,7 +135,7 @@ namespace OwnCloud.Data
         {
             get
             {
-                return _mtime == null? new DateTime() : _mtime;
+                return _mtime == null ? new DateTime() : _mtime;
             }
             set
             {
@@ -142,7 +151,7 @@ namespace OwnCloud.Data
         {
             get
             {
-                return _ctime == null? new DateTime() : _ctime;
+                return _ctime == null ? new DateTime() : _ctime;
             }
             set
             {
@@ -169,6 +178,73 @@ namespace OwnCloud.Data
             get
             {
                 return "✎ " + FileCreated.ToString("");
+            }
+        }
+
+        static Dictionary<string, Uri> _iconCache;
+
+
+        /// <summary>
+        /// Tries to load a icon from Assets/FileIcon where the MIME-type of the file
+        /// is correspondencing to icon value.
+        /// The MIME-type must be encoded to filename where "/" will be encoded to "_"
+        /// For exmaple "text/plain" will be encoded to "text_plain", "application/vnd.something" results in "application_vnd.something"
+        /// A directory is referenced by "folder.png".
+        /// A unknown MIME is responding in "file.png" where a MIME-fallback is improved. For example "audio/mpeg" will fallback to "audio.png" main-type
+        /// on non existing files before falling back fo "file.png".
+        /// </summary>
+        public Uri ImageIcon
+        {
+            get
+            {
+                if (_iconCache == null) _iconCache = new Dictionary<string, Uri>();
+                Uri image = null;
+                if (IsDirectory)
+                {
+                    return new Uri("/Assets/FileIcons/folder.png", UriKind.Relative);
+                }
+                else
+                {
+                    string[] filenames = new string[2];
+
+                    if (!String.IsNullOrWhiteSpace(FileType))
+                    {
+                        if (_iconCache.ContainsKey(FileType))
+                        {
+                            return _iconCache[FileType];
+                        }
+
+                        filenames[0] = "/Assets/FileIcons/" + FileType.Replace("/", "_") + ".png";
+                        filenames[1] = "/Assets/FileIcons/" + FileType.Split('/')[0] + ".png";
+
+                        foreach (string filename in filenames)
+                        {
+                            if (ResourceLoader.ResourceExists(filename))
+                            {
+                                // need a slash here if not given
+                                var uri = ResourceLoader.GetStreamUri(filename).ToString().Trim('/');
+                                image = new Uri("/" + uri , UriKind.Relative);
+                                break;
+                            }
+                        }
+
+                        if (image == null)
+                        {
+                           image = new Uri("/Assets/FileIcons/file.png", UriKind.Relative);
+                        }
+
+                        if (!_iconCache.ContainsKey(FileType))
+                        {
+                            _iconCache.Add(FileType, image);
+                        }
+
+                        return image;
+                    }
+                    else
+                    {
+                        return ResourceLoader.GetStreamUri("/Assets/FileIcons/file.png");
+                    }
+                }
             }
         }
     }

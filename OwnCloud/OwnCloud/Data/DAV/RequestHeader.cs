@@ -125,7 +125,7 @@ namespace OwnCloud.Data.DAV
         {
             return new DAVRequestHeader(Method.PropertyFind, path, new Dictionary<string, string>()
             {
-                {Header.Depth, HeaderAttribute.MethodDepth.ApplyResourceOnlyNoRoot}
+                {Header.Depth, HeaderAttribute.MethodDepth.ApplyResourceAndChildren}
             });
         }
     }

@@ -12,6 +12,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using Microsoft.Phone.Tasks;
 using OwnCloud.Data;
 using OwnCloud.Data.DAV;
 using OwnCloud.Extensions;
@@ -60,6 +61,8 @@ namespace OwnCloud.View.Page
             FetchStructure(_workingAccount.WebDAVPath);
         }
 
+        private string _directoryUpReference = "";
+
         private void FileListTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             if (sender.GetType() == typeof(ListBox))
@@ -72,8 +75,32 @@ namespace OwnCloud.View.Page
                 }
                 else
                 {
-                    // Show full detailed info
+                    // open file in browser
+                    var task = new WebBrowserTask();
+                    task.Uri = new Uri(_workingAccount.GetUri() + item.FilePath);
+                    task.Show();
+
                 }
+            }
+        }
+
+        private void DirectoryUpTap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (_directoryUpReference != null)
+            {
+                FetchStructure(_directoryUpReference);
+            }
+        }
+
+        private void ToggleDirectoryUpStatus(bool mode)
+        {
+            if (mode)
+            {
+                DirectoryUpDetail.Opacity = 1;
+            }
+            else
+            {
+                DirectoryUpDetail.Opacity = 0.5;
             }
         }
 
@@ -132,7 +159,7 @@ namespace OwnCloud.View.Page
         {
             if (result.Status == ServerStatus.MultiStatus && !result.Request.ErrorOccured && result.Items.Count > 0)
             {
-                Utility.DebugXML(result.GetRawResponse());
+                //Utility.DebugXML(result.GetRawResponse());
                 var first_item = false;
 
                 foreach (DAVRequestResult.Item item in result.Items)
@@ -144,14 +171,18 @@ namespace OwnCloud.View.Page
                         if (!first_item)
                         {
                             first_item = true;
-                            _context.Files.Add(new File
+                            
+                            if (item.Reference == _workingAccount.WebDAVPath)
                             {
-                                FileName = "..",
-                                FilePath = item.ParentReference,
-                                FileCreated = item.CreationDate,
-                                FileLastModified = item.LastModified,
-                                IsDirectory = true
-                            });
+                                // cannot go up further
+                                ToggleDirectoryUpStatus(false);
+                                _directoryUpReference = null;
+                            }
+                            else
+                            {
+                                ToggleDirectoryUpStatus(true);
+                                _directoryUpReference = item.ParentReference;
+                            }
                         }
                         else
                         {

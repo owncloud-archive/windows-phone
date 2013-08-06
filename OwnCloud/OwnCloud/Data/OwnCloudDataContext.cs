@@ -56,6 +56,14 @@ namespace OwnCloud.Data
             get;
             private set;
         }
+
+        public IsolatedStorageFile Storage
+        {
+            get
+            {
+                return _isf;
+            }
+        }
         
         private long _storageLocalFree = 0;
         /// <summary>
