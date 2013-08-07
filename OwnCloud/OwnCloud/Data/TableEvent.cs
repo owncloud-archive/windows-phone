@@ -16,7 +16,7 @@ namespace OwnCloud.Data
     {
 
         private int _eventId;
-        private int _calendarId;
+        
         private string _calendarData;
         private string _title;
         private string _url;
@@ -41,14 +41,15 @@ namespace OwnCloud.Data
                 OnPropertyChanged("EventId");
             }
         }
+        
+        
+        
+        #region parent calendar
 
-        /// <summary>
-        /// Die Kalendar ID. FK auf den zugehörigen Kalendar.
-        /// </summary>
         [Column]
         public int CalendarId
         {
-            get { return _calendarId; }
+            get { return _calendarId ?? 0; }
             set
             {
                 OnPropertyChanging("CalendarId");
@@ -56,6 +57,18 @@ namespace OwnCloud.Data
                 OnPropertyChanged("CalendarId");
             }
         }
+        private int _calendarId = 0;
+        private TableCalendar _calendar;
+        [Association(Storage = "CalendarId", ThisKey = "_calendarId", OtherKey = "Id", IsForeignKey = true)]  
+        public TableCalendar Calendar
+        {
+            get { return _calendar; }
+            set { _calendar = value; }
+        }
+
+        #endregion
+
+
 
         /// <summary>
         /// Die rohen Kalendardaten
@@ -133,7 +146,7 @@ namespace OwnCloud.Data
         }
 
         /// <summary>
-        /// Gibt an, ob das Event auf den Server gespeichert werden muss
+        /// True, if the events needs to sync with the server. That occurs eg. when the event changed when there was no internet connection
         /// </summary>
         [Column]
         public bool RequirePushUpdate

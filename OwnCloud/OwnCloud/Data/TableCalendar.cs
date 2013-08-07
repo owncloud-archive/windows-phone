@@ -1,4 +1,5 @@
-﻿using System.Data.Linq.Mapping;
+﻿using System.Data.Linq;
+using System.Data.Linq.Mapping;
 
 namespace OwnCloud.Data
 {
@@ -8,6 +9,25 @@ namespace OwnCloud.Data
     [Table(Name = "TableCalendar")]
     public class TableCalendar : Entity
     {
+        #region Parent Account
+
+        [Column]
+        internal int? _accountId;
+        private Account _account;
+        [Association(Storage = "_account", ThisKey = "_accountId", OtherKey = "GUID", IsForeignKey = true)]
+        public Account Account
+        {
+            get
+            {
+                return _account;
+            }
+            set
+            {
+                _account = value;
+            }
+        } 
+
+        #endregion
 
         private int _calendarId;
         /// <summary>
@@ -65,6 +85,19 @@ namespace OwnCloud.Data
             set { OnPropertyChanging("DisplayName"); _displayName = value; OnPropertyChanged("DisplayName"); }
         }
 
+        #region child events
+
+        private EntitySet<TableEvent> _events = new EntitySet<TableEvent>();
+
+        [Association(Storage = "_events", OtherKey = "_calendarId", ThisKey = "Id")]
+        public EntitySet<TableEvent> EpisodeTags
+        {
+            get { return _events; }
+            set { _events.Assign(value); }
+        }
+
+
+        #endregion
 
         /// <summary>
         /// Erstellt einen Kalendar zum speichern in der Datenbank aus

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Data.Linq;
 using System.Windows;
 using System.Xml.Serialization;
 using System.Data.Linq.Mapping;
@@ -13,12 +14,12 @@ namespace OwnCloud.Data
     {
         public Account()
         {
-            WebDAVPath = "/remote.php/webdav/";
-            CalDAVPath = "/remote.php/caldav/";
+            WebDAVPath = "/owncloud/remote.php/webdav/";
+            CalDAVPath = "/owncloud/remote.php/caldav/";
             Protocol = "https";
-            Username = "";
+            Username = "Alex";
             Password = "";
-            ServerDomain = "example.com";
+            ServerDomain = "my.flarandr.de";
         }
 
         private int _id;
@@ -150,6 +151,23 @@ namespace OwnCloud.Data
             get;
             set;
         }
+
+
+
+        private EntitySet<TableCalendar> _calendars = new EntitySet<TableCalendar>();
+        [Association(OtherKey = "_accountId", ThisKey = "GUID", Storage = "_calendars")]
+        public EntitySet<TableCalendar> Calendars
+        {
+            get
+            {
+                return _calendars;
+            }
+            set
+            {
+                _calendars.Assign(value);
+            }
+        }
+
 
         bool _isAnonymous = false;
         /// <summary>
