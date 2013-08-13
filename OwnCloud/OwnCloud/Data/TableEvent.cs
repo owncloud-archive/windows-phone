@@ -49,7 +49,7 @@ namespace OwnCloud.Data
         [Column]
         public int CalendarId
         {
-            get { return _calendarId ?? 0; }
+            get { return _calendarId; }
             set
             {
                 OnPropertyChanging("CalendarId");
@@ -59,7 +59,7 @@ namespace OwnCloud.Data
         }
         private int _calendarId = 0;
         private TableCalendar _calendar;
-        [Association(Storage = "CalendarId", ThisKey = "_calendarId", OtherKey = "Id", IsForeignKey = true)]  
+        [Association(Storage = "CalendarId", ThisKey = "CalendarId", OtherKey = "Id", IsForeignKey = true)]  
         public TableCalendar Calendar
         {
             get { return _calendar; }
