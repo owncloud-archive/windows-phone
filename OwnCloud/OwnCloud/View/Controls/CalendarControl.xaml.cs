@@ -20,19 +20,13 @@ namespace OwnCloud.View.Controls
         {
             InitializeComponent();
             
-
-            Loaded += CalendarControl_Loaded;
             Unloaded += CalendarControl_Unloaded;
-        }
-
-        void CalendarControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            _context = new OwnCloudDataContext();
         }
 
         void CalendarControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            _context.Dispose();
+            if (_context != null)
+                Context.Dispose();
         }
 
 
@@ -40,6 +34,15 @@ namespace OwnCloud.View.Controls
 
         private int _weekCount = 0;
         private Data.OwnCloudDataContext _context;
+        private Data.OwnCloudDataContext Context
+        {
+            get
+            {
+                if (_context == null)
+                    _context = new OwnCloudDataContext();
+                return _context;
+            }
+        }
         private DateTime _firstDayOfCalendarMonth;
         private DateTime _lastDayOfCalendarMonth;
         private Dictionary<int, StackPanel> _dayPanels = new Dictionary<int, StackPanel>(); 
@@ -47,6 +50,22 @@ namespace OwnCloud.View.Controls
         #endregion
 
         #region Public Properties
+
+        private int? _accountID;
+        public int? AccountID
+        {
+            get { return _accountID; }
+            set 
+            {
+                if (_accountID == null)
+                {
+                    _accountID = value;
+                }
+                else
+                    _accountID = value; 
+            }
+        }
+
 
         public DateTime SelectedDate
         {
@@ -93,7 +112,7 @@ namespace OwnCloud.View.Controls
             SlideBottomEnd.Begin();
         }
 
-        private void ChangeDate()
+        public void ChangeDate()
         {
             OnDateChanged();
 
@@ -102,6 +121,9 @@ namespace OwnCloud.View.Controls
 
             _weekCount = SelectedDate.GetMonthCount();
             ResetGridLines();
+
+            if (_accountID == null)
+                return;
 
             RefreshAppointments();
         }
@@ -200,15 +222,22 @@ namespace OwnCloud.View.Controls
         /// </summary>
         public void RefreshAppointments()
         {
-            var events = _context.Events
-                .Where(o => o.To > _firstDayOfCalendarMonth && o.From < _lastDayOfCalendarMonth) //Alle Events im Monat auswählen
+            var calendarEvents = Context.Calendars.Where(o => o._accountId == AccountID).Select(o => o.Events.Where(q => q.To > _firstDayOfCalendarMonth && q.From < _lastDayOfCalendarMonth));
+            
+            //merge all calendar events
+            IEnumerable<TableEvent> events = new TableEvent[0];
+
+            foreach (var calendar in calendarEvents)
+                events = events.Concat(calendar);
+
+            events = events
                 .OrderByDescending(o => o.To - o.From) //Längere Event sollen oben angezeigt werden
                 .ToArray();
 
             
             //Refresh events to get the changes, if a sync was completed
 // ReSharper disable CoVariantArrayConversion
-            _context.Refresh(RefreshMode.OverwriteCurrentValues, events);
+            Context.Refresh(RefreshMode.OverwriteCurrentValues, events);
 // ReSharper restore CoVariantArrayConversion
 
             //Delete displayed events

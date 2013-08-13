@@ -90,7 +90,7 @@ namespace OwnCloud.Data
         private EntitySet<TableEvent> _events = new EntitySet<TableEvent>();
 
         [Association(Storage = "_events", OtherKey = "CalendarId", ThisKey = "Id")]
-        public EntitySet<TableEvent> EpisodeTags
+        public EntitySet<TableEvent> Events
         {
             get { return _events; }
             set { _events.Assign(value); }

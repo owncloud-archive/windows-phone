@@ -18,7 +18,7 @@ namespace OwnCloud.View.Page
 
         #region private fields
 
-        private string _usedId = "";
+        private int _usedId = 0;
 
         #endregion
 
@@ -26,9 +26,11 @@ namespace OwnCloud.View.Page
         {
             //Get userid in query
             if (NavigationContext.QueryString.ContainsKey("uid"))
-                _usedId = NavigationContext.QueryString["uid"];
+                _usedId = int.Parse(NavigationContext.QueryString["uid"]);
             else throw new ArgumentNullException("uid",AppResources.Exception_NoUserID);
 
+            CcCalendar.AccountID = _usedId;
+            CcCalendar.SelectedDate = DateTime.Now;
 
             base.OnNavigatedTo(e);
         }
