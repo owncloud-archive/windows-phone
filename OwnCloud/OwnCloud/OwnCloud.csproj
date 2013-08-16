@@ -67,6 +67,7 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\CalendarListDataContext.cs" />
     <Compile Include="Data\DAV\Locking.cs" />
     <Compile Include="Data\DAV\Reference.cs" />
     <Compile Include="Data\DAV\RequestHeader.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Data\Exceptions\ClientBusyException.cs" />
     <Compile Include="Data\Exceptions\ParsingICalException.cs" />
     <Compile Include="Data\MimeTypes.cs" />
+    <Compile Include="Data\ServerCalendarDisplayInfo.cs" />
     <Compile Include="Data\XmlNamespaces.cs" />
     <Compile Include="Extensions\ApplicationBarIconButtonExtension.cs" />
     <Compile Include="Extensions\CompilerExtensions.cs" />
@@ -144,6 +146,9 @@
     <Compile Include="View\Page\CalendarMonthPage.xaml.cs">
       <DependentUpon>CalendarMonthPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Page\CalendarSelectPage.xaml.cs">
+      <DependentUpon>CalendarSelectPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Page\EditAccount.xaml.cs">
       <DependentUpon>EditAccount.xaml</DependentUpon>
     </Compile>
@@ -189,6 +194,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Page\CalendarMonthPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Page\CalendarSelectPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

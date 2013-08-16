@@ -41,6 +41,9 @@ namespace OwnCloud.Data
             }
         }
 
+        /// <summary>
+        /// Indicates, if username and password are encrypted
+        /// </summary>
         [Column]
         public bool IsEncrypted { 
             get; 
@@ -118,6 +121,23 @@ namespace OwnCloud.Data
         public Uri GetUri()
         {
             return new Uri(Protocol + "://" + ServerDomain.Trim('/'), UriKind.Absolute);
+        }
+
+        /// <summary>
+        /// Returns a uri from the used server
+        /// </summary>
+        /// <returns></returns>
+        public Uri GetUri(string path)
+        {
+            return new Uri(Protocol + "://" + ServerDomain.Trim('/') + "/" + path.Trim('/'), UriKind.Absolute);
+        }
+
+        /// <summary>
+        /// Returns the caldav uri
+        /// </summary>
+        public Uri GetCalDavUri()
+        {
+            return new Uri(GetUri(CalDAVPath).AbsoluteUri + "/" + Username + "/");
         }
 
         /// <summary>
