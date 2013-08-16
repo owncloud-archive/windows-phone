@@ -3,6 +3,7 @@ using System.IO;
 using OwnCloud.Data;
 using OwnCloud.Data.Calendar.ParsedCalendar;
 using OwnCloud.Data.Calendar.Request;
+using System.Net;
 
 namespace OwnCloud.Net
 {
@@ -18,18 +19,22 @@ namespace OwnCloud.Net
         /// </summary>
         /// <param name="ocAddress">Pfad der Owncloudinstanz</param>
         /// <param name="credentials"></param>
-        public OcCalendarClient(string ocAddress, OwncloudCredentials credentials)
+        public OcCalendarClient(string ocAddress, OwncloudCredentials credentials, string calDavPath)
             : base(ocAddress, credentials)
-        { }
+        {
+            _calDavPath = calDavPath.Trim('/');
+        }
 
 
         #endregion
+
+        private string _calDavPath = "";
 
         #region LoadCalendarInfo
 
         public void LoadCalendarInfo()
         {
-            this.BeginHttpRequest(Address.Combine("remote.php/caldav/calendars/" + Credentials.Username + "/"));
+            this.BeginHttpRequest(Address.Combine(_calDavPath + "/calendars/" + Credentials.Username + "/"));
 
             ContentTypeXml();
             this.SetMethod("PROPFIND");

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace OwnCloud.Data
 {
@@ -68,8 +70,8 @@ namespace OwnCloud.Data
                     account.RestoreCredentials();
 
                 //Create caldav client to get all calendars
-                Net.OcCalendarClient ocClient = new Net.OcCalendarClient(account.GetCalDavUri().AbsoluteUri ,
-                    new Net.OwncloudCredentials { Username = account.Username, Password = account.Password });
+                Net.OcCalendarClient ocClient = new Net.OcCalendarClient(account.GetUri().AbsoluteUri ,
+                    new Net.OwncloudCredentials { Username = account.Username, Password = account.Password }, account.CalDAVPath);
 
                 //Load calendars
                 ocClient.LoadCalendarInfoComplete += LoadCalendarInfoComplete;
@@ -86,13 +88,28 @@ namespace OwnCloud.Data
             if (!e.Success)
                 return;
 
-            foreach (var calendar in e.CalendarInfo)
-            {
-                ServerCalendars.Add(
-                    new ServerCalendarDisplayInfo {
-                        CalendarInfo = calendar
-                    });
-            }
+            //Run things in main thread
+            System.Windows.Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    using (Data.OwnCloudDataContext context = new OwnCloudDataContext())
+                    {
+                        //Get the account, to get the Url, where we can get all calendars
+                        var account = context.Accounts.Where(o => o.GUID == _accountId).Single();
+
+                        //enumerate all calendars and add it to list
+                        foreach (var calendar in e.CalendarInfo)
+                        {
+                            ServerCalendars.Add(
+                                new ServerCalendarDisplayInfo
+                                {
+                                    CalendarInfo = calendar,
+                                    //If the calendar is in the database, the calendar is "enabled"
+                                    IsClientEnabled = account.Calendars.Count(o => o.Url == calendar.Url) > 0
+                                });
+                        }
+                    }
+                });
+
         }
 
         #endregion

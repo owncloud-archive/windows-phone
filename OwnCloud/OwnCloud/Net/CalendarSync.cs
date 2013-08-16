@@ -25,8 +25,9 @@ namespace OwnCloud.Net
 
         private string _ocAdress;
         private OwncloudCredentials _credentials;
+        private string _calDavPath;
 
-        public void Sync(string ocAdress, OwncloudCredentials credentials)
+        public void Sync(string ocAdress, OwncloudCredentials credentials, string calDavPath)
         {
             _ocAdress = ocAdress;
             _credentials = credentials;
@@ -42,7 +43,7 @@ namespace OwnCloud.Net
 
         private void BeginLoadServerCalendar()
         {
-            _ocClient = new OcCalendarClient(_ocAdress, _credentials);
+            _ocClient = new OcCalendarClient(_ocAdress, _credentials, _calDavPath);
 
             _ocClient.LoadCalendarInfoComplete += LoadCalendarInfoComplete;
             _ocClient.LoadCalendarInfo();
@@ -139,7 +140,7 @@ namespace OwnCloud.Net
 
         private void LoadEventDetails()
         {
-            _ocClient = new OcCalendarClient(_ocAdress,_credentials);
+            _ocClient = new OcCalendarClient(_ocAdress,_credentials,_calDavPath);
             _ocClient.LoadCalendarDataComplete += LoadEventDetailsComplete;
             _ocClient.LoadCalendarData(_currentUpdatingCalendar, new CalendarEventRequest { LoadCalendarData = true, Urls = 
             _eventToUpdate.Select(o => o.EventInfo.Url).ToList()});
