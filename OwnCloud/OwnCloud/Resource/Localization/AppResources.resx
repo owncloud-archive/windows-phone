@@ -249,4 +249,7 @@ Valid To: {3:g}</value>
   <data name="RemoteFilesPage_TileView" xml:space="preserve">
     <value>Preview</value>
   </data>
+  <data name="CalendarMonthPage_ListCalendars" xml:space="preserve">
+    <value>Calendar Settings</value>
+  </data>
 </root>

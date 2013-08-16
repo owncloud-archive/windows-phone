@@ -4,6 +4,7 @@ using Microsoft.Phone.Controls;
 using OwnCloud.Data;
 using OwnCloud.Resource.Localization;
 using System.Linq;
+using OwnCloud.Extensions;
 
 namespace OwnCloud.View.Page
 {
@@ -14,6 +15,9 @@ namespace OwnCloud.View.Page
         public CalendarMonthPage()
         {
             InitializeComponent();
+
+            // Translate unsupported XAML bindings
+            ApplicationBar.TranslateButtons();
         }
 
         #region private fields
@@ -31,12 +35,20 @@ namespace OwnCloud.View.Page
 
             CcCalendar.AccountID = _userId;
             CcCalendar.SelectedDate = DateTime.Now;
-
-            Data.CalendarListDataContext context = new CalendarListDataContext(_userId);
-            var a = context.ServerCalendars;
-
+            
             base.OnNavigatedTo(e);
         }
+
+
+
+        #region Private events
+
+        private void GotoCalendarSettings(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/View/Page/CalendarSelectPage.xaml?uid=" + _userId.ToString(), UriKind.Relative));
+        }
+
+        #endregion
 
     }
 }

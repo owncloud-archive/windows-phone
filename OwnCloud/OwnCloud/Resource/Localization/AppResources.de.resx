@@ -249,4 +249,7 @@ Gültig bis: {3:g}</value>
   <data name="RemoteFilesPage_TileView" xml:space="preserve">
     <value>Vorschau</value>
   </data>
+  <data name="CalendarMonthPage_ListCalendars" xml:space="preserve">
+    <value>Kalendar Einstellung</value>
+  </data>
 </root>

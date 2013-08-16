@@ -51,8 +51,7 @@ namespace OwnCloud.View.Page
                 _userId = int.Parse(NavigationContext.QueryString["uid"]);
             else throw new ArgumentNullException("uid", AppResources.Exception_NoUserID);
 
-            _account = Context.Accounts.Where(o => o.GUID == _userId).Single();
-
+            LoadCalendars();
 
             base.OnNavigatedTo(e);
         }
@@ -62,8 +61,7 @@ namespace OwnCloud.View.Page
         /// </summary>
         private void LoadCalendars()
         {
-            CalendarListDataContext context = new CalendarListDataContext(_userId);
-            var a = context.ServerCalendars;
+            this.DataContext = new CalendarListDataContext(_userId);
         }
 
 

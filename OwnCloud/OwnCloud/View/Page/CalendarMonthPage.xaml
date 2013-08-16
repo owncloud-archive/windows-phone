@@ -33,5 +33,14 @@
         </Grid>
         
     </Grid>
+    
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar>
+            <shell:ApplicationBarIconButton 
+                Text="CalendarMonthPage_ListCalendars"
+                IconUri="/Assets/Icons/calendar_small.png" 
+                Click="GotoCalendarSettings" />
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 
 </phone:PhoneApplicationPage>
