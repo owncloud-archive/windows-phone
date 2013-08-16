@@ -32,9 +32,6 @@ namespace OwnCloud.View.Page
             CcCalendar.AccountID = _userId;
             CcCalendar.SelectedDate = DateTime.Now;
 
-            CalendarListDataContext context = new CalendarListDataContext(_userId);
-            var a = context.ServerCalendars;
-
             base.OnNavigatedTo(e);
         }
 

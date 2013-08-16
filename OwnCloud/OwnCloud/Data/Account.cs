@@ -17,9 +17,9 @@ namespace OwnCloud.Data
             WebDAVPath = "/owncloud/remote.php/webdav/";
             CalDAVPath = "/owncloud/remote.php/caldav/";
             Protocol = "https";
-            Username = "Alex";
+            Username = "";
             Password = "";
-            ServerDomain = "my.flarandr.de";
+            ServerDomain = "";
         }
 
         private int _id;
