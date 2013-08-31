@@ -13,6 +13,9 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator IsIndeterminate="True" IsVisible="False" />
+    </shell:SystemTray.ProgressIndicator>
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -40,6 +43,10 @@
                 Text="CalendarMonthPage_ListCalendars"
                 IconUri="/Assets/Icons/calendar_small.png" 
                 Click="GotoCalendarSettings" />
+            <shell:ApplicationBarIconButton 
+                Text="CalendarMonthPage_ReloadEvents"
+                IconUri="/Assets/Icons/Reload.png" 
+                Click="ReloadCalendarEvents" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 

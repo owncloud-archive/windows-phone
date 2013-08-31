@@ -252,4 +252,7 @@ Gültig bis: {3:g}</value>
   <data name="CalendarMonthPage_ListCalendars" xml:space="preserve">
     <value>Kalendar Einstellung</value>
   </data>
+  <data name="CalendarMonthPage_ReloadEvents" xml:space="preserve">
+    <value>Neu laden</value>
+  </data>
 </root>

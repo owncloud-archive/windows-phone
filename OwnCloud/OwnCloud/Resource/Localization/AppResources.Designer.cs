@@ -115,6 +115,15 @@ namespace OwnCloud.Resource.Localization {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Reload ähnelt.
+        /// </summary>
+        public static string CalendarMonthPage_ReloadEvents {
+            get {
+                return ResourceManager.GetString("CalendarMonthPage_ReloadEvents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Directory ähnelt.
         /// </summary>
         public static string Directory {

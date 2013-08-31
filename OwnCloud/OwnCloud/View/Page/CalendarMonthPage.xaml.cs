@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Shell;
 using OwnCloud.Data;
 using OwnCloud.Net;
 using OwnCloud.Resource.Localization;
@@ -80,6 +81,8 @@ namespace OwnCloud.View.Page
 
         private void ReloadAppointments()
         {
+            LockPage();
+            SetLoading();
             var sync = new CalendarSync();
             sync.SyncComplete += sync_SyncComplete;
             sync.Sync(Account.GetUri().AbsoluteUri, new Net.OwncloudCredentials { Username = Account.Username, Password = Account.Password }, Account.CalDAVPath);
@@ -87,7 +90,7 @@ namespace OwnCloud.View.Page
 
         void sync_SyncComplete(bool success)
         {
-            Dispatcher.BeginInvoke(() => CcCalendar.RefreshAppointments());
+            Dispatcher.BeginInvoke(() => { CcCalendar.RefreshAppointments(); UnlockPage(); UnsetLoading(); });
         }
 
 
@@ -104,9 +107,40 @@ namespace OwnCloud.View.Page
             tbMonthHeader.Text = CcCalendar.SelectedDate.ToString("MMMM");
         }
 
+        private void ReloadCalendarEvents(object sender, EventArgs e)
+        {
+            ReloadAppointments();
+        }
+
         #endregion
 
 
+        private void LockPage()
+        {
+            foreach (var button in ApplicationBar.Buttons.OfType<ApplicationBarIconButton>())
+            {
+                button.IsEnabled = false;
+            }
+            IsEnabled = false;
+        }
+        private void UnlockPage()
+        {
+            foreach (var button in ApplicationBar.Buttons.OfType<ApplicationBarIconButton>())
+            {
+                button.IsEnabled = true;
+            }
+            IsEnabled = true;
+        }
+        private void SetLoading()
+        {
+            if (SystemTray.ProgressIndicator != null)
+                SystemTray.ProgressIndicator.IsVisible = true;
+        }
+        private void UnsetLoading()
+        {
+            if (SystemTray.ProgressIndicator != null)
+                SystemTray.ProgressIndicator.IsVisible = false;
+        }
         
     }
 }
