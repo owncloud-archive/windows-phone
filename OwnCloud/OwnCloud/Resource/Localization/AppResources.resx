@@ -255,4 +255,10 @@ Valid To: {3:g}</value>
   <data name="CalendarMonthPage_ReloadEvents" xml:space="preserve">
     <value>Reload</value>
   </data>
+  <data name="Tile_KalendarTitle" xml:space="preserve">
+    <value>Calendar</value>
+  </data>
+  <data name="MainPage_PinToStart" xml:space="preserve">
+    <value>Pin to start</value>
+  </data>
 </root>

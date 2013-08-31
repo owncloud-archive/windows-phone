@@ -108,6 +108,7 @@
     <Compile Include="Data\Entity.cs" />
     <Compile Include="Data\TableCalendar.cs" />
     <Compile Include="Data\TableEvent.cs" />
+    <Compile Include="Extensions\TileHelper.cs" />
     <Compile Include="Extensions\TranslationExtension.cs" />
     <Compile Include="Net\CalendarSync.cs" />
     <Compile Include="Net\DeleteEventCompleteEventHandler.cs" />

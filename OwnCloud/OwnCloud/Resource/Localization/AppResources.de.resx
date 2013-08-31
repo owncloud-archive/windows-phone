@@ -255,4 +255,10 @@ Gültig bis: {3:g}</value>
   <data name="CalendarMonthPage_ReloadEvents" xml:space="preserve">
     <value>Neu laden</value>
   </data>
+  <data name="Tile_KalendarTitle" xml:space="preserve">
+    <value>Kalendar</value>
+  </data>
+  <data name="MainPage_PinToStart" xml:space="preserve">
+    <value>An Startseite heften</value>
+  </data>
 </root>

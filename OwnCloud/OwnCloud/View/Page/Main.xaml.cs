@@ -46,5 +46,12 @@ namespace OwnCloud
                 NavigationService.Navigate(new Uri("/View/Page/RemoteFiles.xaml?account=" + ((Account)currentAccount).GUID, UriKind.Relative));
             }
         }
+
+        private void CalendarPinToStart(object sender, RoutedEventArgs e)
+        {
+            var accountID = ((sender as FrameworkElement).DataContext as Account).GUID;
+
+            Extensions.TileHelper.AddCalendarToTile(accountID);
+        }
     }
 }

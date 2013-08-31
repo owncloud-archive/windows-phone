@@ -328,6 +328,15 @@ namespace OwnCloud.Resource.Localization {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Pin to start ähnelt.
+        /// </summary>
+        public static string MainPage_PinToStart {
+            get {
+                return ResourceManager.GetString("MainPage_PinToStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Remote Files ähnelt.
         /// </summary>
         public static string MainPage_Remote_Files {
@@ -459,6 +468,15 @@ namespace OwnCloud.Resource.Localization {
         public static string SettingsPage_Title {
             get {
                 return ResourceManager.GetString("SettingsPage_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Calendar ähnelt.
+        /// </summary>
+        public static string Tile_KalendarTitle {
+            get {
+                return ResourceManager.GetString("Tile_KalendarTitle", resourceCulture);
             }
         }
     }

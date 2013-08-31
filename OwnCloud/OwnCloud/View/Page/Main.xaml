@@ -76,7 +76,16 @@
                             <toolkit:HubTile Background="BlueViolet" DisplayNotification="False"
                                              Title="{Binding DisplayUserName}" Message="{Binding DisplayUserName}" Source="/Resource/Image/CalendarLogo.png"
                                              Tap="OpenCalendarTap"
-                                             />
+                                             >
+                                <toolkit:ContextMenuService.ContextMenu>
+                                    <toolkit:ContextMenu>
+                                        <toolkit:MenuItem Header="{Binding Path=LocalizedResources.MainPage_PinToStart, Source={StaticResource LocalizedStrings}}" Click="CalendarPinToStart" />
+                                    </toolkit:ContextMenu>
+                                </toolkit:ContextMenuService.ContextMenu>
+                                    
+                                    
+                            </toolkit:HubTile>
+                                             
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
