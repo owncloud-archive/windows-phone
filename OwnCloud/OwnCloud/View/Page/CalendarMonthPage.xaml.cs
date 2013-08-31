@@ -104,7 +104,7 @@ namespace OwnCloud.View.Page
 
         private void CcCalendar_OnDateChanged(object sender, RoutedEventArgs e)
         {
-            tbMonthHeader.Text = CcCalendar.SelectedDate.ToString("MMMM");
+            tbMonthHeader.Text = CcCalendar.SelectedDate.ToString("MMMM yy");
         }
 
         private void ReloadCalendarEvents(object sender, EventArgs e)
