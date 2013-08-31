@@ -270,7 +270,7 @@ namespace OwnCloud.View.Controls
                         {
                             Text = ((tableEvent.IsFullDayEvent || currentDate.Date != tableEvent.From.Date)
                                        ? ""
-                                       : (tableEvent.From.ToString("hh:mm "))) +
+                                       : (tableEvent.From.ToString("HH:mm "))) +
                                          tableEvent.Title,
                             FontSize = 11
                         };
