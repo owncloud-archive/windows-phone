@@ -233,6 +233,11 @@
     <Content Include="Assets\FileIcons\up.png" />
     <Content Include="Assets\Icons\Add.png" />
     <Content Include="Assets\Icons\Delete.png" />
+    <Content Include="Assets\Icons\Icon_128.png" />
+    <Content Include="Assets\Icons\Icon_256.png" />
+    <Content Include="Assets\Icons\Icon_48.png" />
+    <Content Include="Assets\Icons\Icon_512.png" />
+    <Content Include="Assets\Icons\Icon_64.png" />
     <Content Include="Assets\Icons\Reload.png" />
     <Content Include="Assets\Icons\Save.png" />
     <Content Include="Assets\Icons\Settings.png" />
