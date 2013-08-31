@@ -38,7 +38,7 @@
                         <TextBlock Text="{Binding Path=CalendarInfo.DisplayName}" 
                                    FontSize="18"
                                    />
-                        <toolkit:ToggleSwitch Checked="CalendarEnabledChange" Grid.Column="1" IsChecked="{Binding IsClientEnabled}" />
+                        <toolkit:ToggleSwitch Checked="CalendarEnabledChange" Unchecked="CalendarEnabledChange" Grid.Column="1" IsChecked="{Binding IsClientEnabled}" />
                         
                     </Grid>
                 </DataTemplate>

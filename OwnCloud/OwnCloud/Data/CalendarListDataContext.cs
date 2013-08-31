@@ -56,13 +56,19 @@ namespace OwnCloud.Data
 
         public void EnableCalendar(CalendarCalDavInfo calendar)
         {
-            var entity = TableCalendar.FromCalDavCalendarInfo(calendar);
-            entity.GetCTag = "";
-
-            entity._accountId = this._accountId;
-
             using (var context = new OwnCloudDataContext())
             {
+                var existingEntity =
+                    (from o in context.Calendars where o.Url == calendar.Url select o).SingleOrDefault();
+
+                if (existingEntity != null)
+                    return;
+
+                var entity = TableCalendar.FromCalDavCalendarInfo(calendar);
+                entity.GetCTag = "";
+
+                entity._accountId = this._accountId;
+
                 context.Calendars.InsertOnSubmit(entity);
                 context.SubmitChanges();
             }
@@ -76,6 +82,10 @@ namespace OwnCloud.Data
 
                 if (entity != null)
                     context.Calendars.DeleteOnSubmit(entity);
+
+                var eventsToDelete = context.Events.Where(o => o.CalendarId == entity.Id).ToArray();
+
+                context.Events.DeleteAllOnSubmit(eventsToDelete);
 
                 context.SubmitChanges();
             }

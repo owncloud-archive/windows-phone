@@ -138,7 +138,6 @@ namespace OwnCloud.Net
 
         private void EndDownloadCalendar()
         {
-            _calendarsToUpdate.Clear();
             _eventToUpdate.Clear();
             UpdateNextLocalCalendar();
         }
