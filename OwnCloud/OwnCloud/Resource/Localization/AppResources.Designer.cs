@@ -124,6 +124,15 @@ namespace OwnCloud.Resource.Localization {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Owncloud calendars ähnelt.
+        /// </summary>
+        public static string CalendarMonthPage_Title {
+            get {
+                return ResourceManager.GetString("CalendarMonthPage_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Directory ähnelt.
         /// </summary>
         public static string Directory {

@@ -264,4 +264,7 @@ Gültig bis: {3:g}</value>
   <data name="Tile_RemoteFileTitle" xml:space="preserve">
     <value>Datein</value>
   </data>
+  <data name="CalendarMonthPage_Title" xml:space="preserve">
+    <value>Owncloud Kalendar</value>
+  </data>
 </root>
