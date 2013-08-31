@@ -50,8 +50,14 @@ namespace Ocwp.Controls
         {
             var dbEvent = (sender as MenuItem).DataContext as TableEvent;
 
+            int accountID = 0;
+            using (var context = new OwnCloudDataContext())
+            {
+                accountID = context.Calendars.Where(o => o.Id == dbEvent.CalendarId).Single()._accountId ?? 0;
+            }
+
             //TODO: Import Edit Page..
-            App.Current.RootFrame.Navigate(new Uri("/Pages/AppointmentPage.xaml?url=" + dbEvent.Url, UriKind.Relative));
+            App.Current.RootFrame.Navigate(new Uri("/View/Page/AppointmentPage.xaml?url=" + dbEvent.Url + "&uid=" + accountID.ToString(), UriKind.Relative));
         }
 
 

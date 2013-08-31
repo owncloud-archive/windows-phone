@@ -186,6 +186,16 @@ namespace OwnCloud.Net
                 EndHttpRequest();
                 OnSaveEventComplete(true);
             }
+#if DEBUG
+            catch (WebException we)
+            {
+                using (StreamReader sr = new StreamReader(we.Response.GetResponseStream()))
+                {
+                    string result =
+                        sr.ReadToEnd();
+                }
+            }
+#endif
             catch (Exception)
             {
                 EndHttpRequest();

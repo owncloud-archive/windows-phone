@@ -87,7 +87,7 @@ namespace OwnCloud.View.Page
 
         void sync_SyncComplete(bool success)
         {
-            Dispatcher.BeginInvoke(new Action(() => CcCalendar.RefreshAppointments()));
+            Dispatcher.BeginInvoke(() => CcCalendar.RefreshAppointments());
         }
 
 
