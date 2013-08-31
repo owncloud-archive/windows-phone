@@ -261,4 +261,7 @@ Valid To: {3:g}</value>
   <data name="MainPage_PinToStart" xml:space="preserve">
     <value>Pin to start</value>
   </data>
+  <data name="Tile_RemoteFileTitle" xml:space="preserve">
+    <value>Files</value>
+  </data>
 </root>

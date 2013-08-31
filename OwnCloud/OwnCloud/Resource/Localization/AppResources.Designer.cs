@@ -479,5 +479,14 @@ namespace OwnCloud.Resource.Localization {
                 return ResourceManager.GetString("Tile_KalendarTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Files ähnelt.
+        /// </summary>
+        public static string Tile_RemoteFileTitle {
+            get {
+                return ResourceManager.GetString("Tile_RemoteFileTitle", resourceCulture);
+            }
+        }
     }
 }

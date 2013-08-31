@@ -53,5 +53,12 @@ namespace OwnCloud
 
             Extensions.TileHelper.AddCalendarToTile(accountID);
         }
+
+        private void RemoteFilesPinToStart(object sender, RoutedEventArgs e)
+        {
+            var accountID = ((sender as FrameworkElement).DataContext as Account).GUID;
+
+            Extensions.TileHelper.AddOnlineFilesToTile(accountID);
+        }
     }
 }

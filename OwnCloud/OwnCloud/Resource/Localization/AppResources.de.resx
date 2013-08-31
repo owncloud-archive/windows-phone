@@ -261,4 +261,7 @@ Gültig bis: {3:g}</value>
   <data name="MainPage_PinToStart" xml:space="preserve">
     <value>An Startseite heften</value>
   </data>
+  <data name="Tile_RemoteFileTitle" xml:space="preserve">
+    <value>Datein</value>
+  </data>
 </root>

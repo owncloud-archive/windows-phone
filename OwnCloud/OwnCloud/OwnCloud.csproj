@@ -259,6 +259,7 @@
     </Content>
     <Resource Include="Resource\Localization\Mime.de.xml" />
     <Resource Include="Resource\Localization\Mime.en.xml" />
+    <Content Include="Resource\Image\RemoteFolderLogo.png" />
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup>

@@ -57,6 +57,11 @@
                                         <ColumnDefinition Width="50"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
+                                    <toolkit:ContextMenuService.ContextMenu>
+                                        <toolkit:ContextMenu>
+                                            <toolkit:MenuItem Header="{Binding Path=LocalizedResources.MainPage_PinToStart, Source={StaticResource LocalizedStrings}}" Click="RemoteFilesPinToStart" />
+                                        </toolkit:ContextMenu>
+                                    </toolkit:ContextMenuService.ContextMenu>
                                     <Image Grid.Column="0" Source="/Resource/Image/owncloud-logo.png"/>
                                     <TextBlock Grid.Column="1" Text="{Binding ServerDomain}" Style="{StaticResource PhoneTextExtraLargeStyle}"></TextBlock>
                                 </Grid>
