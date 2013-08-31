@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace OwnCloud.Data
 {
@@ -20,13 +21,13 @@ namespace OwnCloud.Data
         public void Loaddata()
         {
             Accounts = new ObservableCollection<Account>();
-            
-            // protect us from zombie binding trigger values
-            App.DataContext.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, App.DataContext.Accounts);
 
-            foreach (Account account in App.DataContext.Accounts)
+            using (var context = new OwnCloudDataContext())
             {
-                Accounts.Add(account);
+                foreach (var account in context.Accounts.ToArray())
+                {
+                    Accounts.Add(account);
+                }
             }
         }
     }

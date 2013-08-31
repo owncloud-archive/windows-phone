@@ -17,8 +17,8 @@ namespace OwnCloud.Data
         {
             // For later purpose:
             // New tables will not be automaticly generated if the database does exists
-            if (!this.DatabaseExists()) this.CreateDatabase();
-
+            if (!DatabaseExists()) CreateDatabase();
+            
             // Delete some wrong stored data
             //Accounts.DeleteAllOnSubmit(Accounts);
             //SubmitChanges();

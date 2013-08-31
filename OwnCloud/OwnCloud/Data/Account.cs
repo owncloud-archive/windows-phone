@@ -9,7 +9,7 @@ using System.Net;
 
 namespace OwnCloud.Data
 {
-    [Table(Name="Accounts")]
+    [Table(Name = "TableAccounts")]
     public class Account : Entity
     {
         public Account()
