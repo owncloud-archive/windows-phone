@@ -5,7 +5,7 @@ namespace OwnCloud.Data.Calendar.ParsedCalendar
     /// <summary>
     /// Represents a parsed ical calendar
     /// </summary>
-    class CalendarICal
+    public class CalendarICal
     {
         private List<VEvent> _events = new List<VEvent>();
         /// <summary>

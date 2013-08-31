@@ -25,7 +25,6 @@ namespace OwnCloud.Net
             _calDavPath = calDavPath.Trim('/');
         }
 
-
         #endregion
 
         private string _calDavPath = "";
@@ -238,8 +237,8 @@ namespace OwnCloud.Net
         public event LoadCalendarDataCompleteHandler LoadCalendarDataComplete;
         protected virtual void OnLoadCalendarDataComplete(LoadCalendarDataCompleteArgs e)
         {
-            if (LoadCalendarDataComplete != null) 
-                LoadCalendarDataComplete(e); //Method not found exception
+            if (LoadCalendarDataComplete != null)
+                LoadCalendarDataComplete(e);
         }
 
         public event SaveEventCompleteHandler SaveEventComplete;

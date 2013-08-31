@@ -5,14 +5,14 @@ using OwnCloud.Data.Calendar.ParsedCalendar;
 
 namespace OwnCloud.Data.Calendar.Parsing
 {
-    class ParserICal : IParser<CalendarICal,Stream>
+    public class ParserICal
     {
         public CalendarICal Parse(Stream value)
         {
-            ParserNodeToken nodeParser = new ParserNodeToken();
+            var nodeParser = new ParserNodeToken();
             var rootNode = nodeParser.Parse(value).Childs[0];
 
-            CalendarICal resultCal = new CalendarICal();
+            var resultCal = new CalendarICal();
 
             TokenNode eventNode = null;
             int i = 0;
@@ -29,7 +29,7 @@ namespace OwnCloud.Data.Calendar.Parsing
         {
             var cEvent = new VEvent();
 
-            DateTime refDate = DateTime.MinValue;
+            var refDate = DateTime.MinValue;
             bool refBool = false;
             string refString = "";
 

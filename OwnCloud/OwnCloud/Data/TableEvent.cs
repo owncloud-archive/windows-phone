@@ -58,13 +58,13 @@ namespace OwnCloud.Data
             }
         }
         private int _calendarId = 0;
-        private TableCalendar _calendar;
-        [Association(Storage = "CalendarId", ThisKey = "CalendarId", OtherKey = "Id", IsForeignKey = true)]  
-        public TableCalendar Calendar
-        {
-            get { return _calendar; }
-            set { _calendar = value; }
-        }
+        //private TableCalendar _calendar;
+        //[Association(Storage = "CalendarId", ThisKey = "CalendarId", OtherKey = "Id", IsForeignKey = true)]  
+        //public TableCalendar Calendar
+        //{
+        //    get { return _calendar; }
+        //    set { _calendar = value; }
+        //}
 
         #endregion
 

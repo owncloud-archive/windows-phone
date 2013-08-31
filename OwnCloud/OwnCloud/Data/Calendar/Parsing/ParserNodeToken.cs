@@ -6,7 +6,7 @@ using OwnCloud.Data.Exceptions;
 
 namespace OwnCloud.Data.Calendar.Parsing
 {
-    class ParserNodeToken : IParser<TokenNode, Stream>
+    class ParserNodeToken
     {
         private const string TokenBegin = "BEGIN";
         private const string TokenEnd = "END";

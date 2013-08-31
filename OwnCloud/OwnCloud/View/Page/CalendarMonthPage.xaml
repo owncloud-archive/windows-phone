@@ -24,12 +24,12 @@
         <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
          <StackPanel Grid.Row="0" Margin="12,17,0,28">
             <TextBlock Text="{Binding Path=LocalizedResources.SettingsPage_Title, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="[Todo:month]" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock Text="" x:Name="tbMonthHeader" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <controls:CalendarControl x:Name="CcCalendar" />
+            <controls:CalendarControl DateChanged="CcCalendar_OnDateChanged" x:Name="CcCalendar" />
         </Grid>
         
     </Grid>

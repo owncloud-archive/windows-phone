@@ -4,16 +4,15 @@ using OwnCloud.Data.Calendar.Parsing;
 
 namespace OwnCloud.Data.Calendar
 {
-    static class EventMetaUpdater
+    public static class EventMetaUpdater
     {
-        private static readonly ParserICal CalPaser = new ParserICal();
+        private static  readonly ParserICal CalPaser = new ParserICal();
 
         /// <summary>
         /// Aktualisiert die Metadaten eines in der Datenbank gespeicherten Events
         /// </summary>
         public static void UpdateEventMetadata(TableEvent eEvent)
         {
-
             using (var stream = new MemoryStream())
             {
                 var writer = new StreamWriter(stream);

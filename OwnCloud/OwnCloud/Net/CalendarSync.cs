@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Linq;
 using System.Linq;
 using OwnCloud.Data;
 using OwnCloud.Data.Calendar;
@@ -19,6 +21,7 @@ namespace OwnCloud.Net
         }
         private TableCalendar[] _localCalendar;
         private OcCalendarClient _ocClient;
+        private OcCalendarClient _ocDetailsClient;
         private readonly List<CalendarCalDavInfo> _calendarsToUpdate = new List<CalendarCalDavInfo>();
         private CalendarCalDavInfo _currentUpdatingCalendar = null;
         private readonly List<UnparsedEvent> _eventToUpdate = new List<UnparsedEvent>();
@@ -31,6 +34,7 @@ namespace OwnCloud.Net
         {
             _ocAdress = ocAdress;
             _credentials = credentials;
+            _calDavPath = calDavPath;
 
             LoadLocalCalendar();
             BeginLoadServerCalendar();
@@ -44,6 +48,7 @@ namespace OwnCloud.Net
         private void BeginLoadServerCalendar()
         {
             _ocClient = new OcCalendarClient(_ocAdress, _credentials, _calDavPath);
+            _ocDetailsClient = new OcCalendarClient(_ocAdress, _credentials, _calDavPath);
 
             _ocClient.LoadCalendarInfoComplete += LoadCalendarInfoComplete;
             _ocClient.LoadCalendarInfo();
@@ -140,45 +145,62 @@ namespace OwnCloud.Net
 
         private void LoadEventDetails()
         {
-            _ocClient = new OcCalendarClient(_ocAdress,_credentials,_calDavPath);
-            _ocClient.LoadCalendarDataComplete += LoadEventDetailsComplete;
-            _ocClient.LoadCalendarData(_currentUpdatingCalendar, new CalendarEventRequest { LoadCalendarData = true, Urls = 
-            _eventToUpdate.Select(o => o.EventInfo.Url).ToList()});
+            _ocDetailsClient.LoadCalendarDataComplete += LoadServerEventDetailsComplete;
+            _ocDetailsClient.LoadCalendarData(_currentUpdatingCalendar, new CalendarEventRequest
+                {
+                    LoadCalendarData = true,
+                    Urls =
+                        _eventToUpdate.Select(o => o.EventInfo.Url).ToList()
+                });
         }
 
-        public void LoadEventDetailsComplete(LoadCalendarDataCompleteArgs e)
+        private void LoadServerEventDetailsComplete(LoadCalendarDataCompleteArgs e)
         {
-            _ocClient.LoadCalendarDataComplete -= LoadEventDetailsComplete;
+            App.Current.RootFrame.Dispatcher.BeginInvoke(() =>
+                {
+                    if (!e.Success)
+                    {
+                        OnSyncComplete(false);
+                        return;
+                    }
 
-            if (!e.Success)
-            {
-                OnSyncComplete(false);
-                return;
-            }
+                    var serverCalendar = _context.Calendars.Single(o => o.Url == _currentUpdatingCalendar.Url);
 
-            var serverCalendar = _context.Calendars.Single(o => o.Url == _currentUpdatingCalendar.Url);
+                    foreach (var serverEvent in e.Events)
+                    {
 
-            foreach (var serverEvent in e.Events)
-            {
-                var dbEvent = _context.Events.SingleOrDefault(o => o.Url == serverEvent.EventInfo.Url) ??
-                              new TableEvent {CalendarId = serverCalendar.Id, Url = serverEvent.EventInfo.Url};
+                        try
+                        {
+                            var dbEvent = _context.Events.SingleOrDefault(o => o.Url == serverEvent.EventInfo.Url) ??
+                                          new TableEvent
+                                              {
+                                                  CalendarId = serverCalendar.Id,
+                                                  Url = serverEvent.EventInfo.Url
+                                              };
 
-                dbEvent.GetETag = serverEvent.EventInfo.GetETag;
-                dbEvent.CalendarData = serverEvent.RawEventData;
+                            dbEvent.GetETag = serverEvent.EventInfo.GetETag;
+                            dbEvent.CalendarData = serverEvent.RawEventData;
+                            //dbEvent.Calendar = serverCalendar;
 
-                EventMetaUpdater.UpdateEventMetadata(dbEvent);
+                            EventMetaUpdater.UpdateEventMetadata(dbEvent);
 
-                if (dbEvent.EventId == 0)
-                    _context.Events.InsertOnSubmit(dbEvent);
+                            if (dbEvent.EventId == 0)
+                                _context.Events.InsertOnSubmit(dbEvent);
 
+                        }
+                        catch (Exception ex)
+                        {
+                            //Do nothing
+                        }
 
-            }
+                    }
 
+                    _context.SubmitChanges();
 
+                    EndDownloadCalendar();
 
-            _context.SubmitChanges();
+                });
 
-            EndDownloadCalendar();
 
         }
 
