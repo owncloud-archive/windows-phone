@@ -57,6 +57,7 @@ namespace OwnCloud.Data
         public void EnableCalendar(CalendarCalDavInfo calendar)
         {
             var entity = TableCalendar.FromCalDavCalendarInfo(calendar);
+            entity.GetCTag = "";
 
             entity._accountId = this._accountId;
 
