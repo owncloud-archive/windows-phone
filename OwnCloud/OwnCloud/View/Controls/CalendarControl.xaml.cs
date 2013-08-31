@@ -26,7 +26,10 @@ namespace OwnCloud.View.Controls
         void CalendarControl_Unloaded(object sender, RoutedEventArgs e)
         {
             if (_context != null)
+            {
                 Context.Dispose();
+                _context = null;
+            }
         }
 
 
@@ -36,12 +39,7 @@ namespace OwnCloud.View.Controls
         private Data.OwnCloudDataContext _context;
         private Data.OwnCloudDataContext Context
         {
-            get
-            {
-                if (_context == null)
-                    _context = new OwnCloudDataContext();
-                return _context;
-            }
+            get { return _context ?? (_context = new OwnCloudDataContext()); }
         }
         private DateTime _firstDayOfCalendarMonth;
         private DateTime _lastDayOfCalendarMonth;

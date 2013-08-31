@@ -18,6 +18,8 @@ namespace OwnCloud.View.Page
         {
             InitializeComponent();
 
+            
+
             this.Unloaded += CalendarSelectPage_Unloaded;
         }
 
@@ -42,6 +44,11 @@ namespace OwnCloud.View.Page
             }
         }
 
+        private new CalendarListDataContext DataContext
+        {
+            get { return base.DataContext as CalendarListDataContext; }
+        }
+
         #endregion
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -61,9 +68,19 @@ namespace OwnCloud.View.Page
         /// </summary>
         private void LoadCalendars()
         {
-            this.DataContext = new CalendarListDataContext(_userId);
+            base.DataContext = new CalendarListDataContext(_userId);
         }
 
 
+        private void CalendarEnabledChange(object sender, RoutedEventArgs e)
+        {
+            var calendar = ((sender as FrameworkElement).DataContext as ServerCalendarDisplayInfo).CalendarInfo;
+
+            if ((sender as ToggleSwitch).IsChecked ?? false)
+                DataContext.EnableCalendar(calendar);
+            else
+                DataContext.DisableCalendar(calendar);
+
+        }
     }
 }

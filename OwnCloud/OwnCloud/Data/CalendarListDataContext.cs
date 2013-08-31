@@ -12,7 +12,7 @@ namespace OwnCloud.Data
     /// <summary>
     /// Provide a list of calendars (uncompleted)
     /// </summary>
-    class CalendarListDataContext
+    public class CalendarListDataContext : Entity
     {
         #region ctor
         
@@ -52,6 +52,36 @@ namespace OwnCloud.Data
             }
         }
 
+        #region Public stuff
+
+        public void EnableCalendar(CalendarCalDavInfo calendar)
+        {
+            var entity = TableCalendar.FromCalDavCalendarInfo(calendar);
+
+            entity._accountId = this._accountId;
+
+            using (var context = new OwnCloudDataContext())
+            {
+                context.Calendars.InsertOnSubmit(entity);
+                context.SubmitChanges();
+            }
+        }
+
+        public void DisableCalendar(CalendarCalDavInfo calendar)
+        {
+            using (var context = new OwnCloudDataContext())
+            {
+                var entity = (from o in context.Calendars where o.Url == calendar.Url select o).SingleOrDefault();
+
+                if (entity != null)
+                    context.Calendars.DeleteOnSubmit(entity);
+
+                context.SubmitChanges();
+            }
+        }
+
+        #endregion
+
         #region Private Events
 
         /// <summary>
@@ -60,7 +90,7 @@ namespace OwnCloud.Data
         private void LoadServerCalendars()
         {
 
-            using (Data.OwnCloudDataContext context = new OwnCloudDataContext())
+            using (var context = new OwnCloudDataContext())
             {
                 //Get the account, to get the Url, where we can get all calendars
                 var account = context.Accounts.Where(o => o.GUID == _accountId).Single();
@@ -70,7 +100,7 @@ namespace OwnCloud.Data
                     account.RestoreCredentials();
 
                 //Create caldav client to get all calendars
-                Net.OcCalendarClient ocClient = new Net.OcCalendarClient(account.GetUri().AbsoluteUri ,
+                var ocClient = new Net.OcCalendarClient(account.GetUri().AbsoluteUri ,
                     new Net.OwncloudCredentials { Username = account.Username, Password = account.Password }, account.CalDAVPath);
 
                 //Load calendars

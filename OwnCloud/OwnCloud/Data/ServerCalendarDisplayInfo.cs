@@ -9,7 +9,7 @@ namespace OwnCloud.Data
     /// <summary>
     /// A class to display a calendar, that exists on the server with the Information, if the Calendar is enabled on the client
     /// </summary>
-    class ServerCalendarDisplayInfo
+    public class ServerCalendarDisplayInfo
     {
         private bool _isClientEnabled = false;
         /// <summary>
