@@ -20,8 +20,8 @@ namespace OwnCloud.Data.Calendar.Parsing
                     int.Parse(match.Groups[3].Value),
                     int.Parse(match.Groups[4].Value),
                     int.Parse(match.Groups[5].Value),
-                    int.Parse(match.Groups[6].Value)
-                    );
+                    int.Parse(match.Groups[6].Value), match.Groups[7].Value == "Z" ? DateTimeKind.Utc : DateTimeKind.Local
+                    ).ToLocalTime();
                 isFullDayTime = false;
                 return result;
             }

@@ -44,9 +44,12 @@ namespace OwnCloud.Data.Calendar
             if (isFullDayEvent)
                 UpdateStringToken(icalEvent, tokenName, value.ToString("yyyyMMdd"), "VALUE=DATE-TIME");
             else
+            {
+                value = value.ToUniversalTime();
                 UpdateStringToken(icalEvent, tokenName, value.ToString("yyyyMMdd") + "T"
-                    + value.ToString("HHmmss")
-                    , "VALUE=DATE-TIME");
+                                                        + value.ToString("HHmmss") + "Z"
+                                  , "VALUE=DATE-TIME");
+            }
         }
 
         public static void UpdateStringToken(TokenNode icalEvent, string tokenName, string value,string subKey = "")
