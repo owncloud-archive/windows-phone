@@ -46,6 +46,8 @@
                     <TextBlock Text="To:"></TextBlock>
                     <tk:DatePicker x:Name="DpTo" />
                     <tk:TimePicker x:Name="TpTo" />
+
+                    <CheckBox Content="Full day event" Checked="CbFullDayEventChanged" Unchecked="CbFullDayEventChanged" x:Name="CbFullDayEvent" />
                     
                     <TextBlock Text="Description" />
                     <TextBox x:Name="TbDescription" AcceptsReturn="True" Height="200"></TextBox>

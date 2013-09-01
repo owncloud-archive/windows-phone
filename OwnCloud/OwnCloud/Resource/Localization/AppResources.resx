@@ -267,4 +267,7 @@ Valid To: {3:g}</value>
   <data name="CalendarMonthPage_Title" xml:space="preserve">
     <value>Owncloud calendars</value>
   </data>
+  <data name="AppointmentPage_WrongDate" xml:space="preserve">
+    <value>The end date is before the start date. Please fix this.</value>
+  </data>
 </root>

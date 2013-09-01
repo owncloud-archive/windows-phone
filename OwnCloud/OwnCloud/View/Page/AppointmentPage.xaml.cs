@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Windows;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
@@ -89,6 +90,23 @@ namespace OwnCloud.View.Page
                 DpTo.Value = storedEvent.To;
                 TpTo.Value = storedEvent.To;
                 TbDescription.Text = storedEvent.Description ?? "";
+                CbFullDayEvent.IsChecked = storedEvent.IsFullDayEvent;
+
+                if (!storedEvent.IsFullDayEvent)
+                {
+                    DpFrom.Value = storedEvent.From;
+                    DpTo.Value = storedEvent.To;
+                }
+                else
+                {
+                    DpFrom.Value = storedEvent.From.Date;
+                    DpTo.Value = storedEvent.To.Date.AddDays(-1);
+                }
+
+                TpFrom.Value = storedEvent.From;
+                TpTo.Value = storedEvent.To;
+                
+
             }
         }
 
@@ -99,11 +117,31 @@ namespace OwnCloud.View.Page
             var dbEvent = Context.Events.SingleOrDefault(o => o.Url == _url);
             if (dbEvent == null) return;
 
+            SaveTableEvent(dbEvent);
+        }
+
+        private void SaveTableEvent(TableEvent dbEvent)
+        {
             dbEvent.From = (DpFrom.Value ?? DateTime.Now).CombineWithTime(TpFrom.Value ?? DateTime.Now);
             dbEvent.To = (DpTo.Value ?? DateTime.Now).CombineWithTime(TpTo.Value ?? DateTime.Now);
             dbEvent.Title = TbTitle.Text;
+            dbEvent.IsFullDayEvent = CbFullDayEvent.IsChecked ?? false;
 
-            CalendarDataUpdater.UpdateCalendarData(dbEvent, TbDescription.Text,false);
+            if (dbEvent.IsFullDayEvent)
+            {
+                dbEvent.From = dbEvent.From.Date;
+                dbEvent.To = dbEvent.To.Date.AddDays(1);
+            }
+
+            if (dbEvent.To < dbEvent.From)
+            {
+                MessageBox.Show(Resource.Localization.AppResources.AppointmentPage_WrongDate);
+                UnlockPage();
+                return;
+            }
+
+
+            CalendarDataUpdater.UpdateCalendarData(dbEvent, TbDescription.Text, false);
 
             var ocCLient = LoadOcCalendarClient();
             ocCLient.SaveEventComplete += ocCLient_SaveEventComplete;
@@ -189,8 +227,14 @@ namespace OwnCloud.View.Page
                 DeleteExisting();
         }
 
+        private void CbFullDayEventChanged(object sender, RoutedEventArgs e)
+        {
+            TpFrom.Visibility = TpTo.Visibility = CbFullDayEvent.IsChecked ?? false ? Visibility.Collapsed : Visibility.Visible;
+
+        }
+
         #endregion
 
-
+        
     }
 }

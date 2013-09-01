@@ -97,6 +97,15 @@ namespace OwnCloud.Resource.Localization {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The end date is before the start date. Please fix this. ähnelt.
+        /// </summary>
+        public static string AppointmentPage_WrongDate {
+            get {
+                return ResourceManager.GetString("AppointmentPage_WrongDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die OwnCloud Client ähnelt.
         /// </summary>
         public static string AppTitle {
