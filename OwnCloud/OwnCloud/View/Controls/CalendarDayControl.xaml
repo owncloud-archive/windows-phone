@@ -15,7 +15,7 @@
     >
     
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="Transparent" Tap="LayoutRoot_OnTap">
         <tk:ContextMenuService.ContextMenu>
             <tk:ContextMenu Opened="ContextMenu_OnOpened" x:Name="CmMenu" IsZoomEnabled="False" >
                 <tk:ContextMenu.ItemTemplate>

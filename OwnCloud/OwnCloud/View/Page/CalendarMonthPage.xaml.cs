@@ -61,6 +61,13 @@ namespace OwnCloud.View.Page
             set { _account = value; }
         }
 
+        private DateTime? _selectedDate;
+        public DateTime SelectedDate
+        {
+            get { return (DateTime) (_selectedDate.HasValue ? _selectedDate.Value : (_selectedDate = DateTime.Now)); }
+            set { _selectedDate = value; }
+        }
+
 
         #endregion
 
@@ -72,7 +79,7 @@ namespace OwnCloud.View.Page
             else throw new ArgumentNullException("uid",AppResources.Exception_NoUserID);
 
             CcCalendar.AccountID = _userId;
-            CcCalendar.SelectedDate = DateTime.Now;
+            CcCalendar.SelectedDate = SelectedDate;
             
             ReloadAppointments();
 
@@ -105,6 +112,7 @@ namespace OwnCloud.View.Page
         private void CcCalendar_OnDateChanged(object sender, RoutedEventArgs e)
         {
             TbMonthHeader.Text = CcCalendar.SelectedDate.ToString("MMMM yy");
+            SelectedDate = CcCalendar.SelectedDate.Date;
         }
 
         private void ReloadCalendarEvents(object sender, EventArgs e)

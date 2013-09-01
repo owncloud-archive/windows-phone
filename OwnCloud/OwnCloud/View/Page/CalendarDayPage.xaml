@@ -1,0 +1,46 @@
+﻿<phone:PhoneApplicationPage
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:cntrl="clr-namespace:OwnCloud.View.Controls"
+    xmlns:toolkitPrimitives="clr-namespace:Microsoft.Phone.Controls.Primitives;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:data="clr-namespace:OwnCloud.Data"
+    x:Class="OwnCloud.View.Page.CalendarDayPage"
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
+    <Grid x:Name="LayoutRoot" Background="Transparent" Loaded="LayoutRoot_OnLoaded">
+        <!--Pivotsteuerelement-->
+        <controls:Pivot Title="Owncloud calendar">
+            <!--Pivotelement eins-->
+            <controls:PivotItem Header="Day">
+                <Grid>
+                    <toolkit:LongListSelector Loaded="HookScrollViewer" x:Name="LlsDays" IsFlatList="True" Link="LongListSelector_OnLink" ItemsSource="{Binding Days}">
+                        <toolkit:LongListSelector.ItemTemplate>
+                            <DataTemplate>
+                                <cntrl:CalendarDayOverview>
+                                    <cntrl:CalendarDayOverview.EventSource>
+                                        <data:DynamicCalendarSource OnEventsRequested="DynamicCalendarSource_OnOnEventsRequested" />
+                                    </cntrl:CalendarDayOverview.EventSource>
+                                </cntrl:CalendarDayOverview>
+                            </DataTemplate>
+                        </toolkit:LongListSelector.ItemTemplate>
+                    </toolkit:LongListSelector>
+                </Grid>
+            </controls:PivotItem>
+
+            <!--Pivotelement zwei-->
+            <controls:PivotItem Header="Other stuff">
+                <Grid/>
+            </controls:PivotItem>
+        </controls:Pivot>
+    </Grid>
+
+</phone:PhoneApplicationPage>

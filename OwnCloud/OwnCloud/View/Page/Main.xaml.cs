@@ -35,7 +35,10 @@ namespace OwnCloud
 
             //Navigate to the calendar page with te userID
             if (currentAccount != null)
-                NavigationService.Navigate(new Uri("/View/Page/CalendarMonthPage.xaml?uid=" + String.Format(@"{0:g}", currentAccount.GUID), UriKind.Relative));
+                //NavigationService.Navigate(new Uri("/View/Page/CalendarMonthPage.xaml?uid=" + String.Format(@"{0:g}", currentAccount.GUID), UriKind.Relative));
+                NavigationService.Navigate(
+                    new Uri("/View/Page/CalendarMonthPage.xaml?uid=" + String.Format(@"{0:g}", currentAccount.GUID),
+                            UriKind.Relative));
         }
 
         private void RemoteAccountTap(object sender, System.Windows.Input.GestureEventArgs e)

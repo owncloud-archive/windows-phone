@@ -1,0 +1,24 @@
+﻿<UserControl
+    x:Class="OwnCloud.View.Controls.CalendarDayOverviewAppointment"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+     mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
+    <Grid x:Name="LayoutRoot" Background="Transparent" >
+
+        <Rectangle RadiusX="8" RadiusY="8" Fill="Wheat" Stroke="#FFB99C66" StrokeThickness="1" />
+
+        <TextBlock Text="{Binding Title}" TextWrapping="Wrap" Foreground="Black" />
+        
+    </Grid>
+
+</UserControl>

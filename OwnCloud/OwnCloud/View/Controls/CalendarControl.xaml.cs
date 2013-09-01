@@ -167,7 +167,7 @@ namespace OwnCloud.View.Controls
                     Grid.SetRow(dayIndicator, j + 1);
                     GrdDayIndicator.Children.Add(dayIndicator);
 
-                    var dayOpenControl = new CalendarDayControl {TargetDate = fieldDate};
+                    var dayOpenControl = new CalendarDayControl {TargetDate = fieldDate,AccountID = _accountID ?? 0};
                     Grid.SetColumn(dayOpenControl, i);
                     Grid.SetRow(dayOpenControl, j + 1);
                     GrdCalendarLines.Children.Add(dayOpenControl);

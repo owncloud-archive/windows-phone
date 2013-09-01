@@ -7,6 +7,7 @@ using System.Windows.Media;
 using Microsoft.Phone.Controls;
 using OwnCloud;
 using OwnCloud.Data;
+using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 
 namespace Ocwp.Controls
 {
@@ -24,6 +25,8 @@ namespace Ocwp.Controls
             get { return _targetDate; }
             set { _targetDate = value.Date; }
         }
+
+        public int AccountID { get; set; }
         
         private void ContextMenu_OnOpened(object sender, RoutedEventArgs e)
         {
@@ -43,12 +46,13 @@ namespace Ocwp.Controls
 
                 CmMenu.Items.Add(item);
             }
-
+            if (CmMenu.Items.Count == 0)
+                CmMenu.IsEnabled = false;
         }
 
         void EventClick(object sender, RoutedEventArgs e)
         {
-            var dbEvent = (sender as MenuItem).DataContext as TableEvent;
+            var dbEvent = (sender as FrameworkElement).DataContext as TableEvent;
 
             int accountID = 0;
             using (var context = new OwnCloudDataContext())
@@ -95,6 +99,10 @@ namespace Ocwp.Controls
 
         #endregion
 
-        
+        private void LayoutRoot_OnTap(object sender, GestureEventArgs e)
+        {
+            App.Current.RootFrame.Navigate(new Uri("/View/Page/CalendarDayPage.xaml?uid=" + AccountID.ToString() + "&startDate="+TargetDate.ToShortDateString(),
+                                                   UriKind.Relative));
+        }
     }
 }

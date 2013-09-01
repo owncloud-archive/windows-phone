@@ -30,7 +30,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <DefineConstants>CODE_ANALYSIS;DEBUG;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -67,6 +67,7 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\CalendarDaysDataContext.cs" />
     <Compile Include="Data\CalendarListDataContext.cs" />
     <Compile Include="Data\DAV\Locking.cs" />
     <Compile Include="Data\DAV\Reference.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Data\DAV\RequestResult.cs" />
     <Compile Include="Data\DAV\WebDAV.cs" />
     <Compile Include="Data\DAV\RequestBody.cs" />
+    <Compile Include="Data\DynamicCalendarSource.cs" />
     <Compile Include="Data\EventCollector.cs" />
     <Compile Include="Data\FileListDataContext.cs" />
     <Compile Include="Data\OwnCloudDataContext.cs" />
@@ -138,13 +140,23 @@
     <Compile Include="Resource\ResourceLoader.cs" />
     <Compile Include="View\Controls\CalendarControl.xaml.cs" />
     <Compile Include="View\Controls\CalendarDayControl.xaml.cs" />
+    <Compile Include="View\Controls\CalendarDayOverview.xaml.cs">
+      <DependentUpon>CalendarDayOverview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\CalendarDayOverviewAppointment.xaml.cs">
+      <DependentUpon>CalendarDayOverviewAppointment.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Controls\FileDetailViewControl.xaml.cs">
       <DependentUpon>FileDetailViewControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Controls\TemplateLogListSelector.cs" />
     <Compile Include="View\Page\AccountList.xaml.cs">
       <DependentUpon>AccountList.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Page\AppointmentPage.xaml.cs" />
+    <Compile Include="View\Page\CalendarDayPage.xaml.cs">
+      <DependentUpon>CalendarDayPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Page\CalendarMonthPage.xaml.cs">
       <DependentUpon>CalendarMonthPage.xaml</DependentUpon>
     </Compile>
@@ -187,6 +199,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\Controls\CalendarDayOverview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\CalendarDayOverviewAppointment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Controls\FileDetailViewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -198,6 +218,10 @@
     <Page Include="View\Page\AppointmentPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Page\CalendarDayPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Page\CalendarMonthPage.xaml">
       <SubType>Designer</SubType>
