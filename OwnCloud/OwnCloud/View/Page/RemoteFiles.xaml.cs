@@ -16,6 +16,7 @@ using Microsoft.Phone.Tasks;
 using OwnCloud.Data;
 using OwnCloud.Data.DAV;
 using OwnCloud.Extensions;
+using OwnCloud.View.Controls;
 
 namespace OwnCloud.View.Page
 {
@@ -33,11 +34,6 @@ namespace OwnCloud.View.Page
         private Account _workingAccount;
         private FileListDataContext _context;
 
-        private struct RequestMode
-        {
-            public string Path;
-        }
-
         private void ToggleTray()
         {
             Dispatcher.BeginInvoke(() =>
@@ -48,6 +44,7 @@ namespace OwnCloud.View.Page
 
         private void PageLoaded(object sender, RoutedEventArgs e)
         {
+            SystemTray.IsVisible = App.DataContext.EnablePhoneStatusBar;
             try
             {
                 _workingAccount = App.DataContext.LoadAccount(NavigationContext.QueryString["account"]);
@@ -56,12 +53,18 @@ namespace OwnCloud.View.Page
             catch (Exception)
             {
                 // should not happen
-            }            
+            }
 
             FetchStructure(_workingAccount.WebDAVPath);
         }
 
         private string _directoryUpReference = "";
+
+        // 
+        private void EnableSyncTap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            (sender as File).EnableSync = !(sender as File).EnableSync;
+        }
 
         private void FileListTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
@@ -108,6 +111,7 @@ namespace OwnCloud.View.Page
         private EventCollector _collector = new EventCollector();
         private Storyboard _board;
         private DAVRequestResult _result;
+        private ProgressOverlayPopup _overlay;
 
         /// <summary>
         /// Tries to fetch a given path and refreshes the views.
@@ -127,6 +131,16 @@ namespace OwnCloud.View.Page
                 _board.Completed += _dropFileListFadeOutCompleted;
             }
 
+            if (_overlay == null)
+            {
+                _overlay = new ProgressOverlayPopup()
+                {
+                    BackgroundColor = Colors.Transparent
+                };
+                
+            }
+            _overlay.Show();
+
             _result = null;
             _board.Begin();
             _collector.WaitFor(_dropFileListFadeOutCompleted);
@@ -138,6 +152,7 @@ namespace OwnCloud.View.Page
                 Dispatcher.BeginInvoke(() =>
                 {
                     ((Storyboard)Resources["DropFileListFadeIn"] as Storyboard).Begin();
+                    _overlay.Hide();
                 });
             };
 
@@ -171,17 +186,19 @@ namespace OwnCloud.View.Page
                         if (!first_item)
                         {
                             first_item = true;
-                            
+
                             if (item.Reference == _workingAccount.WebDAVPath)
                             {
                                 // cannot go up further
                                 ToggleDirectoryUpStatus(false);
                                 _directoryUpReference = null;
+                                CurrentDirectoryName.Text = "";
                             }
                             else
                             {
                                 ToggleDirectoryUpStatus(true);
                                 _directoryUpReference = item.ParentReference;
+                                CurrentDirectoryName.Text = item.LocalReference;
                             }
                         }
                         else
@@ -204,7 +221,14 @@ namespace OwnCloud.View.Page
             {
                 Dispatcher.BeginInvoke(() =>
                 {
-                    MessageBox.Show("FetchFile_Unexpected_Result".Translate());
+                    if (result.Status == ServerStatus.Unauthorized)
+                    {
+                        MessageBox.Show("FetchFile_Unauthorized".Translate(), "Error_Caption".Translate(), MessageBoxButton.OK);
+                    }
+                    else
+                    {
+                        MessageBox.Show("FetchFile_Unexpected_Result".Translate(), "Error_Caption".Translate(), MessageBoxButton.OK);
+                    }
                 });
             }
 

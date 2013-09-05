@@ -5,6 +5,7 @@ using System.Windows;
 using System.Xml.Serialization;
 using System.Data.Linq.Mapping;
 using OwnCloud.Extensions;
+using System.Linq;
 using System.Net;
 
 namespace OwnCloud.Data
@@ -70,6 +71,16 @@ namespace OwnCloud.Data
             {
                 return ServerDomain.IndexOf(':') != -1 ? ServerDomain.Substring(0, ServerDomain.IndexOf(':')) : ServerDomain;
             }
+        }
+
+        /// <summary>
+		/// Returns a port if given in ServerDomain-string or the standard port number depending on context.
+        /// </summary>
+        public int GetPort(bool secure = false)
+        {
+            int p = 0;
+            Int32.TryParse(ServerDomain.Split(':').Last(), out p);
+            return p == 0 ? (secure ? 443 : 80) : p;
         }
 
         /// <summary>

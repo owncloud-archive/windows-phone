@@ -270,4 +270,33 @@ Valid To: {3:g}</value>
   <data name="AppointmentPage_WrongDate" xml:space="preserve">
     <value>The end date is before the start date. Please fix this.</value>
   </data>
+  <data name="SettingsPage_EnableFilePreview" xml:space="preserve">
+    <value>Enable file preview.</value>
+  </data>
+  <data name="SettingsPage_EnableFilePreviewSubText" xml:space="preserve">
+    <value>Shows a tiny preview of local and remote files.</value>
+  </data>
+  <data name="SettingsPage_EnableRemoteDeleting" xml:space="preserve">
+    <value>Delete files on Cloud Storage if I delete files on the local device.</value>
+  </data>
+  <data name="SettingsPage_EnableRemoteFilePreviewWLANOnly" xml:space="preserve">
+    <value>Only refresh remote view if I am connected to WLAN.</value>
+  </data>
+  <data name="SettingsPage_EnableSkipRemoteFiles" xml:space="preserve">
+    <value>Skip remote files which are greater than amount KB below:</value>
+  </data>
+  <data name="SettingsPage_ShowPhoneStatusBar" xml:space="preserve">
+    <value>Show phone status bar.</value>
+  </data>
+  <data name="FetchFile_Unauthorized" xml:space="preserve">
+    <value>Couldn't fetch the file list from target server: Permission denied.</value>
+  </data>
+  <data name="EditAccountPage_CheckingConnection_DAVTestFailed" xml:space="preserve">
+    <value>DAV-structure was not recognized. Please check the server paths.
+Failed path: {0}
+Server Answer: {1}</value>
+  </data>
+  <data name="Error_Caption" xml:space="preserve">
+    <value>Error</value>
+  </data>
 </root>

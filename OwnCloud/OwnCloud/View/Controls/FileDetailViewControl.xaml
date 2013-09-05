@@ -3,6 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+    xmlns:ie="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -10,33 +12,48 @@
     x:Name="this"
     Background="{StaticResource PhoneChromeBrush}"
     d:DesignHeight="480" d:DesignWidth="480">
-    
+
     <UserControl.Resources>
         <Style x:Key="DescriptionStyle" TargetType="TextBlock">
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Foreground" Value="{StaticResource PhoneSubtleBrush}"/>
         </Style>
+        <Storyboard x:Name="RotateSyncButton">
+            <DoubleAnimation 
+            Storyboard.TargetName="SyncButton" 
+            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" 
+            From="0" 
+            To="180" 
+            Duration="0:0:0.1">
+            </DoubleAnimation>
+        </Storyboard>
     </UserControl.Resources>
+
+
 
     <Grid x:Name="LayoutRoot" Background="{Binding Path=Background, ElementName=this}">
         <Grid Margin="5">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="80"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
-        <Grid Margin="0,0,10,0" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
-            <Image VerticalAlignment="Top" Source="{Binding ImageIcon, FallbackValue=/Resource/Image/owncloud-logo.png}"/>
-        </Grid>
-
-        <TextBlock LineStackingStrategy="BlockLineHeight" LineHeight="30" Grid.Row="0" Grid.Column="1" Text="{Binding Path=FileName, FallbackValue=LongValueLabelWithExternDescriptionFileName.FileExt}" TextWrapping="Wrap" FontSize="20" FontWeight="Light"/>
-            <Grid Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom"> 
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Margin="0,0,10,0" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
+                <Image MaxHeight="60" VerticalAlignment="Top" HorizontalAlignment="Left" Source="{Binding ImageIcon, FallbackValue=/Resource/Image/owncloud-logo.png}"/>
+
+            </Grid>
+
+
+            <TextBlock Grid.Row="0" Grid.Column="1" LineStackingStrategy="BlockLineHeight" LineHeight="30" Text="{Binding Path=FileName, FallbackValue=LongValueLabelWithExternDescriptionFileName.FileExt}" TextWrapping="Wrap" FontSize="20" FontWeight="Light"/>
+
+            <Grid Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom">
+                <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
@@ -46,11 +63,27 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" HorizontalAlignment="Left">
-                    <TextBlock Style="{StaticResource DescriptionStyle}" Margin="0" Text="{Binding Path=Type, FallbackValue=FileType}" TextWrapping="Wrap"/>
-                    <TextBlock Style="{StaticResource DescriptionStyle}" Margin="0" Text="{Binding Path=LastModified, FallbackValue=LastModified}" TextWrapping="Wrap"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource DescriptionStyle}" Margin="0" Text="{Binding Path=Type, FallbackValue=FileType}" TextWrapping="Wrap"/>
+                    </StackPanel>
+
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource DescriptionStyle}" Margin="0" Text="{Binding Path=LastModified, FallbackValue=LastModified}" TextWrapping="Wrap"/>
+                        <StackPanel Margin="5,0,0,0" Orientation="Horizontal" Visibility="{Binding Path=SizeVisibility}">
+                            <TextBlock Style="{StaticResource DescriptionStyle}" Text="("/>
+                            <TextBlock Style="{StaticResource DescriptionStyle}" Margin="0" Text="{Binding Path=Size, FallbackValue=FileSize}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                            <TextBlock Style="{StaticResource DescriptionStyle}" Text=")"/>
+                        </StackPanel>
+                       
+                    </StackPanel>
                 </StackPanel>
-                <TextBlock Style="{StaticResource DescriptionStyle}" Margin="0" Grid.Column="1" Text="{Binding Path=Size, FallbackValue=FileSize}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
             </Grid>
+            
+            <Image Name="SyncButton" Opacity="{Binding Path=SyncOpacity}" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Height="60" Width="60" Source="/Assets/Icons/Sync.png" Tap="EnableSyncTap" RenderTransformOrigin="0.5,0.5">
+                <Image.RenderTransform>
+                    <CompositeTransform/>
+                </Image.RenderTransform>
+            </Image>
         </Grid>
     </Grid>
 </UserControl>

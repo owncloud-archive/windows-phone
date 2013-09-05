@@ -22,12 +22,12 @@
         <DataTemplate x:Key="PanoramaItemHeader">
             <Grid>
                 <ContentPresenter>
-                    <TextBlock Text="{Binding}" FontSize="60" TextWrapping="Wrap" />
+                    <TextBlock Text="{Binding}" FontSize="30" TextWrapping="Wrap" />
                 </ContentPresenter>
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="PanoramaHeader">
-            <TextBlock Text="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" FontSize="120" Margin="0,50,0,0" FontWeight="Bold" />
+            <TextBlock Text="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" FontSize="60" Margin="0,50,0,0" FontWeight="Bold" />
         </DataTemplate>
         <Style TargetType="Grid" x:Key="PanoramaItemGrid">
             <Setter Property="Width" Value="420"/>
@@ -41,8 +41,11 @@
         <Storyboard x:Key="DropFileListFadeIn">
             <DoubleAnimation From="0" To="1.0" Duration="0:0:0.1" Storyboard.TargetName="FileList" Storyboard.TargetProperty="Grid.Opacity"/>
         </Storyboard>
+        <Storyboard x:Key="RotateSyncButton">
+            <DoubleAnimation From="0" To="360" Duration="0:0:0.1" Storyboard.TargetProperty="RenderTransform.Angle"/>
+        </Storyboard>
     </phone:PhoneApplicationPage.Resources>
-    
+
     <shell:SystemTray.ProgressIndicator>
         <shell:ProgressIndicator IsIndeterminate="True" IsVisible="True" />
     </shell:SystemTray.ProgressIndicator>
@@ -64,15 +67,16 @@
 
                         <StackPanel Name="DirectoryUpDetail" Margin="0,0,0,10" Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Tap="DirectoryUpTap">
                             <Image Width="70" Source="/Assets/FileIcons/up.png"/>
+                            <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Name="CurrentDirectoryName" TextWrapping="Wrap" Text="Loading..."/>
                         </StackPanel>
 
-                        
-                        
+
+
                         <ListBox Grid.Row="1" ItemContainerStyle="{StaticResource StretchedContainerStyle}" Name="DetailList" ItemsSource="{Binding Path=Files}" Tap="FileListTap">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <ListBoxItem Margin="0,0,0,20" Name="ListBoxItem">
-                                        <ViewControls:FileDetailViewControl Width="{Binding Path=ActualWidth, ElementName=ListBoxItem}" DataContext="{Binding}" Background="#CC342F2F"/>
+                                        <ViewControls:FileDetailViewControl Width="{Binding Path=ActualWidth, ElementName=ListBoxItem}" DataContext="{Binding}" Background="Transparent" OnEnableSyncTap="EnableSyncTap"/>
                                     </ListBoxItem>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>

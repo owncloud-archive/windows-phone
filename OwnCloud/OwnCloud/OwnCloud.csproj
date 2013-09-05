@@ -150,6 +150,10 @@
       <DependentUpon>FileDetailViewControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\TemplateLogListSelector.cs" />
+    <Compile Include="View\Controls\ProgressOverlayControl.xaml.cs">
+      <DependentUpon>ProgressOverlayControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\PropgressOverlayPopup.cs" />
     <Compile Include="View\Page\AccountList.xaml.cs">
       <DependentUpon>AccountList.xaml</DependentUpon>
     </Compile>
@@ -211,6 +215,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Controls\ProgressOverlayControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Page\AccountList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -266,6 +274,7 @@
     <Content Include="Assets\Icons\Reload.png" />
     <Content Include="Assets\Icons\Save.png" />
     <Content Include="Assets\Icons\Settings.png" />
+    <Content Include="Assets\Icons\sync.png" />
     <Content Include="Assets\Icons\Web.png" />
     <Content Include="ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

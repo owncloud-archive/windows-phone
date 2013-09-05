@@ -15,6 +15,7 @@ using OwnCloud.Data;
 using OwnCloud.Data.DAV;
 using OwnCloud.Net;
 using OwnCloud.Extensions;
+using OwnCloud.View.Controls;
 
 namespace OwnCloud
 {
@@ -65,10 +66,7 @@ namespace OwnCloud
             DataContext = null;
         }
 
-        EventHandler overlayFadeOut_Completed;
-        EventHandler overlayFadeIn_Completed;
-        Storyboard overlayFadeIn;
-        Storyboard overlayFadeOut;
+        ProgressOverlayPopup _overlay;
 
         private void SaveTap(object sender, EventArgs e)
         {
@@ -85,37 +83,19 @@ namespace OwnCloud
             }
 
             // show overlay
-            this.Overlay.Visibility = System.Windows.Visibility.Visible;
-            overlayFadeIn = this.Resources["TestConnectionOverlayFadeIn"] as Storyboard;
-            overlayFadeOut = this.Resources["TestConnectionOverlayFadeOut"] as Storyboard;
-
-
-            // aware memory restitant event handler
-            if (overlayFadeOut_Completed == null)
+            if (_overlay == null)
             {
-                overlayFadeOut_Completed = new EventHandler(delegate
-                {
-                    this.OverlayProgressBar.IsIndeterminate = false;
-                    this.Overlay.Visibility = System.Windows.Visibility.Collapsed;
-                });
-                overlayFadeOut.Completed += overlayFadeOut_Completed;
+                _overlay = new ProgressOverlayPopup("EditAccountPage_CheckingConnection".Translate());
+                _overlay.ShowCompleted += new EventHandler(OverlayFadeIn);
             }
-
-            if (overlayFadeIn_Completed == null)
-            {
-                overlayFadeIn_Completed = new EventHandler(OverlayFadeIn);
-                overlayFadeIn.Completed += overlayFadeIn_Completed;
-            }
-
-            // start overlay
-            overlayFadeIn.Begin();
+            _overlay.Show();
         }
 
         private void OverlayFadeIn(object obj, EventArgs e)
         {
             // Test Connection
             Account account = (DataContext as AccountDataContext).CurrentAccount;
-            this.OverlayProgressBar.IsIndeterminate = true;
+            //this.Overlay.PerformanceBar.IsIndeterminate = true;
             
             try
             {
@@ -150,7 +130,7 @@ namespace OwnCloud
                         var tls = new TLSHandshake();
                         tls.SetServerNameExtension(state.AssociatedAccount.Hostname);
                         var socket = new StreamSocket();
-                        socket.Connect(state.AssociatedAccount.Hostname, TLSHandshake.TLS_HTTP_PORT);
+                        socket.Connect(state.AssociatedAccount.Hostname, state.AssociatedAccount.GetPort(true));
                         socket.Write(tls.CreateClientHello());
 
                         DateTime startTime = DateTime.Now;
@@ -171,7 +151,7 @@ namespace OwnCloud
                                             Dispatcher.BeginInvoke(() =>
                                             {
                                                 MessageBox.Show("EditAccountPage_Connection_Rejected".Translate(state.AssociatedAccount.Hostname, certDetails["CN"], certDetails["ValidAfter"], certDetails["ValidTo"]), "EditAccountPage_Connection_Rejected_Caption".Translate(), MessageBoxButton.OK);
-                                                overlayFadeOut.Begin();
+                                                _overlay.Hide();
                                             });
                                             return;
                                         }
@@ -197,32 +177,78 @@ namespace OwnCloud
                 // HTTPWebRequest has failed
             }
 
+            if (success)
+            {
+                // Testing DAV
+                //TODO: Add your additional connection test statement here
+                // To complete the test all fragments must have been fired.
+                EventCollector collector = new EventCollector()
+                {
+                    Complete = () =>
+                    {
+                        OnConnectTestComplete(success, state.AssociatedAccount);
+                    }
+                };
+                collector.WaitFor(state.AssociatedAccount.WebDAVPath);
+                collector.WaitFor(state.AssociatedAccount.CalDAVPath);
+
+                // define paths to test
+                Queue<string> pathsToTest = new Queue<string>();
+                pathsToTest.Enqueue(state.AssociatedAccount.WebDAVPath);
+                pathsToTest.Enqueue(state.AssociatedAccount.CalDAVPath);
+
+                // create master instance
+                WebDAV davTest = new WebDAV(state.AssociatedAccount.GetUri(), state.AssociatedAccount.GetCredentials());
+
+                // call tests
+                while (pathsToTest.Count > 0)
+                {
+                    var path = pathsToTest.Dequeue();
+                    davTest.StartRequest(DAVRequestHeader.CreateListing(path), path, (requestResult, userObj) =>
+                    {
+                        if (requestResult.Status != ServerStatus.MultiStatus)
+                        {
+                            // all other states are fail states
+                            success = false;
+                            Dispatcher.BeginInvoke(() =>
+                            {
+                                MessageBox.Show("EditAccountPage_CheckingConnection_DAVTestFailed".Translate(userObj, requestResult.StatusText), "Error_Caption".Translate(), MessageBoxButton.OK);
+                            });
+                        }
+                        collector.Raise(userObj);
+                    });
+                }                
+            }
+            else
+            {
+                OnConnectTestComplete(success, state.AssociatedAccount);
+            }
+            
+        }
+
+
+        private void OnConnectTestComplete(bool success, Account account)
+        {
             Dispatcher.BeginInvoke(() =>
             {
+                _overlay.Hide();
                 if (success)
                 {
-                    overlayFadeOut.Begin();
-                    StoreAccount(state.AssociatedAccount);
+                    StoreAccount(account);
                 }
                 else
                 {
-                    overlayFadeOut.Begin();
-                    OnConnectFailed(state.AssociatedAccount);
+                    OnConnectFailed(account);
                 }
             });
-
+            
         }
 
         private void OnConnectFailed(Account account)
         {
             if (MessageBox.Show("EditAccountPage_Confirm_Store".Translate(account.Protocol, account.ServerDomain), "EditAccountPage_Confirm_Store_Caption".Translate(), MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
-                overlayFadeOut.Begin();
                 StoreAccount(account);
-            }
-            else
-            {
-                overlayFadeOut.Begin();
             }
         }
 
@@ -245,6 +271,7 @@ namespace OwnCloud
 
         private void PageLoaded(object sender, RoutedEventArgs e)
         {
+            SystemTray.IsVisible = App.DataContext.EnablePhoneStatusBar;
             if (NavigationContext.QueryString.ContainsKey("mode") && NavigationContext.QueryString.ContainsKey("account"))
             {
                 _editMode = NavigationContext.QueryString["mode"] == "edit";
@@ -275,38 +302,6 @@ namespace OwnCloud
                 (DataContext as AccountDataContext).CurrentAccount = account;
             }
         }
-
-        private void Button_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            Account account = (DataContext as AccountDataContext).CurrentAccount;
-            // Some Web DAV Test
-            var dav_request = DAVRequestHeader.CreateListing(account.WebDAVPath);
-            dav_request.Headers[Header.Depth] = HeaderAttribute.MethodDepth.ApplyInfinityNoRoot;
-            var dav = new WebDAV(account.GetUri(), account.GetCredentials());
-            dav.StartRequest(dav_request, DAVRequestBody.CreateAllPropertiesListing(), null, DAVResult);
-        }
-
-        private void DAVResult(DAVRequestResult result, object userObj)
-        {
-            if (result.Request.ErrorOccured) return;
-
-            Utility.DebugXML(result.GetRawResponse());
-            foreach (DAVRequestResult.Item item in result.Items)
-            {
-                Utility.Debug(String.Format("Name={0:g}, Reference={1:g}, Local={7:g}, Last Modified={2:g}, Quota={3:g}/{4:g}, ETag={5:g}, Type={6:g}", 
-                    item.DisplayName,
-                    item.Reference,
-                    item.LastModified,
-                    item.QuotaUsed,
-                    item.QuotaAvailable,
-                    item.ETag,
-                    item.ResourceType,
-                    item.LocalReference
-                ));
-            }
-        }
-
-        
 
     }
 }

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:ViewControls="clr-namespace:OwnCloud.View.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -105,33 +106,9 @@
                     </Grid>
 
                 </StackPanel>
-                
-                <!-- only for testing -->
-                <StackPanel Grid.Row="6">
-                    <Grid>
-                        <Button Content="List Content Test" Tap="Button_Tap"/>
-                    </Grid>
-                </StackPanel>
-
+            
             </Grid>
         </ScrollViewer>
-
-        <Grid x:Name="Overlay" Grid.RowSpan="2" Canvas.ZIndex="6" Canvas.Top="0" Height="{Binding ElementName=LayoutRoot, Path=ActualHeight}" Background="#F2000000" Visibility="Collapsed" Opacity="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="1" Margin="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="{Binding Path=LocalizedResources.EditAccountPage_CheckingConnection, Source={StaticResource LocalizedStrings}}"/>
-                <toolkit:PerformanceProgressBar x:Name="OverlayProgressBar" Grid.Row="1" IsIndeterminate="False" Height="20"/>
-            </Grid>
-
-        </Grid>
 
     </Grid>
     
@@ -142,12 +119,6 @@
     </phone:PhoneApplicationPage.ApplicationBar>
 
     <phone:PhoneApplicationPage.Resources>
-        <Storyboard x:Key="TestConnectionOverlayFadeIn">
-            <DoubleAnimation From="0.0" To="1.0" Duration="0:0:1" Storyboard.TargetName="Overlay" Storyboard.TargetProperty="Grid.Opacity"/>
-        </Storyboard>
-        <Storyboard x:Key="TestConnectionOverlayFadeOut">
-            <DoubleAnimation From="1.0" To="0.0" Duration="0:0:1" Storyboard.TargetName="Overlay" Storyboard.TargetProperty="Grid.Opacity"/>
-        </Storyboard>
     </phone:PhoneApplicationPage.Resources>
 
 </phone:PhoneApplicationPage>

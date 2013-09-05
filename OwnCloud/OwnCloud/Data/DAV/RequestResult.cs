@@ -19,9 +19,10 @@ namespace OwnCloud.Data.DAV
         /// </summary>
         /// <param name="request"></param>
         /// <param name="status"></param>
-        public DAVRequestResult(WebDAV request, ServerStatus status)
+        public DAVRequestResult(WebDAV request, object status, string statusText)
         {
-            Status = status;
+            Status = (ServerStatus)Enum.Parse(typeof(ServerStatus), status.ToString(), false);
+            StatusText = statusText;
             Request = request;
             Items = new List<Item>();
         }
@@ -40,6 +41,7 @@ namespace OwnCloud.Data.DAV
             Request = request;
             Items = new List<Item>();
             Status = (ServerStatus)Enum.Parse(typeof(ServerStatus), response.StatusCode.ToString(), false);
+            StatusText = response.StatusDescription;
             IsMultiState = Status == ServerStatus.MultiStatus;
             _stream = new MemoryStream();
             response.GetResponseStream().CopyTo(_stream);
@@ -224,9 +226,8 @@ namespace OwnCloud.Data.DAV
                                 // DAV Elements
                                 case Elements.Reference:
                                     string _ref = Uri.UnescapeDataString(reader.Value);
-                                    string _localRef = _ref.Substring(uri.LocalPath.Length, _ref.Length - uri.LocalPath.Length);
                                     pItem.Properties.Add(lastElementName, _ref);
-                                    pItem.Properties.Add(lastElementName + ".local", _localRef.Trim('/'));
+                                    pItem.Properties.Add(lastElementName + ".local", _ref.Trim('/').Split('/').Last());
                                     break;
 
                                 // Status element
@@ -275,6 +276,12 @@ namespace OwnCloud.Data.DAV
         /// Returns the HTTP status code.
         /// </summary>
         public ServerStatus Status
+        {
+            get;
+            private set;
+        }
+
+        public string StatusText
         {
             get;
             private set;

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Windows;
+using System.Windows.Media;
 using OwnCloud.Resource;
 using OwnCloud.Extensions;
 
@@ -99,13 +100,31 @@ namespace OwnCloud.Data
 
         bool _synced = false;
         /// <summary>
-        /// Tells if the file is in sync state
+        /// Tells if the file is in sync state.
+        /// This could be partial as a folder could be synced excepting some files within.
         /// </summary>
         public bool IsSynced
         {
             get
             {
                 return _synced;
+            }
+        }
+
+        bool _enableSync = false;
+        /// <summary>
+        /// Toggle the state if a file should be synced or not.
+        /// </summary>
+        public bool EnableSync
+        {
+            get
+            {
+                return _enableSync;
+            }
+            set
+            {
+                _enableSync = value;
+                OnPropertyChanged("SyncOpacity");
             }
         }
 
@@ -116,6 +135,24 @@ namespace OwnCloud.Data
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Returns the opacity for the "To-Sync"-Icon.
+        /// </summary>
+        public double SyncOpacity
+        {
+            get
+            {
+                if (EnableSync)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return .5;
+                }
+            }
         }
 
         /// <summary>
@@ -181,6 +218,17 @@ namespace OwnCloud.Data
             }
         }
 
+        /// <summary>
+        /// Toggle display of size and size sub texts, because a directory has no valid size.
+        /// </summary>
+        public Visibility SizeVisibility
+        {
+            get
+            {
+                return IsDirectory ? Visibility.Collapsed : Visibility.Visible;
+            }
+        }
+
         static Dictionary<string, Uri> _iconCache;
 
 
@@ -223,14 +271,14 @@ namespace OwnCloud.Data
                             {
                                 // need a slash here if not given
                                 var uri = ResourceLoader.GetStreamUri(filename).ToString().Trim('/');
-                                image = new Uri("/" + uri , UriKind.Relative);
+                                image = new Uri("/" + uri, UriKind.Relative);
                                 break;
                             }
                         }
 
                         if (image == null)
                         {
-                           image = new Uri("/Assets/FileIcons/file.png", UriKind.Relative);
+                            image = new Uri("/Assets/FileIcons/file.png", UriKind.Relative);
                         }
 
                         if (!_iconCache.ContainsKey(FileType))

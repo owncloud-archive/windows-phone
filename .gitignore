@@ -18,3 +18,5 @@ Version.cs
 Ocwp/TestsResults/
 Ocwp/Ocwp/obj
 Ocwp/Ocwp/bin
+*.bak
+*.user

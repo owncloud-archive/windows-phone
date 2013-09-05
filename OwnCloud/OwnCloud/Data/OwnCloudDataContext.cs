@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Windows;
 using System.Data.Linq;
 using System.ComponentModel;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
 using System.Linq;
@@ -18,7 +20,7 @@ namespace OwnCloud.Data
             // For later purpose:
             // New tables will not be automaticly generated if the database does exists
             if (!DatabaseExists()) CreateDatabase();
-            
+
             // Delete some wrong stored data
             //Accounts.DeleteAllOnSubmit(Accounts);
             //SubmitChanges();
@@ -93,6 +95,177 @@ namespace OwnCloud.Data
             }
         }
 
+        
+        /// <summary>
+        /// Returns true if the phone status bar should be displayed.
+        /// Default: false
+        /// </summary>
+        public bool EnablePhoneStatusBar
+        {
+            get
+            {
+                bool value;
+                if (!IsolatedStorageSettings.ApplicationSettings.TryGetValue("EnablePhoneStatusBar", out value))
+                {
+                    return false;
+                }
+                return value;
+            }
+            set
+            {
+                IsolatedStorageSettings.ApplicationSettings["EnablePhoneStatusBar"] = value;
+                IsolatedStorageSettings.ApplicationSettings.Save();
+            }
+        }
+
+        /// <summary>
+        /// Returns true if file previews are enabled globally.
+        /// Default: true
+        /// </summary>
+        public bool EnableFilePreview
+        {
+            get
+            {
+                bool value;
+                if (!IsolatedStorageSettings.ApplicationSettings.TryGetValue("EnableFilePreview", out value))
+                {
+                    return true;
+                }
+                return value;
+            }
+            set
+            {
+                IsolatedStorageSettings.ApplicationSettings["EnableFilePreview"] = value;
+                IsolatedStorageSettings.ApplicationSettings.Save();
+                OnPropertyChanged("FilePreviewSettingsVisibility");
+            }
+        }
+
+        /// <summary>
+        /// Returns true if the remote file preview is limited to WLAN-connections only.
+        /// Default: false
+        /// </summary>
+        public bool EnableRemoteFilePreviewWLANOnly
+        {
+            get
+            {
+                bool value;
+                if (!IsolatedStorageSettings.ApplicationSettings.TryGetValue("EnableRemoteFilePreviewWLANOnly", out value))
+                {
+                    return false;
+                }
+                return value;
+            }
+            set
+            {
+                IsolatedStorageSettings.ApplicationSettings["EnableRemoteFilePreviewWLANOnly"] = value;
+                IsolatedStorageSettings.ApplicationSettings.Save();
+            }
+        }
+
+        /// <summary>
+        /// If remote files are bigger than a choosen size the file will be skipped for preview.
+        /// This settings is enabled as default.
+        /// Default: true
+        /// </summary>
+        public bool EnableSkipRemoteFiles
+        {
+            get
+            {
+                bool value;
+                if (!IsolatedStorageSettings.ApplicationSettings.TryGetValue("EnableSkipRemoteFiles", out value))
+                {
+                    return true;
+                }
+                return value;
+            }
+            set
+            {
+                IsolatedStorageSettings.ApplicationSettings["EnableSkipRemoteFiles"] = value;
+                IsolatedStorageSettings.ApplicationSettings.Save();
+            }
+        }
+
+        /// <summary>
+        /// This is the limit for skipping files on remote file preview.
+        /// Default: 100 (KiB)
+        /// </summary>
+        public uint SkipRemoteFilesLimit
+        {
+            get
+            {
+                uint value;
+                if (!IsolatedStorageSettings.ApplicationSettings.TryGetValue("SkipRemoteFilesLimit", out value))
+                {
+                    return 100;
+                }
+                return value;
+            }
+            set
+            {
+                IsolatedStorageSettings.ApplicationSettings["SkipRemoteFilesLimit"] = value;
+                IsolatedStorageSettings.ApplicationSettings.Save();
+            }
+        }
+
+        /// <summary>
+        /// Returns or sets the Amount of Bytes (in KiB) to Skip a file on remote file preview.
+        /// </summary>
+        public string SkipRemoteFilesOverBytes
+        {
+            get
+            {
+                return SkipRemoteFilesLimit.ToString();
+            }
+            set
+            {
+                uint result;
+                if (UInt32.TryParse(value, out result))
+                {
+                    SkipRemoteFilesLimit = result;
+                }
+                else
+                {
+                    // invalid settings are turned to default
+                    IsolatedStorageSettings.ApplicationSettings.Remove("SkipRemoteFilesLimit");
+                    IsolatedStorageSettings.ApplicationSettings.Save();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns true if files are getting deleted in Cloud Storage too if removed from device.
+        /// Default: false
+        /// </summary>
+        public bool EnableRemoteDeleting
+        {
+            get
+            {
+                bool value;
+                if (!IsolatedStorageSettings.ApplicationSettings.TryGetValue("EnableRemoteDeleting", out value))
+                {
+                    return false;
+                }
+                return value;
+            }
+            set
+            {
+                IsolatedStorageSettings.ApplicationSettings["EnableRemoteDeleting"] = value;
+                IsolatedStorageSettings.ApplicationSettings.Save();
+            }
+        }
+
+        /// <summary>
+        /// Simple controls the visibility of the file preview settings panel
+        /// </summary>
+        public Visibility FilePreviewSettingsVisibility
+        {
+            get
+            {
+                return EnableFilePreview ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
         public void LoadData()
         {
             // init isf
@@ -107,13 +280,10 @@ namespace OwnCloud.Data
             {
                 LocalStorageFreeBytes = _isf.AvailableFreeSpace;
             };
-            _deviceStatusTimer.Start();
+            _deviceStatusTimer.Start();            
 
             // load files
             Files = new ObservableCollection<File>();
-            // Example data
-            Files.Add(new File() { FileName = "Longfilename does not fit here.txt", FileSize = 234, FileType = "text/plain", FileLastModified = DateTime.Parse("2013-07-05T22:05:21+00:00") });
-            Files.Add(new File() { FileName = "Something.html", FileSize = 12940, FileType = "text/html;charset=utf-8", FileLastModified = DateTime.Parse("2013-02-05T23:16:21+00:00") });
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

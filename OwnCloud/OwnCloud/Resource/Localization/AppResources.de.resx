@@ -270,4 +270,33 @@ Gültig bis: {3:g}</value>
   <data name="AppointmentPage_WrongDate" xml:space="preserve">
     <value>Das Enddatum ist vor dem Startdatum. Bitte beheben sie das.</value>
   </data>
+  <data name="SettingsPage_EnableFilePreview" xml:space="preserve">
+    <value>Dateivorschau aktivieren.</value>
+  </data>
+  <data name="SettingsPage_EnableFilePreviewSubText" xml:space="preserve">
+    <value>Öffnet vorhande und entfernte Dateien beim Browsen und erstellt eine Voransicht.</value>
+  </data>
+  <data name="SettingsPage_EnableRemoteDeleting" xml:space="preserve">
+    <value>Lösche entfernte Dateien auf dem Cloud Storage, wenn ich Dateien von dem Gerät entferne.</value>
+  </data>
+  <data name="SettingsPage_EnableRemoteFilePreviewWLANOnly" xml:space="preserve">
+    <value>Aktualisiere Vorschau von entfernten Dateien nur wenn ich mit einem WLAN-Netz verbunden bin.</value>
+  </data>
+  <data name="SettingsPage_EnableSkipRemoteFiles" xml:space="preserve">
+    <value>Lasse Dateien  aus, die größer als der unten angegebene Wert in KB sind.</value>
+  </data>
+  <data name="SettingsPage_ShowPhoneStatusBar" xml:space="preserve">
+    <value>Statusleiste anzeigen.</value>
+  </data>
+  <data name="EditAccountPage_CheckingConnection_DAVTestFailed" xml:space="preserve">
+    <value>Die DAV-Struktur wurde nicht erkannt. Bitte den Serverpfad überprüfen.
+Fehlgeschlagen: {0}
+Server Antwort: {1}</value>
+  </data>
+  <data name="Error_Caption" xml:space="preserve">
+    <value>Fehler</value>
+  </data>
+  <data name="FetchFile_Unauthorized" xml:space="preserve">
+    <value>Die Dateliste konnte nicht vom Zielserver abgefragt werden: Zugriff verweigert.</value>
+  </data>
 </root>

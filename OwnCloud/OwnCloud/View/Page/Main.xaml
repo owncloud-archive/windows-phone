@@ -26,12 +26,12 @@
         <DataTemplate x:Key="PanoramaItemHeader">
             <Grid>
                 <ContentPresenter>
-                    <TextBlock Text="{Binding}" FontSize="60" TextWrapping="Wrap" />
+                    <TextBlock Text="{Binding}" FontSize="40" TextWrapping="Wrap" />
                 </ContentPresenter>
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="PanoramaHeader">
-            <TextBlock Text="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" FontSize="120" Margin="0,50,0,0" FontWeight="Bold" />
+            <TextBlock Text="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" FontSize="80" Margin="0,50,0,0" FontWeight="Bold" />
         </DataTemplate>
         <Style TargetType="Grid" x:Key="PanoramaItemGrid">
             <Setter Property="Width" Value="420"/>
@@ -62,6 +62,7 @@
                                             <toolkit:MenuItem Header="{Binding Path=LocalizedResources.MainPage_PinToStart, Source={StaticResource LocalizedStrings}}" Click="RemoteFilesPinToStart" />
                                         </toolkit:ContextMenu>
                                     </toolkit:ContextMenuService.ContextMenu>
+
                                     <Image Grid.Column="0" Source="/Resource/Image/owncloud-logo.png"/>
                                     <TextBlock Grid.Column="1" Text="{Binding ServerDomain}" Style="{StaticResource PhoneTextExtraLargeStyle}"></TextBlock>
                                 </Grid>
@@ -69,6 +70,36 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </StackPanel>
+            </controls:PanoramaItem>
+
+            <controls:PanoramaItem Header="{Binding Path=LocalizedResources.MainPage_Files, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PanoramaItemHeader}">
+                <ListBox ItemsSource="{Binding Files}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="0,0,0,17">
+                                <TextBlock Text="{Binding FileName}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}" MaxHeight="60"/>
+
+                                <Grid Style="{StaticResource PanoramaItemGrid}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="{Binding Type}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                        <TextBlock Text="{Binding LastModified}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                    </StackPanel>
+                                    <TextBlock Grid.Column="1" Text="{Binding Size}" Style="{StaticResource PhoneTextSubtleStyle}" HorizontalAlignment="Right"/>   
+                                </Grid>
+                                
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </controls:PanoramaItem>
 
             <controls:PanoramaItem Header="{Binding Path=LocalizedResources.MainPage_CalendarHeader, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PanoramaItemHeader}">
@@ -91,6 +122,7 @@
                                     
                             </toolkit:HubTile>
                                              
+
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
@@ -99,8 +131,9 @@
             <controls:PanoramaItem Header="{Binding Path=LocalizedResources.MainPage_Settings, Source={StaticResource LocalizedStrings}}">
                 <ListBox >
                     <TextBlock Text="{Binding Path=LocalizedResources.MainPage_Accounts, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextExtraLargeStyle}" Tap="SettingsAccountsTab"/>
-                    <TextBlock Text="{Binding Path=LocalizedResources.MainPage_AccountsText, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextSubtleStyle}" Margin="12,0,12,17"/>
-                    <TextBlock Text="{Binding Path=LocalizedResources.MainPage_Info, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                    <TextBlock Text="{Binding Path=LocalizedResources.MainPage_AccountsText, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextSubtleStyle}" Tap="SettingsAccountsTab"/>
+                    
+                    <TextBlock Text="{Binding Path=LocalizedResources.MainPage_Info, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextExtraLargeStyle}" Margin="12,15,0,0"/>
                     <Grid Style="{StaticResource PanoramaItemGrid}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -109,6 +142,27 @@
                         <TextBlock Grid.Column="0" Text="{Binding Path=LocalizedResources.MainPage_Status_FreeDiskSpace, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextSubtleStyle}"/>
                         <TextBlock Grid.Column="1" Text="{Binding AvailableLocalStorage}" Style="{StaticResource PhoneTextSubtleStyle}" HorizontalAlignment="Right"/>
                     </Grid>
+                    
+                    <TextBlock Text="Misc" Style="{StaticResource PhoneTextExtraLargeStyle}" Margin="12,15,0,0"/>
+                    <CheckBox Content="{Binding Path=LocalizedResources.SettingsPage_ShowPhoneStatusBar, Source={StaticResource LocalizedStrings}}" IsChecked="{Binding EnablePhoneStatusBar, Mode=TwoWay}"/>
+
+                    <CheckBox Content="{Binding Path=LocalizedResources.SettingsPage_EnableFilePreview, Source={StaticResource LocalizedStrings}}" IsChecked="{Binding EnableFilePreview, Mode=TwoWay}"/>
+                    <TextBlock TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.SettingsPage_EnableFilePreviewSubText, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextSubtleStyle}" Margin="12,-12,0,0"/>
+                    
+                    <StackPanel Visibility="{Binding FilePreviewSettingsVisibility}">
+                        <CheckBox Margin="20,-12,0,0" IsChecked="{Binding EnableRemoteFilePreviewWLANOnly, Mode=TwoWay}">
+                            <TextBlock TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.SettingsPage_EnableRemoteFilePreviewWLANOnly, Source={StaticResource LocalizedStrings}}"/>
+                        </CheckBox>
+                        <CheckBox Margin="20,-24,0,0" IsChecked="{Binding EnableSkipRemoteFiles, Mode=TwoWay}">
+                            <TextBlock TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.SettingsPage_EnableSkipRemoteFiles, Source={StaticResource LocalizedStrings}}"/>
+                        </CheckBox>
+                        <TextBox Margin="80,-12,0,0" Width="200" Text="{Binding SkipRemoteFilesOverBytes, Mode=TwoWay}" TextAlignment="Right"/>
+                    </StackPanel>
+
+                    <CheckBox Margin="0,15,0,0" IsChecked="{Binding EnableRemoteDeleting, Mode=TwoWay}">
+                        <TextBlock TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.SettingsPage_EnableRemoteDeleting, Source={StaticResource LocalizedStrings}}"/>
+                    </CheckBox>
+                    
                 </ListBox>
             </controls:PanoramaItem>
 

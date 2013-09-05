@@ -31,6 +31,7 @@ namespace OwnCloud
 
         private void PageLoaded(object sender, RoutedEventArgs e)
         {
+            SystemTray.IsVisible = App.DataContext.EnablePhoneStatusBar;
             AccountsList.ItemsSource = new AccountListDataContext().Accounts;
         }
 

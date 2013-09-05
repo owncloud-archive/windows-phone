@@ -144,7 +144,7 @@ namespace OwnCloud.Data.DAV
             catch (WebException we)
             {
                 LastException = we;
-                obj.Callback(new DAVRequestResult(this, ServerStatus.InternalServerError), obj.UserObject);
+                obj.Callback(new DAVRequestResult(this, ((HttpWebResponse)we.Response).StatusCode, ((HttpWebResponse)we.Response).StatusDescription), obj.UserObject);
             }
         }
 
@@ -164,7 +164,7 @@ namespace OwnCloud.Data.DAV
             catch (WebException we)
             {
                 LastException = we;
-                obj.Callback(new DAVRequestResult(this, ServerStatus.LocalFailure), obj.UserObject);
+                obj.Callback(new DAVRequestResult(this, ((HttpWebResponse)we.Response).StatusCode, ((HttpWebResponse)we.Response).StatusDescription), obj.UserObject);
             }
         }
 
