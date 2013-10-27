@@ -175,7 +175,7 @@ Valid To: {3:g}</value>
     <value>Accounts</value>
   </data>
   <data name="MainPage_AccountsText" xml:space="preserve">
-    <value>Manage your OwnCloud accounts here.</value>
+    <value>No accounts found.</value>
   </data>
   <data name="MainPage_CalendarHeader" xml:space="preserve">
     <value>Calendars</value>
@@ -214,7 +214,7 @@ Valid To: {3:g}</value>
     <value>Add Account</value>
   </data>
   <data name="SettingsPage_AddAccount_Help" xml:space="preserve">
-    <value>To add an account simply tap "Add". To edit, tap on the account. To delete an account, drag the account to the right till it disappears.</value>
+    <value>To add an account, tap"Add". To edit or remove, first tap on "Lock" then tap on the account to edit. Move the account to the right until the account will be completely disappear to remove it.</value>
   </data>
   <data name="SettingsPage_Title" xml:space="preserve">
     <value>OwnCloud Settings</value>
@@ -298,5 +298,20 @@ Server Answer: {1}</value>
   </data>
   <data name="Error_Caption" xml:space="preserve">
     <value>Error</value>
+  </data>
+  <data name="ApplicationBarButton_ChooseAccount" xml:space="preserve">
+    <value>Choose account</value>
+  </data>
+  <data name="ApplicationBarButton_Lock" xml:space="preserve">
+    <value>Lock</value>
+  </data>
+  <data name="ApplicationBarButton_Unlock" xml:space="preserve">
+    <value>Unlock</value>
+  </data>
+  <data name="ApplicationBarButton_View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="FileItem_Up" xml:space="preserve">
+    <value>Up</value>
   </data>
 </root>

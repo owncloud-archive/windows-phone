@@ -1,0 +1,47 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" x:Class="OwnCloud.View.Controls.FileMultiTileViewControl"
+    mc:Ignorable="d"
+    x:Name="this"
+    Background="{StaticResource PhoneChromeBrush}"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="200" d:DesignWidth="200">
+
+    <Grid x:Name="LayoutRoot" Background="{Binding Background, ElementName=this}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        
+        <!-- This Grid is active for any image preview -->
+        <Grid x:Name="ImagePreviewGrid" Grid.Row="0" Visibility="Collapsed">
+            <Image Source="/ApplicationIcon.png" Margin="10"/>
+        </Grid>
+
+        <!-- This Grid is active for any MIME-icon-based (no) preview -->
+        <Grid x:Name="IconPreviewGrid" Grid.Row="0" Visibility="Collapsed">
+            <Image Name="Icon" Source="/Assets/FileIcons/file.png" Margin="10"/>
+        </Grid>
+
+        <!-- This Grid is active for any text based preview -->
+        <Grid x:Name="TextPreviewGrid" Grid.Row="0" Visibility="Collapsed">
+            <TextBlock Text="ABC ABC ABC ABC ABC ABC ABC" TextWrapping="Wrap" Margin="10"/>
+        </Grid>
+
+        <!-- This Grid is active for any HTML based preview -->
+        <Grid x:Name="HTMLPreviewGrid" Grid.Row="0" Visibility="Collapsed">
+            <phone:WebBrowser/>
+        </Grid>
+                
+        <!-- This Grid is a default for file name -->
+        <Grid Name="FileNameContainer" Background="Black" Grid.Row="1">
+            <TextBlock Name="FileName" Text="DefaultFileName.ext" Margin="10"/>
+        </Grid>
+    </Grid>
+</UserControl>

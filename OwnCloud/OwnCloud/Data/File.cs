@@ -21,6 +21,10 @@ namespace OwnCloud.Data
         {
             get
             {
+                if (IsDirectory && IsRootItem)
+                {
+                    return "FileItem_Up".Translate();
+                }
                 return Uri.UnescapeDataString(_name);
             }
             set
@@ -46,6 +50,19 @@ namespace OwnCloud.Data
             set
             {
                 _path = value;
+
+            }
+        }
+
+        /// <summary>
+        /// Simple the path without local reference path
+        /// </summary>
+        public string FileParentPath
+        {
+            get
+            {
+                string p = _path.TrimEnd('/');
+                return p.Substring(0, p.LastIndexOf('/')) + '/';
             }
         }
 
@@ -78,6 +95,15 @@ namespace OwnCloud.Data
         {
             get { return _type; }
             set { _type = value.ToString(); }
+        }
+
+        /// <summary>
+        /// The server provided E-Tag.
+        /// </summary>
+        public string ETag
+        {
+            get;
+            set;
         }
 
         /// <summary>
@@ -203,7 +229,7 @@ namespace OwnCloud.Data
         {
             get
             {
-                return "✎ " + FileLastModified.ToString("");
+                return "✎ " + FileLastModified.ToString("dd/MM/yyyy HH:mm");
             }
         }
 
@@ -214,7 +240,7 @@ namespace OwnCloud.Data
         {
             get
             {
-                return "✎ " + FileCreated.ToString("");
+                return "✎ " + FileCreated.ToString("dd/MM/yyyy HH:mm");
             }
         }
 
@@ -230,6 +256,15 @@ namespace OwnCloud.Data
         }
 
         static Dictionary<string, Uri> _iconCache;
+
+        /// <summary>
+        /// Applies to directory only: If true it will not show a directory item or the directory name.
+        /// </summary>
+        public bool IsRootItem
+        {
+            get;
+            set;
+        }
 
 
         /// <summary>
@@ -249,6 +284,10 @@ namespace OwnCloud.Data
                 Uri image = null;
                 if (IsDirectory)
                 {
+                    if (IsRootItem)
+                    {
+                        return new Uri("/Assets/FileIcons/up.png", UriKind.Relative);
+                    }
                     return new Uri("/Assets/FileIcons/folder.png", UriKind.Relative);
                 }
                 else

@@ -187,7 +187,7 @@ Gültig bis: {3:g}</value>
     <value>Konten</value>
   </data>
   <data name="MainPage_AccountsText" xml:space="preserve">
-    <value>Verwalte deine OwnCloud Konten hier.</value>
+    <value>Es wurde noch kein Konto angelegt.</value>
   </data>
   <data name="MainPage_CalendarHeader" xml:space="preserve">
     <value>Kalender</value>
@@ -226,7 +226,7 @@ Gültig bis: {3:g}</value>
     <value>Konto hinzufügen</value>
   </data>
   <data name="SettingsPage_AddAccount_Help" xml:space="preserve">
-    <value>Um ein Konto hinzuzufügen einfach auf "Neu" tippen; um ein Konto zu bearbeiten auf das jeweilige Konto tippen. Um ein Konto zu löschen ziehe das Konto nach rechts bis dieses verschwunden ist.</value>
+    <value>Tippe auf "Neu" um ein Konto hinzufügen. Um ein Konto zu bearbeiten oder zu löschen, tippe zuerst auf "Sperren". Tippe auf das Konto um den Bearbeitungsmodus zu öffnen. Ziehe das Konto nach rechts, bis dieses verschwunden ist, um es zu entfernen.</value>
   </data>
   <data name="SettingsPage_Title" xml:space="preserve">
     <value>OwnCloud Einstellungen</value>
@@ -298,5 +298,20 @@ Server Antwort: {1}</value>
   </data>
   <data name="FetchFile_Unauthorized" xml:space="preserve">
     <value>Die Dateliste konnte nicht vom Zielserver abgefragt werden: Zugriff verweigert.</value>
+  </data>
+  <data name="ApplicationBarButton_ChooseAccount" xml:space="preserve">
+    <value>Konto wählen</value>
+  </data>
+  <data name="ApplicationBarButton_Lock" xml:space="preserve">
+    <value>Sperren</value>
+  </data>
+  <data name="ApplicationBarButton_Unlock" xml:space="preserve">
+    <value>Sperre aufheben</value>
+  </data>
+  <data name="ApplicationBarButton_View" xml:space="preserve">
+    <value>Ansicht</value>
+  </data>
+  <data name="FileItem_Up" xml:space="preserve">
+    <value>Aufwärts</value>
   </data>
 </root>

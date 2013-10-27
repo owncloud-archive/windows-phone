@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:odata="clr-namespace:OwnCloud.Data"
-    
+    xmlns:ViewControls="clr-namespace:OwnCloud.View.Controls"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800" 
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -20,14 +20,13 @@
     >
 
     <phone:PhoneApplicationPage.Resources>
+        <!-- Global styles -->
         <Style TargetType="controls:PanoramaItem">
             <Setter Property="Width" Value="432"/>
         </Style>
         <DataTemplate x:Key="PanoramaItemHeader">
             <Grid>
-                <ContentPresenter>
-                    <TextBlock Text="{Binding}" FontSize="40" TextWrapping="Wrap" />
-                </ContentPresenter>
+                <TextBlock Text="{Binding}" FontSize="40" TextWrapping="Wrap" />
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="PanoramaHeader">
@@ -36,23 +35,44 @@
         <Style TargetType="Grid" x:Key="PanoramaItemGrid">
             <Setter Property="Width" Value="420"/>
         </Style>
+        
+        <!-- ApplicationBar for Accounts -->
+        <shell:ApplicationBar x:Key="AccountApplicationBar">
+            <shell:ApplicationBarIconButton IconUri="/Assets/Icons/Add.png" Text="ApplicationBarButton_Add" Click="AddAccountTap"/>
+            <shell:ApplicationBarIconButton IconUri="/Assets/Icons/lock.png" Text="ApplicationBarButton_Lock" Click="LockAccountsTap"/>
+        </shell:ApplicationBar>
+        
+        <!-- Applicationbar for Files -->
+        <shell:ApplicationBar x:Key="FilesApplicationBar">
+            <shell:ApplicationBarIconButton x:Name="FilesApplicationBarAccounts" IconUri="/Assets/Icons/Web.png" Text="ApplicationBarButton_ChooseAccount" Click="ChooseAccountTap"/>
+        </shell:ApplicationBar>
+        
+        <!-- -->
+        
     </phone:PhoneApplicationPage.Resources>
 
 
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot">
 
-        <controls:Panorama Title="{Binding Path=LocalizedResources.AppTitle, Source={StaticResource LocalizedStrings}}" TitleTemplate="{StaticResource PanoramaHeader}">
-            <controls:Panorama.Background>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Black" Offset="0"/>
+                <GradientStop Color="#FF353547" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <controls:Panorama Name="MainPanorama" Title="{Binding Path=LocalizedResources.AppTitle, Source={StaticResource LocalizedStrings}}" TitleTemplate="{StaticResource PanoramaHeader}" SelectionChanged="PanoramaSelectionChanged" ManipulationStarted="PanoramaManipulationStarted">
+            <!-- <controls:Panorama.Background>
                 <ImageBrush ImageSource="/Resource/Image/PanoramaBackground.png"/>
             </controls:Panorama.Background>
+        -->
 
-            <controls:PanoramaItem Header="{Binding Path=LocalizedResources.MainPage_Remote_Files, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PanoramaItemHeader}">
+            <controls:PanoramaItem Name="AccountPanoramaItem" Header="{Binding Path=LocalizedResources.MainPage_Accounts, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PanoramaItemHeader}">
                 <StackPanel>
-                    <TextBlock Text="{Binding Path=LocalizedResources.MainPage_Remote_Files_Text, Source={StaticResource LocalizedStrings}}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                    <ListBox Name="RemoteFileAccountsList" Tap="RemoteAccountTap">
+                    <ListBox Name="AccountsList" Tap="RemoteAccountTap">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Grid Margin="0,0,0,15">
+                                <Grid Margin="0,0,0,15" ManipulationDelta="AccountsList_ManipulationDelta" ManipulationStarted="AccountsList_ManipulationStarted" ManipulationCompleted="AccountsList_ManipulationComplete">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="50"/>
                                         <ColumnDefinition Width="*"/>
@@ -69,10 +89,12 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
+                    <TextBlock TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.SettingsPage_AddAccount_Help, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextSubtleStyle}"/>
                 </StackPanel>
             </controls:PanoramaItem>
 
-            <controls:PanoramaItem Header="{Binding Path=LocalizedResources.MainPage_Files, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PanoramaItemHeader}">
+            <!-- template for favourite files
+            <controls:PanoramaItem Name="FilesPanoramaItem" Header="{Binding Path=LocalizedResources.MainPage_Files, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PanoramaItemHeader}">
                 <ListBox ItemsSource="{Binding Files}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -101,8 +123,9 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </controls:PanoramaItem>
+            -->
 
-            <controls:PanoramaItem Header="{Binding Path=LocalizedResources.MainPage_CalendarHeader, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PanoramaItemHeader}">
+            <controls:PanoramaItem Name="MainPageCalendar" Header="{Binding Path=LocalizedResources.MainPage_CalendarHeader, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PanoramaItemHeader}">
                 <ListBox ItemsSource="{Binding Accounts}">
                     <ListBox.DataContext>
                         <odata:AccountListDataContext />
@@ -128,11 +151,8 @@
                 </ListBox>
             </controls:PanoramaItem>
 
-            <controls:PanoramaItem Header="{Binding Path=LocalizedResources.MainPage_Settings, Source={StaticResource LocalizedStrings}}">
+            <controls:PanoramaItem Header="{Binding Path=LocalizedResources.MainPage_Settings, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PanoramaItemHeader}">
                 <ListBox >
-                    <TextBlock Text="{Binding Path=LocalizedResources.MainPage_Accounts, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextExtraLargeStyle}" Tap="SettingsAccountsTab"/>
-                    <TextBlock Text="{Binding Path=LocalizedResources.MainPage_AccountsText, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextSubtleStyle}" Tap="SettingsAccountsTab"/>
-                    
                     <TextBlock Text="{Binding Path=LocalizedResources.MainPage_Info, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextExtraLargeStyle}" Margin="12,15,0,0"/>
                     <Grid Style="{StaticResource PanoramaItemGrid}">
                         <Grid.ColumnDefinitions>
@@ -165,8 +185,6 @@
                     
                 </ListBox>
             </controls:PanoramaItem>
-
-            
         </controls:Panorama>
     </Grid>
 </phone:PhoneApplicationPage>

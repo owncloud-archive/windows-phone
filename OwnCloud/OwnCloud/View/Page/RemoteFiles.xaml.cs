@@ -1,27 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
+using System.Windows.Navigation;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using Microsoft.Phone.Tasks;
 using OwnCloud.Data;
 using OwnCloud.Data.DAV;
-using OwnCloud.Extensions;
 using OwnCloud.View.Controls;
+using OwnCloud.Extensions;
 
 namespace OwnCloud.View.Page
 {
     public partial class RemoteFiles : PhoneApplicationPage
     {
+
+        private Account _workingAccount;
+        private FileListDataContext _context;
+        private string[] _views = { "detail", "tile" };
+        private int _viewIndex = 0;
+        private string _workingPath = "";
+
         public RemoteFiles()
         {
             InitializeComponent();
@@ -30,9 +32,6 @@ namespace OwnCloud.View.Page
             // Translate unsupported XAML bindings
             // ApplicationBar.TranslateButtons();
         }
-
-        private Account _workingAccount;
-        private FileListDataContext _context;
 
         private void ToggleTray()
         {
@@ -54,63 +53,25 @@ namespace OwnCloud.View.Page
             {
                 // should not happen
             }
-
+            ApplicationBar = (ApplicationBar)Resources["DefaultAppBar"];
+            ApplicationBar.TranslateButtons();
             FetchStructure(_workingAccount.WebDAVPath);
         }
 
-        private string _directoryUpReference = "";
-
-        // 
-        private void EnableSyncTap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void ChangeView(object sender, EventArgs e)
         {
-            (sender as File).EnableSync = !(sender as File).EnableSync;
-        }
-
-        private void FileListTap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            if (sender.GetType() == typeof(ListBox))
+            if (_viewIndex + 1 < _views.Length)
             {
-                var item = (File)((sender as ListBox).SelectedItem);
-                if (item.IsDirectory)
-                {
-                    // change directory
-                    FetchStructure(item.FilePath);
-                }
-                else
-                {
-                    // open file in browser
-                    var task = new WebBrowserTask();
-                    task.Uri = new Uri(_workingAccount.GetUri() + item.FilePath);
-                    task.Show();
-
-                }
-            }
-        }
-
-        private void DirectoryUpTap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            if (_directoryUpReference != null)
-            {
-                FetchStructure(_directoryUpReference);
-            }
-        }
-
-        private void ToggleDirectoryUpStatus(bool mode)
-        {
-            if (mode)
-            {
-                DirectoryUpDetail.Opacity = 1;
+                ++_viewIndex;
             }
             else
             {
-                DirectoryUpDetail.Opacity = 0.5;
+                _viewIndex = 0;
             }
+            FetchStructure(_workingPath);
         }
 
-        private EventHandler _dropFileListFadeOutCompleted;
-        private EventCollector _collector = new EventCollector();
-        private Storyboard _board;
-        private DAVRequestResult _result;
+        private DAVRequestResult.Item _item;
         private ProgressOverlayPopup _overlay;
 
         /// <summary>
@@ -119,17 +80,8 @@ namespace OwnCloud.View.Page
         /// <param name="path"></param>
         private void FetchStructure(string path)
         {
-            _board = (Storyboard)Resources["DropFileListFadeOut"] as Storyboard;
-
-            if (_dropFileListFadeOutCompleted == null)
-            {
-                _dropFileListFadeOutCompleted = new EventHandler(delegate
-                {
-                    _context.Files.Clear();
-                    _collector.Raise(_dropFileListFadeOutCompleted);
-                });
-                _board.Completed += _dropFileListFadeOutCompleted;
-            }
+            string viewMode = _views[_viewIndex];
+            _workingPath = path;
 
             if (_overlay == null)
             {
@@ -137,90 +89,203 @@ namespace OwnCloud.View.Page
                 {
                     BackgroundColor = Colors.Transparent
                 };
-                
             }
-            _overlay.Show();
 
-            _result = null;
-            _board.Begin();
-            _collector.WaitFor(_dropFileListFadeOutCompleted);
-            _collector.WaitFor("FileListReceived");
-
-            _collector.Complete = () =>
+            switch (viewMode)
             {
-                FetchStructureCompleteHandler(_result);
-                Dispatcher.BeginInvoke(() =>
-                {
-                    ((Storyboard)Resources["DropFileListFadeIn"] as Storyboard).Begin();
-                    _overlay.Hide();
-                });
-            };
+                case "tile":
+                    DetailList.Hide();
+                    DetailList.Items.Clear();
+                    TileViewContainer.Show();
 
-            if (_workingAccount != null)
-            {
-                var dav = new WebDAV(_workingAccount.GetUri(), _workingAccount.GetCredentials());
-                dav.StartRequest(DAVRequestHeader.CreateListing(path), DAVRequestBody.CreateAllPropertiesListing(), null, FetchStructureComplete);
+                    // fadeout existig from tile view
+                    if (TileView.Children.Count == 0)
+                    {
+                        _overlay.Show();
+                        StartRequest();
+                    }
+                    else
+                    {
+                        int itemsLeft = TileView.Children.Count;
+                        foreach (FrameworkElement item in TileView.Children)
+                        {
+                            item.FadeOut(100, () =>
+                            {
+                                --itemsLeft;
+                                if (itemsLeft <= 0)
+                                {
+                                    _overlay.Show();
+                                    TileView.Children.Clear();
+                                    StartRequest();
+                                }
+                            });
+                        }
+                    }
+                    break;
+
+                case "detail":
+                    TileViewContainer.Hide();
+                    DetailList.Show();
+                    // fadeout existing from detail view
+                    if (DetailList.Items.Count == 0)
+                    {
+                        _overlay.Show();
+                        StartRequest();
+                    }
+                    else
+                    {
+                        int detailItemsLeft = DetailList.Items.Count;
+                        foreach (FrameworkElement item in DetailList.Items)
+                        {
+                            item.FadeOut(100, () =>
+                            {
+                                --detailItemsLeft;
+                                if (detailItemsLeft <= 0)
+                                {
+                                    _overlay.Show();
+                                    DetailList.Items.Clear();
+                                    StartRequest();
+                                }
+                            });
+                        }
+                    }
+                    break;
             }
+
+            // start overlay
         }
 
+        private void StartRequest()
+        {
+            var dav = new WebDAV(_workingAccount.GetUri(), _workingAccount.GetCredentials());
+            dav.StartRequest(DAVRequestHeader.CreateListing(_workingPath), DAVRequestBody.CreateAllPropertiesListing(), null, FetchStructureComplete);
+        }
 
         private void FetchStructureComplete(DAVRequestResult result, object userObj)
         {
-            _result = result;
-            _collector.Raise("FileListReceived");
-        }
-
-        private void FetchStructureCompleteHandler(DAVRequestResult result)
-        {
             if (result.Status == ServerStatus.MultiStatus && !result.Request.ErrorOccured && result.Items.Count > 0)
             {
-                //Utility.DebugXML(result.GetRawResponse());
-                var first_item = false;
+                bool _firstItem = false;
+                // display all items linear
+                // we cannot wait till an item is displayed, instead for a fluid
+                // behaviour we should calculate fadeIn-delays.
+                int delayStart = 0;
+                int delayStep = 50; // ms
 
                 foreach (DAVRequestResult.Item item in result.Items)
                 {
+                    File fileItem = new File()
+                    {
+                        FileName = item.LocalReference,
+                        FilePath = item.Reference,
+                        FileSize = item.ContentLength,
+                        FileType = item.ContentType,
+                        FileCreated = item.CreationDate,
+                        FileLastModified = item.LastModified,
+                        IsDirectory = item.ResourceType == ResourceType.Collection
+                    };
+
+                    bool display = true;
+
                     Dispatcher.BeginInvoke(() =>
                     {
-                        // a first element usually is the root folder
-                        // and the name is empty
-                        if (!first_item)
-                        {
-                            first_item = true;
 
-                            if (item.Reference == _workingAccount.WebDAVPath)
-                            {
-                                // cannot go up further
-                                ToggleDirectoryUpStatus(false);
-                                _directoryUpReference = null;
-                                CurrentDirectoryName.Text = "";
-                            }
-                            else
-                            {
-                                ToggleDirectoryUpStatus(true);
-                                _directoryUpReference = item.ParentReference;
-                                CurrentDirectoryName.Text = item.LocalReference;
-                            }
-                        }
-                        else
+                        switch (_views[_viewIndex])
                         {
-                            _context.Files.Add(new File
-                            {
-                                FileName = item.LocalReference,
-                                FilePath = item.Reference,
-                                FileSize = item.ContentLength,
-                                FileType = item.ContentType,
-                                FileCreated = item.CreationDate,
-                                FileLastModified = item.LastModified,
-                                IsDirectory = item.ResourceType == ResourceType.Collection
-                            });
+                            case "detail":
+                                if (!_firstItem)
+                                {
+                                    _firstItem = true;
+
+                                    // Root
+                                    if (fileItem.IsDirectory)
+                                    {
+                                        if (item.Reference == _workingAccount.WebDAVPath)
+                                        {
+                                            // cannot go up further
+                                            display = false;
+                                        }
+                                        else
+                                        {
+                                            fileItem.IsRootItem = true;
+                                            fileItem.FilePath = fileItem.FileParentPath;
+                                        }
+                                    }
+                                }
+
+                                if (display)
+                                {
+                                    FileDetailViewControl detailControl = new FileDetailViewControl()
+                                            {
+                                                DataContext = fileItem,
+                                                Opacity = 0,
+                                                Background = new SolidColorBrush() { Color = Colors.Transparent },
+                                            };
+
+                                    DetailList.Items.Add(detailControl);
+                                    detailControl.Delay(delayStart, () =>
+                                    {
+                                        detailControl.FadeIn(100);
+                                    });
+                                    delayStart += delayStep;
+                                }
+                                break;
+
+                            case "tile":
+                                if (!_firstItem)
+                                {
+                                    _firstItem = true;
+
+                                    // Root
+                                    if (fileItem.IsDirectory)
+                                    {
+                                        if (item.Reference == _workingAccount.WebDAVPath)
+                                        {
+                                            // cannot go up further
+                                            display = false;
+                                        }
+                                        else
+                                        {
+                                            fileItem.IsRootItem = true;
+                                            fileItem.FilePath = fileItem.FileParentPath;
+                                        }
+                                    }
+                                }
+
+                                if (display)
+                                {
+                                    FileMultiTileViewControl multiControl = new FileMultiTileViewControl(_workingAccount, fileItem, true)
+                                    {
+                                        Width = 200,
+                                        Height = 200,
+                                        Opacity = 0,
+                                        Margin = new Thickness(0, 0, 10, 10),
+                                    };
+                                    multiControl.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(TileListSelectionChanged);
+
+                                    // sometimes the exception "wrong parameter" is thrown - but why???
+                                    TileView.Children.Add(multiControl);
+                                    multiControl.Delay(delayStart, () =>
+                                    {
+                                        multiControl.FadeIn(100);
+                                    });
+                                }
+
+                                break;
                         }
                     });
                 }
+
+                Dispatcher.BeginInvoke(() =>
+                {
+                    _overlay.Hide();
+                });
             }
             else
             {
                 Dispatcher.BeginInvoke(() =>
                 {
+                    _overlay.Hide();
                     if (result.Status == ServerStatus.Unauthorized)
                     {
                         MessageBox.Show("FetchFile_Unauthorized".Translate(), "Error_Caption".Translate(), MessageBoxButton.OK);
@@ -231,7 +296,33 @@ namespace OwnCloud.View.Page
                     }
                 });
             }
+        }
 
+        private void TileListSelectionChanged(object sender, EventArgs e)
+        {
+            FileMultiTileViewControl item = sender as FileMultiTileViewControl;
+            OpenItem(item.FileProperties);
+        }
+
+        private void DetailListSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DetailList.Items.Count == 0) return;
+
+            FileDetailViewControl item = (FileDetailViewControl)(DetailList.SelectedItem);
+            OpenItem(item.FileProperties);
+        }
+
+        private void OpenItem(File item)
+        {
+            if (item.IsDirectory)
+            {
+                FetchStructure(item.FilePath);
+            }
+            else
+            {
+                //todo: win8 file+uri associations callers
+                //todo: open file
+            }
         }
     }
 }

@@ -39,18 +39,18 @@
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="80"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="60"/>
             </Grid.ColumnDefinitions>
 
             <Grid Margin="0,0,10,0" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
-                <Image MaxHeight="60" VerticalAlignment="Top" HorizontalAlignment="Left" Source="{Binding ImageIcon, FallbackValue=/Resource/Image/owncloud-logo.png}"/>
+                <Image Margin="0,7,0,0" MaxHeight="60" VerticalAlignment="Top" HorizontalAlignment="Left" Source="{Binding ImageIcon, FallbackValue=/Resource/Image/owncloud-logo.png}"/>
 
             </Grid>
 
 
-            <TextBlock Grid.Row="0" Grid.Column="1" LineStackingStrategy="BlockLineHeight" LineHeight="30" Text="{Binding Path=FileName, FallbackValue=LongValueLabelWithExternDescriptionFileName.FileExt}" TextWrapping="Wrap" FontSize="20" FontWeight="Light"/>
+            <TextBlock Padding="0" Grid.Row="0" Grid.Column="1" LineStackingStrategy="BlockLineHeight" LineHeight="30" Text="{Binding Path=FileName, FallbackValue=LongValueLabelWithExternDescriptionFileName.FileExt}" TextWrapping="Wrap" FontSize="20" FontWeight="Light"/>
 
             <Grid Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom">
                 <Grid.RowDefinitions>

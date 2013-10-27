@@ -102,6 +102,7 @@
     <Compile Include="Data\MimeTypes.cs" />
     <Compile Include="Data\ServerCalendarDisplayInfo.cs" />
     <Compile Include="Data\XmlNamespaces.cs" />
+    <Compile Include="Extensions\ApplicationBarExtension.cs" />
     <Compile Include="Extensions\ApplicationBarIconButtonExtension.cs" />
     <Compile Include="Extensions\CompilerExtensions.cs" />
     <Compile Include="Extensions\DateExtensions.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Data\TableEvent.cs" />
     <Compile Include="Extensions\TileHelper.cs" />
     <Compile Include="Extensions\TranslationExtension.cs" />
+    <Compile Include="Extensions\UIElementExtension.cs" />
     <Compile Include="Net\CalendarSync.cs" />
     <Compile Include="Net\DeleteEventCompleteEventHandler.cs" />
     <Compile Include="Net\HttpOcClient.cs" />
@@ -148,6 +150,9 @@
     </Compile>
     <Compile Include="View\Controls\FileDetailViewControl.xaml.cs">
       <DependentUpon>FileDetailViewControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\FileMultiTileViewControl.xaml.cs">
+      <DependentUpon>FileMultiTileViewControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\TemplateLogListSelector.cs" />
     <Compile Include="View\Controls\ProgressOverlayControl.xaml.cs">
@@ -215,6 +220,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Controls\FileMultiTileViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Controls\ProgressOverlayControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -271,10 +280,13 @@
     <Content Include="Assets\Icons\Icon_48.png" />
     <Content Include="Assets\Icons\Icon_512.png" />
     <Content Include="Assets\Icons\Icon_64.png" />
+    <Content Include="Assets\Icons\lock.png" />
     <Content Include="Assets\Icons\Reload.png" />
     <Content Include="Assets\Icons\Save.png" />
     <Content Include="Assets\Icons\Settings.png" />
     <Content Include="Assets\Icons\sync.png" />
+    <Content Include="Assets\Icons\unlock.png" />
+    <Content Include="Assets\Icons\view.png" />
     <Content Include="Assets\Icons\Web.png" />
     <Content Include="ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

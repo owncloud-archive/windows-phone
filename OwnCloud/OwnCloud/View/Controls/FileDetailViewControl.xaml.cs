@@ -23,6 +23,17 @@ namespace OwnCloud.View.Controls
 
         private Storyboard _board;
 
+        /// <summary>
+        /// Holds the File-Properties only available if DataContext was set properly.
+        /// </summary>
+        public File FileProperties
+        {
+            get
+            {
+                return (File)DataContext;
+            }
+        }
+
         private void EnableSyncTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             if (OnEnableSyncTap != null)
