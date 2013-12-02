@@ -302,6 +302,8 @@
     <Content Include="Resource\Image\PanoramaBackground.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="SplashScreenImage.screen-720p.jpg" />
+    <Content Include="SplashScreenImage.screen-WXGA.jpg" />
     <Resource Include="Resource\Localization\Mime.de.xml" />
     <Resource Include="Resource\Localization\Mime.en.xml" />
     <Content Include="Resource\Image\RemoteFolderLogo.png" />
