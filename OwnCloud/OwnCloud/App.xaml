@@ -8,6 +8,11 @@
 
     <Application.Resources>
         <local:LocalizedStrings xmlns:local="clr-namespace:OwnCloud" x:Key="LocalizedStrings" />
+        <ResourceDictionary x:Key="ApplicationDictionary">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resource/StyleDictionary.xaml" x:Name="StyleDictionary"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>
