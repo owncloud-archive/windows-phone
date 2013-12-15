@@ -129,9 +129,6 @@
   <data name="EditAccountPage_AddAccount" xml:space="preserve">
     <value>Add account</value>
   </data>
-  <data name="EditAccountPage_CalDAVPath" xml:space="preserve">
-    <value>CalDAV path</value>
-  </data>
   <data name="EditAccountPage_CheckingConnection" xml:space="preserve">
     <value>Please wait while checking connection...</value>
   </data>
@@ -167,9 +164,6 @@ Valid To: {3:g}</value>
   </data>
   <data name="EditAccountPage_Username" xml:space="preserve">
     <value>Username</value>
-  </data>
-  <data name="EditAccountPage_WebDAVPath" xml:space="preserve">
-    <value>WebDAV path</value>
   </data>
   <data name="MainPage_Accounts" xml:space="preserve">
     <value>Accounts</value>
