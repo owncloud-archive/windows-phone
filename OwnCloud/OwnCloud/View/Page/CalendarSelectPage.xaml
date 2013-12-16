@@ -49,20 +49,13 @@
             <TextBlock Text="{Binding PageMode}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
-        <ItemsControl  Grid.Row="1" Margin="12,0,12,0" ItemsSource="{Binding Path=ServerCalendars}">
+        <ItemsControl Grid.Row="1" Margin="12,0,12,0" ItemsSource="{Binding Path=ServerCalendars}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Text="{Binding Path=CalendarInfo.DisplayName}" 
-                                   FontSize="18"
-                                   />
-                        <toolkit:ToggleSwitch Checked="CalendarEnabledChange" Unchecked="CalendarEnabledChange" Grid.Column="1" IsChecked="{Binding IsClientEnabled}" />
-                        
+                    <Grid>                       
+                        <toolkit:ToggleSwitch Checked="CalendarEnabledChange" Unchecked="CalendarEnabledChange"
+                                              IsChecked="{Binding IsClientEnabled}"
+                                              Header="{Binding Path=CalendarInfo.DisplayName}"/>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
