@@ -12,8 +12,8 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True"
-    xmlns:tk="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
-    >
+    TextOptions.TextHintingMode="Animated"
+    xmlns:tk="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit">
     <shell:SystemTray.ProgressIndicator>
         <shell:ProgressIndicator x:Name="piIndicator" IsIndeterminate="True" IsVisible="False" />
     </shell:SystemTray.ProgressIndicator>
@@ -27,7 +27,7 @@
 
         <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="Owncloud Client" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock Text="OWNCLOUD CLIENT" Style="{StaticResource PageHeader}"/>
             <TextBlock Text="Appointment" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
@@ -36,27 +36,29 @@
 
             <ScrollViewer>
                 <StackPanel>
-                    <TextBlock Text="Title:"></TextBlock>
+                    <TextBlock Text="Title"
+                               Style="{StaticResource PhoneTextSubtleStyle}"></TextBlock>
                     <TextBox x:Name="TbTitle" />
                     
-                    <TextBlock Text="From:"></TextBlock>
+                    <TextBlock Text="From"
+                               Style="{StaticResource PhoneTextSubtleStyle}"></TextBlock>
                     <tk:DatePicker x:Name="DpFrom" />
                     <tk:TimePicker x:Name="TpFrom" />
 
-                    <TextBlock Text="To:"></TextBlock>
+                    <TextBlock Text="To"
+                               Style="{StaticResource PhoneTextSubtleStyle}"></TextBlock>
                     <tk:DatePicker x:Name="DpTo" />
                     <tk:TimePicker x:Name="TpTo" />
 
                     <CheckBox Content="Full day event" Checked="CbFullDayEventChanged" Unchecked="CbFullDayEventChanged" x:Name="CbFullDayEvent" />
                     
-                    <TextBlock Text="Description" />
+                    <TextBlock Text="Description"
+                               Style="{StaticResource PhoneTextSubtleStyle}"/>
                     <TextBox x:Name="TbDescription" AcceptsReturn="True" Height="200"></TextBox>
                     
                 </StackPanel>
             </ScrollViewer>
-            
         </Grid>
-        
     </Grid>
 
 

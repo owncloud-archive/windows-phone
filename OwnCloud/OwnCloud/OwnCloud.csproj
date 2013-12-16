@@ -159,6 +159,7 @@
       <DependentUpon>ProgressOverlayControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\PropgressOverlayPopup.cs" />
+    <Compile Include="View\Converter\ToUppercaseConverter.cs" />
     <Compile Include="View\Page\AccountList.xaml.cs">
       <DependentUpon>AccountList.xaml</DependentUpon>
     </Compile>
@@ -200,6 +201,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="Resource\Theme\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Controls\CalendarControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

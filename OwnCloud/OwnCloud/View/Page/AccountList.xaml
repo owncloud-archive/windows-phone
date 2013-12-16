@@ -12,7 +12,8 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="False" Loaded="PageLoaded">
+    TextOptions.TextHintingMode="Animated"
+    shell:SystemTray.IsVisible="True" Loaded="PageLoaded">
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -23,8 +24,10 @@
 
         <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="{Binding Path=LocalizedResources.SettingsPage_Title, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="{Binding Path=LocalizedResources.SettingsPage_Accounts, Source={StaticResource LocalizedStrings}}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock Text="{Binding Path=LocalizedResources.SettingsPage_Title, Source={StaticResource LocalizedStrings}, Converter={StaticResource ToUppercaseConverter}}"
+                       Style="{StaticResource PageHeader}"/>
+            <TextBlock Text="{Binding Path=LocalizedResources.SettingsPage_Accounts, Source={StaticResource LocalizedStrings}}"
+                       Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
@@ -48,7 +51,9 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.SettingsPage_AddAccount_Help, Source={StaticResource LocalizedStrings}}"></TextBlock>
+            
+            <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.SettingsPage_AddAccount_Help, Source={StaticResource LocalizedStrings}}"
+                       Style="{StaticResource PhoneTextNormalStyle}" />
             
         </Grid>
     </Grid>

@@ -1,0 +1,13 @@
+﻿<ResourceDictionary
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:System="clr-namespace:System;assembly=mscorlib"
+  xmlns:converter="clr-namespace:OwnCloud.View.Converter">
+    
+    <converter:ToUppercaseConverter x:Key="ToUppercaseConverter" />
+
+    <Style x:Key="PageHeader" TargetType="TextBlock" BasedOn="{StaticResource PhoneTextNormalStyle}">
+        <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiBold}" />
+        <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}" />
+    </Style>
+</ResourceDictionary>

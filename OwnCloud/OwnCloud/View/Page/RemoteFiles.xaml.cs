@@ -43,7 +43,6 @@ namespace OwnCloud.View.Page
 
         private void PageLoaded(object sender, RoutedEventArgs e)
         {
-            SystemTray.IsVisible = App.DataContext.EnablePhoneStatusBar;
             try
             {
                 _workingAccount = App.DataContext.LoadAccount(NavigationContext.QueryString["account"]);
@@ -72,7 +71,6 @@ namespace OwnCloud.View.Page
         }
 
         private DAVRequestResult.Item _item;
-        private ProgressOverlayPopup _overlay;
 
         /// <summary>
         /// Tries to fetch a given path and refreshes the views.
@@ -83,13 +81,8 @@ namespace OwnCloud.View.Page
             string viewMode = _views[_viewIndex];
             _workingPath = path;
 
-            if (_overlay == null)
-            {
-                _overlay = new ProgressOverlayPopup()
-                {
-                    BackgroundColor = Colors.Transparent
-                };
-            }
+            progress.IsVisible = true;
+            progress.Text = "Fetching Structure...";
 
             switch (viewMode)
             {
@@ -101,7 +94,6 @@ namespace OwnCloud.View.Page
                     // fadeout existig from tile view
                     if (TileView.Children.Count == 0)
                     {
-                        _overlay.Show();
                         StartRequest();
                     }
                     else
@@ -114,7 +106,6 @@ namespace OwnCloud.View.Page
                                 --itemsLeft;
                                 if (itemsLeft <= 0)
                                 {
-                                    _overlay.Show();
                                     TileView.Children.Clear();
                                     StartRequest();
                                 }
@@ -129,7 +120,6 @@ namespace OwnCloud.View.Page
                     // fadeout existing from detail view
                     if (DetailList.Items.Count == 0)
                     {
-                        _overlay.Show();
                         StartRequest();
                     }
                     else
@@ -142,7 +132,6 @@ namespace OwnCloud.View.Page
                                 --detailItemsLeft;
                                 if (detailItemsLeft <= 0)
                                 {
-                                    _overlay.Show();
                                     DetailList.Items.Clear();
                                     StartRequest();
                                 }
@@ -278,14 +267,14 @@ namespace OwnCloud.View.Page
 
                 Dispatcher.BeginInvoke(() =>
                 {
-                    _overlay.Hide();
+                    progress.IsVisible = false;
                 });
             }
             else
             {
                 Dispatcher.BeginInvoke(() =>
                 {
-                    _overlay.Hide();
+                    progress.IsVisible = false;
                     if (result.Status == ServerStatus.Unauthorized)
                     {
                         MessageBox.Show("FetchFile_Unauthorized".Translate(), "Error_Caption".Translate(), MessageBoxButton.OK);

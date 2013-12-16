@@ -12,13 +12,21 @@
     xmlns:data="clr-namespace:OwnCloud.Data"
     x:Class="OwnCloud.View.Page.CalendarDayPage"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
-    SupportedOrientations="Portrait"  Orientation="Portrait"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    TextOptions.TextHintingMode="Animated"
     shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot" Background="Transparent" Loaded="LayoutRoot_OnLoaded">
         <!--Pivotsteuerelement-->
-        <controls:Pivot Title="Owncloud calendar">
+        <controls:Pivot Title="OWNCLOUD CALENDAR">
+            <controls:Pivot.TitleTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}"
+                               Style="{StaticResource PageHeader}"
+                               Margin="0"/>
+                </DataTemplate>
+            </controls:Pivot.TitleTemplate>
             <!--Pivotelement eins-->
             <controls:PivotItem Header="Day">
                 <Grid>
