@@ -49,32 +49,11 @@
                         </Grid.ColumnDefinitions>
 
                         <Button Grid.Column="0" Content="{Binding Protocol, Mode=TwoWay}" Tap="ProtocolButtonTap"/>
-                        <TextBox Grid.Column="1" Text="{Binding ServerDomain, Mode=TwoWay}"/>
+                        <TextBox Grid.Column="1" x:Name="tbxHost" Text="{Binding ServerDomain, Mode=TwoWay}" GotFocus="tbxHost_GotFocus"
+                            LostFocus="tbxHost_LostFocus"/>
                     </Grid>
                 </StackPanel>
 
-                <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0,0,0,20">
-                    <TextBlock Text="{Binding Path=LocalizedResources.EditAccountPage_WebDAVPath, Source={StaticResource LocalizedStrings}}"/>
-                    <Grid >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBox Grid.Column="0" Text="{Binding WebDAVPath, Mode=TwoWay}"/>
-                    </Grid>
-                </StackPanel>
-
-                <StackPanel Grid.Row="2" Orientation="Vertical" Margin="0,0,0,20">
-                    <TextBlock Text="{Binding Path=LocalizedResources.EditAccountPage_CalDAVPath, Source={StaticResource LocalizedStrings}}"/>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBox Grid.Column="0" Text="{Binding CalDAVPath, Mode=TwoWay}"/>
-                    </Grid>
-                </StackPanel>
-                
                 <StackPanel Grid.Row="3" Orientation="Vertical" Margin="0,0,0,0">
                     <Grid>
                         <Grid.ColumnDefinitions>

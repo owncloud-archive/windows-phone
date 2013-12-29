@@ -138,9 +138,6 @@
   <data name="EditAccountPage_Anonymous" xml:space="preserve">
     <value>Anonymer Zugriff</value>
   </data>
-  <data name="EditAccountPage_CalDAVPath" xml:space="preserve">
-    <value>CalDAV Pfad</value>
-  </data>
   <data name="EditAccountPage_CheckingConnection" xml:space="preserve">
     <value>Bitte warten. Überprüfe Verbindung...</value>
   </data>
@@ -153,7 +150,7 @@ Soll dieses Konto dennoch hinzugefügt werden?</value>
     <value>Verbindung fehlgeschlagen.</value>
   </data>
   <data name="EditAccountPage_Connection_Rejected" xml:space="preserve">
-    <value>Die Verbindung zu "{0:g}" wurde vom Telefon abgelehnt. Das Sicherheitszertifikat war nicht valid oder wurde selbst signiert ausgestellt. Bitte importiere das Zertifikat manuell in das Telefon und versuche es erneut.
+    <value>Die Verbindung zu "{0:g}" wurde vom Gerät abgelehnt. Das Sicherheitszertifikat ist nicht gültig oder wurde selbst signiert. Bitte importiere das Zertifikat manuell in das Telefon und versuche es erneut.
 
 Zertifikat: {1:g}
 Gültig ab: {2:g}
@@ -173,9 +170,6 @@ Gültig bis: {3:g}</value>
   </data>
   <data name="EditAccountPage_Username" xml:space="preserve">
     <value>Benutzername</value>
-  </data>
-  <data name="EditAccountPage_WebDAVPath" xml:space="preserve">
-    <value>WebDAV Pfad</value>
   </data>
   <data name="Exception_NoUserID" xml:space="preserve">
     <value>Für diese Seite wurde keine UserID definiert</value>
@@ -226,7 +220,10 @@ Gültig bis: {3:g}</value>
     <value>Konto hinzufügen</value>
   </data>
   <data name="SettingsPage_AddAccount_Help" xml:space="preserve">
-    <value>Tippe auf "Neu" um ein Konto hinzufügen. Um ein Konto zu bearbeiten oder zu löschen, tippe zuerst auf "Sperren". Tippe auf das Konto um den Bearbeitungsmodus zu öffnen. Ziehe das Konto nach rechts, bis dieses verschwunden ist, um es zu entfernen.</value>
+    <value>Tippe auf "Neu" um ein Konto hinzufügen. Um ein Konto zu bearbeiten oder zu löschen, tippe zuerst auf "Sperren".
+
+Tippe auf das Konto um den Bearbeitungsmodus zu öffnen.
+Ziehe das Konto nach rechts, bis dieses verschwunden ist, um es zu entfernen.</value>
   </data>
   <data name="SettingsPage_Title" xml:space="preserve">
     <value>OwnCloud Einstellungen</value>
@@ -274,16 +271,16 @@ Gültig bis: {3:g}</value>
     <value>Dateivorschau aktivieren.</value>
   </data>
   <data name="SettingsPage_EnableFilePreviewSubText" xml:space="preserve">
-    <value>Öffnet vorhande und entfernte Dateien beim Browsen und erstellt eine Voransicht.</value>
+    <value>Öffnet vorhandene und entfernte Dateien beim Browsen und erstellt eine Voransicht.</value>
   </data>
   <data name="SettingsPage_EnableRemoteDeleting" xml:space="preserve">
     <value>Lösche entfernte Dateien auf dem Cloud Storage, wenn ich Dateien von dem Gerät entferne.</value>
   </data>
   <data name="SettingsPage_EnableRemoteFilePreviewWLANOnly" xml:space="preserve">
-    <value>Aktualisiere Vorschau von entfernten Dateien nur wenn ich mit einem WLAN-Netz verbunden bin.</value>
+    <value>Aktualisiere Vorschau entfernter Dateien nur bei WLAN Datenverbindung</value>
   </data>
   <data name="SettingsPage_EnableSkipRemoteFiles" xml:space="preserve">
-    <value>Lasse Dateien  aus, die größer als der unten angegebene Wert in KB sind.</value>
+    <value>Überspringe Dateien, die größer als der unten angegebene Wert in KB sind.</value>
   </data>
   <data name="SettingsPage_ShowPhoneStatusBar" xml:space="preserve">
     <value>Statusleiste anzeigen.</value>

@@ -16,6 +16,7 @@ using OwnCloud.Data.DAV;
 using OwnCloud.Net;
 using OwnCloud.Extensions;
 using OwnCloud.View.Controls;
+using System.Windows.Media;
 
 namespace OwnCloud
 {
@@ -24,6 +25,8 @@ namespace OwnCloud
 
         private TemporaryData _accountForm = new TemporaryData();
         private bool _editMode = false;
+
+        private static string exampleHost = "domain.com/owncloud";
 
         public struct AsyncHttpResponse
         {
@@ -81,6 +84,10 @@ namespace OwnCloud
             {
                 return;
             }
+
+            // focus the page in order to remove focus from the text box
+            // and hide the soft keyboard
+            this.Focus();
 
             // show overlay
             if (_overlay == null)
@@ -204,7 +211,7 @@ namespace OwnCloud
                 while (pathsToTest.Count > 0)
                 {
                     var path = pathsToTest.Dequeue();
-                    davTest.StartRequest(DAVRequestHeader.CreateListing(path), path, (requestResult, userObj) =>
+                    davTest.StartRequest(DAVRequestHeader.CreateListing(path), state.AssociatedAccount.GetUri()+path, (requestResult, userObj) =>
                     {
                         if (requestResult.Status != ServerStatus.MultiStatus)
                         {
@@ -215,7 +222,7 @@ namespace OwnCloud
                                 MessageBox.Show("EditAccountPage_CheckingConnection_DAVTestFailed".Translate(userObj, requestResult.StatusText), "Error_Caption".Translate(), MessageBoxButton.OK);
                             });
                         }
-                        collector.Raise(userObj);
+                        collector.Raise(path);
                     });
                 }                
             }
@@ -269,6 +276,33 @@ namespace OwnCloud
             NavigationService.GoBack();
         }
 
+        private void tbxHost_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbxHost.Text == exampleHost)
+            {
+                tbxHost.Text = "";
+                SolidColorBrush Brush1 = new SolidColorBrush();
+                Brush1.Color = Colors.Black;
+                tbxHost.Foreground = Brush1;
+            }
+        }
+
+        private void setHostWatermark()
+        {
+            if (tbxHost.Text == String.Empty)
+            {
+                tbxHost.Text = exampleHost;
+                SolidColorBrush Brush2 = new SolidColorBrush();
+                Brush2.Color = Colors.Gray;
+                tbxHost.Foreground = Brush2;
+            }
+        }
+
+        private void tbxHost_LostFocus(object sender, RoutedEventArgs e)
+        {
+            setHostWatermark();
+        }
+
         private void PageLoaded(object sender, RoutedEventArgs e)
         {
             SystemTray.IsVisible = App.DataContext.EnablePhoneStatusBar;
@@ -301,6 +335,9 @@ namespace OwnCloud
                 account.RestoreCredentials();
                 (DataContext as AccountDataContext).CurrentAccount = account;
             }
+
+
+            setHostWatermark();
         }
 
     }
