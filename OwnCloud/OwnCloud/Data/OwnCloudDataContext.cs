@@ -95,29 +95,6 @@ namespace OwnCloud.Data
             }
         }
 
-        
-        /// <summary>
-        /// Returns true if the phone status bar should be displayed.
-        /// Default: false
-        /// </summary>
-        public bool EnablePhoneStatusBar
-        {
-            get
-            {
-                bool value;
-                if (!IsolatedStorageSettings.ApplicationSettings.TryGetValue("EnablePhoneStatusBar", out value))
-                {
-                    return false;
-                }
-                return value;
-            }
-            set
-            {
-                IsolatedStorageSettings.ApplicationSettings["EnablePhoneStatusBar"] = value;
-                IsolatedStorageSettings.ApplicationSettings.Save();
-            }
-        }
-
         /// <summary>
         /// Returns true if file previews are enabled globally.
         /// Default: true

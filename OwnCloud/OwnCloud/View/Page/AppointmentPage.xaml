@@ -6,14 +6,36 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True"
-    xmlns:tk="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
-    >
+    TextOptions.TextHintingMode="Animated">
+
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
+
     <shell:SystemTray.ProgressIndicator>
         <shell:ProgressIndicator x:Name="piIndicator" IsIndeterminate="True" IsVisible="False" />
     </shell:SystemTray.ProgressIndicator>
@@ -27,7 +49,7 @@
 
         <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="Owncloud Client" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock Text="OWNCLOUD CLIENT" Style="{StaticResource PageHeader}"/>
             <TextBlock Text="Appointment" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
@@ -36,27 +58,29 @@
 
             <ScrollViewer>
                 <StackPanel>
-                    <TextBlock Text="Title:"></TextBlock>
+                    <TextBlock Text="Title"
+                               Style="{StaticResource PhoneTextSubtleStyle}"></TextBlock>
                     <TextBox x:Name="TbTitle" />
                     
-                    <TextBlock Text="From:"></TextBlock>
-                    <tk:DatePicker x:Name="DpFrom" />
-                    <tk:TimePicker x:Name="TpFrom" />
+                    <TextBlock Text="From"
+                               Style="{StaticResource PhoneTextSubtleStyle}"></TextBlock>
+                    <toolkit:DatePicker x:Name="DpFrom" />
+                    <toolkit:TimePicker x:Name="TpFrom" />
 
-                    <TextBlock Text="To:"></TextBlock>
-                    <tk:DatePicker x:Name="DpTo" />
-                    <tk:TimePicker x:Name="TpTo" />
+                    <TextBlock Text="To"
+                               Style="{StaticResource PhoneTextSubtleStyle}"></TextBlock>
+                    <toolkit:DatePicker x:Name="DpTo" />
+                    <toolkit:TimePicker x:Name="TpTo" />
 
                     <CheckBox Content="Full day event" Checked="CbFullDayEventChanged" Unchecked="CbFullDayEventChanged" x:Name="CbFullDayEvent" />
                     
-                    <TextBlock Text="Description" />
+                    <TextBlock Text="Description"
+                               Style="{StaticResource PhoneTextSubtleStyle}"/>
                     <TextBox x:Name="TbDescription" AcceptsReturn="True" Height="200"></TextBox>
                     
                 </StackPanel>
             </ScrollViewer>
-            
         </Grid>
-        
     </Grid>
 
 

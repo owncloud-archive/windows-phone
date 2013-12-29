@@ -7,7 +7,13 @@
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <Application.Resources>
-        <local:LocalizedStrings xmlns:local="clr-namespace:OwnCloud" x:Key="LocalizedStrings" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resource/Theme/Generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <local:LocalizedStrings xmlns:local="clr-namespace:OwnCloud" x:Key="LocalizedStrings" />
+        </ResourceDictionary>
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>

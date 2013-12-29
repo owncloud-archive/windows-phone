@@ -16,9 +16,30 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
     shell:SystemTray.IsVisible="false"
-    Loaded="PageLoaded"
-    >
+    TextOptions.TextHintingMode="Animated"
+    Loaded="PageLoaded">
 
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
+    
     <phone:PhoneApplicationPage.Resources>
         <!-- Global styles -->
         <Style TargetType="controls:PanoramaItem">
@@ -53,26 +74,14 @@
 
 
     <Grid x:Name="LayoutRoot">
-
-        <Grid.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="Black" Offset="0"/>
-                <GradientStop Color="#FF353547" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
-
         <controls:Panorama Name="MainPanorama" Title="{Binding Path=LocalizedResources.AppTitle, Source={StaticResource LocalizedStrings}}" TitleTemplate="{StaticResource PanoramaHeader}" SelectionChanged="PanoramaSelectionChanged" ManipulationStarted="PanoramaManipulationStarted">
-            <!-- <controls:Panorama.Background>
-                <ImageBrush ImageSource="/Resource/Image/PanoramaBackground.png"/>
-            </controls:Panorama.Background>
-        -->
-
             <controls:PanoramaItem Name="AccountPanoramaItem" Header="{Binding Path=LocalizedResources.MainPage_Accounts, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PanoramaItemHeader}">
                 <StackPanel>
                     <ListBox Name="AccountsList" Tap="RemoteAccountTap">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Grid Margin="0,0,0,15" ManipulationDelta="AccountsList_ManipulationDelta" ManipulationStarted="AccountsList_ManipulationStarted" ManipulationCompleted="AccountsList_ManipulationComplete">
+                                <Grid Margin="12,0,12,12" ManipulationDelta="AccountsList_ManipulationDelta" ManipulationStarted="AccountsList_ManipulationStarted" ManipulationCompleted="AccountsList_ManipulationComplete"
+                                      toolkit:TiltEffect.IsTiltEnabled="True">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="50"/>
                                         <ColumnDefinition Width="*"/>
@@ -126,7 +135,8 @@
             -->
 
             <controls:PanoramaItem Name="MainPageCalendar" Header="{Binding Path=LocalizedResources.MainPage_CalendarHeader, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PanoramaItemHeader}">
-                <ListBox ItemsSource="{Binding Accounts}">
+                <ListBox ItemsSource="{Binding Accounts}"
+                         Margin="12,0">
                     <ListBox.DataContext>
                         <odata:AccountListDataContext />
                     </ListBox.DataContext>
@@ -144,15 +154,13 @@
                                     
                                     
                             </toolkit:HubTile>
-                                             
-
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </controls:PanoramaItem>
 
             <controls:PanoramaItem Header="{Binding Path=LocalizedResources.MainPage_Settings, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PanoramaItemHeader}">
-                <ListBox >
+                <ListBox>
                     <TextBlock Text="{Binding Path=LocalizedResources.MainPage_Info, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextExtraLargeStyle}" Margin="12,15,0,0"/>
                     <Grid Style="{StaticResource PanoramaItemGrid}">
                         <Grid.ColumnDefinitions>
@@ -164,19 +172,21 @@
                     </Grid>
                     
                     <TextBlock Text="Misc" Style="{StaticResource PhoneTextExtraLargeStyle}" Margin="12,15,0,0"/>
-                    <CheckBox Content="{Binding Path=LocalizedResources.SettingsPage_ShowPhoneStatusBar, Source={StaticResource LocalizedStrings}}" IsChecked="{Binding EnablePhoneStatusBar, Mode=TwoWay}"/>
-
+                    
                     <CheckBox Content="{Binding Path=LocalizedResources.SettingsPage_EnableFilePreview, Source={StaticResource LocalizedStrings}}" IsChecked="{Binding EnableFilePreview, Mode=TwoWay}"/>
                     <TextBlock TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.SettingsPage_EnableFilePreviewSubText, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextSubtleStyle}" Margin="12,-12,0,0"/>
                     
                     <StackPanel Visibility="{Binding FilePreviewSettingsVisibility}">
-                        <CheckBox Margin="20,-12,0,0" IsChecked="{Binding EnableRemoteFilePreviewWLANOnly, Mode=TwoWay}">
+                        <CheckBox IsChecked="{Binding EnableRemoteFilePreviewWLANOnly, Mode=TwoWay}">
                             <TextBlock TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.SettingsPage_EnableRemoteFilePreviewWLANOnly, Source={StaticResource LocalizedStrings}}"/>
                         </CheckBox>
-                        <CheckBox Margin="20,-24,0,0" IsChecked="{Binding EnableSkipRemoteFiles, Mode=TwoWay}">
+                        <CheckBox IsChecked="{Binding EnableSkipRemoteFiles, Mode=TwoWay}">
                             <TextBlock TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.SettingsPage_EnableSkipRemoteFiles, Source={StaticResource LocalizedStrings}}"/>
                         </CheckBox>
-                        <TextBox Margin="80,-12,0,0" Width="200" Text="{Binding SkipRemoteFilesOverBytes, Mode=TwoWay}" TextAlignment="Right"/>
+
+                        <TextBlock Style="{StaticResource PhoneTextSubtleStyle}"
+                                   Text="Threshold" />
+                        <TextBox Text="{Binding SkipRemoteFilesOverBytes, Mode=TwoWay}" InputScope="Number" />
                     </StackPanel>
 
                     <CheckBox Margin="0,15,0,0" IsChecked="{Binding EnableRemoteDeleting, Mode=TwoWay}">

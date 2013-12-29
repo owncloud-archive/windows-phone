@@ -12,6 +12,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
+    TextOptions.TextHintingMode="Animated"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     shell:SystemTray.IsVisible="True" Unloaded="PageUnloaded">
 
@@ -22,7 +23,8 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="{Binding Path=LocalizedResources.SettingsPage_Title, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock Text="{Binding Path=LocalizedResources.SettingsPage_Title, Source={StaticResource LocalizedStrings}, Converter={StaticResource ToUppercaseConverter}}"
+                       Style="{StaticResource PageHeader}"/>
             <TextBlock Text="{Binding PageMode}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
@@ -41,7 +43,8 @@
 
 
                 <StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,0,0,20">
-                    <TextBlock Text="{Binding Path=LocalizedResources.EditAccountPage_Server, Source={StaticResource LocalizedStrings}}"/>
+                    <TextBlock Text="{Binding Path=LocalizedResources.EditAccountPage_Server, Source={StaticResource LocalizedStrings}}"
+                               Style="{StaticResource PhoneTextSubtleStyle}"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -54,8 +57,9 @@
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0,0,0,20">
-                    <TextBlock Text="{Binding Path=LocalizedResources.EditAccountPage_WebDAVPath, Source={StaticResource LocalizedStrings}}"/>
-                    <Grid >
+                    <TextBlock Text="{Binding Path=LocalizedResources.EditAccountPage_WebDAVPath, Source={StaticResource LocalizedStrings}}"
+                               Style="{StaticResource PhoneTextSubtleStyle}"/>
+                    <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
@@ -65,7 +69,8 @@
                 </StackPanel>
 
                 <StackPanel Grid.Row="2" Orientation="Vertical" Margin="0,0,0,20">
-                    <TextBlock Text="{Binding Path=LocalizedResources.EditAccountPage_CalDAVPath, Source={StaticResource LocalizedStrings}}"/>
+                    <TextBlock Text="{Binding Path=LocalizedResources.EditAccountPage_CalDAVPath, Source={StaticResource LocalizedStrings}}"
+                               Style="{StaticResource PhoneTextSubtleStyle}"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -85,7 +90,8 @@
                 </StackPanel>
 
                 <StackPanel Grid.Row="4" Orientation="Vertical" Margin="0,0,0,20" Visibility="{Binding CredentialsVisibility}">
-                    <TextBlock Text="{Binding Path=LocalizedResources.EditAccountPage_Username, Source={StaticResource LocalizedStrings}}"/>
+                    <TextBlock Text="{Binding Path=LocalizedResources.EditAccountPage_Username, Source={StaticResource LocalizedStrings}}"
+                               Style="{StaticResource PhoneTextSubtleStyle}" />
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -96,7 +102,8 @@
                 </StackPanel>
 
                 <StackPanel Grid.Row="5" Orientation="Vertical" Margin="0,0,0,20" Visibility="{Binding CredentialsVisibility}">
-                    <TextBlock Text="{Binding Path=LocalizedResources.EditAccountPage_Password, Source={StaticResource LocalizedStrings}}"/>
+                    <TextBlock Text="{Binding Path=LocalizedResources.EditAccountPage_Password, Source={StaticResource LocalizedStrings}}"
+                               Style="{StaticResource PhoneTextSubtleStyle}"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>

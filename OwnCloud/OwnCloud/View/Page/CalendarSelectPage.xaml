@@ -12,8 +12,30 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
+    TextOptions.TextHintingMode="Animated"
     shell:SystemTray.IsVisible="True">
 
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
+    
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
@@ -22,24 +44,18 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="{Binding Path=LocalizedResources.SettingsPage_Title, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock Text="{Binding Path=LocalizedResources.SettingsPage_Title, Source={StaticResource LocalizedStrings}, Converter={StaticResource ToUppercaseConverter}}"
+                       Style="{StaticResource PageHeader}"/>
             <TextBlock Text="{Binding PageMode}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
-        <ItemsControl  Grid.Row="1" Margin="12,0,12,0" ItemsSource="{Binding Path=ServerCalendars}">
+        <ItemsControl Grid.Row="1" Margin="12,0,12,0" ItemsSource="{Binding Path=ServerCalendars}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Text="{Binding Path=CalendarInfo.DisplayName}" 
-                                   FontSize="18"
-                                   />
-                        <toolkit:ToggleSwitch Checked="CalendarEnabledChange" Unchecked="CalendarEnabledChange" Grid.Column="1" IsChecked="{Binding IsClientEnabled}" />
-                        
+                    <Grid>                       
+                        <toolkit:ToggleSwitch Checked="CalendarEnabledChange" Unchecked="CalendarEnabledChange"
+                                              IsChecked="{Binding IsClientEnabled}"
+                                              Header="{Binding Path=CalendarInfo.DisplayName}"/>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

@@ -24,7 +24,6 @@ namespace OwnCloud
 
         private void PageLoaded(object sender, RoutedEventArgs e)
         {
-            SystemTray.IsVisible = App.DataContext.EnablePhoneStatusBar;
             App.DataContext.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, App.DataContext.Accounts);
             
             // anybody there who knows why the LINQ binding isn't working as expected?

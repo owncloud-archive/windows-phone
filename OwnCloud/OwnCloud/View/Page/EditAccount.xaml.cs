@@ -271,7 +271,6 @@ namespace OwnCloud
 
         private void PageLoaded(object sender, RoutedEventArgs e)
         {
-            SystemTray.IsVisible = App.DataContext.EnablePhoneStatusBar;
             if (NavigationContext.QueryString.ContainsKey("mode") && NavigationContext.QueryString.ContainsKey("account"))
             {
                 _editMode = NavigationContext.QueryString["mode"] == "edit";
