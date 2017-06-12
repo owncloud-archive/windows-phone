@@ -1,3 +1,9 @@
+### Update 2017: 
+We now have a new app targeting Windows 10 Mobile
+
+https://github.com/owncloud/OwncloudUniversal
+
+-----------------------------------------
 Finally the windows phone app.
 
 There is no official release yet.
